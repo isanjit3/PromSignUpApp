@@ -1,10 +1,11 @@
-const express = require('express')
-const path = require('path');
-const app = express()
+const express    = require('express')
+const path       = require('path');
+const app        = express();
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
-const csvtojson = require('csvtojson');
-const firebase = require('firebase');
+const csvtojson  = require('csvtojson');
+const firebase   = require('firebase');
+const replace    = require('replace');
 
 //Initialize Firebase
 var firebaseConfig = {
@@ -19,12 +20,20 @@ var firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 
+//write data to Firebase
 function writeFirebase(jsonData) {
   var database = firebase.database();
   var ref = firebase.database().ref('PromSignUps/');
   ref.set(jsonData);
-  
 };
+
+//Find and Replace JSON data
+function findAndReplace(jsonData) {
+  replace({
+    find: '{',
+    replace: '}'
+  });
+}
 
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, '/views'));
@@ -57,9 +66,7 @@ app.post('/upload', function(req, res){
 
   csvtojson().fromString(str).then(jsonData => {
     //console.log(jsonData);
-
     jsonString = JSON.stringify(jsonData, null, "\t");
-
     writeFirebase(jsonData);
   });
 
@@ -69,7 +76,7 @@ app.post('/upload', function(req, res){
   });
 })
 
-
+ 
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!')
 })
