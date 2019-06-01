@@ -25,7 +25,16 @@
                 </ul>
             </div>
             <div class="contact">
-                <div class="<%= styleClass %>"><%= msg %></div>
+                <h3>Sign Up</h3>
+                <form ref='uploadForm' id='uploadForm'  action='/upload' 
+                    method='post' encType="multipart/form-data">
+                    <p>
+                        <input type="file" accept=".csv" id="csvFile" name="csvFile">
+                    </p>
+                    <p>
+                        <button type="submit" id="submit">Submit</button>
+                    </p>
+                </form>
             </div>
         </div>
     </div>

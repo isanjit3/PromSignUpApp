@@ -1,4 +1,4 @@
-const express    = require('express')
+const express    = require('express');
 const path       = require('path');
 const app        = express();
 const bodyParser = require('body-parser');
@@ -23,19 +23,33 @@ firebase.initializeApp(firebaseConfig);
 //write data to Firebase
 function writeFirebase(jsonData) {
   var database = firebase.database();
-  var ref = firebase.database().ref('PromSignUps/');
-  ref.set(jsonData);
-};
-
-//Find and Replace JSON data
-function findAndReplace(jsonData) {
-  replace({
-    find: '{',
-    replace: '}'
+  var ref = firebase.database().ref('Student-Data');
+  
+  jsonData.forEach(item => {
+    ref.child(item.ID).set(item);
   });
 }
 
-app.set('view engine', 'ejs')
+function readFirebaseStudents() {
+  return firebase.database().ref('PromSignUps').once('value').then(function(snapshot) {
+    var jsonData = [];
+    snapshot.forEach(function(child) {
+
+        var info = {
+        "LAST" :  child.child("LAST").val(),
+        "FIRST" : child.child("FIRST").val(),
+        "MI": child.child("MI").val(),
+        "ID": child.key,
+        "GR" : child.child("GR").val()
+        }
+        jsonData.push(info);
+        
+    });
+    return jsonData;
+  }); 
+}
+
+app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/views'));
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -45,8 +59,28 @@ app.get('/', function (req, res) {
   res.render('index');
 })
 
+app.get('/upload-student-data', function (req, res) {
+  res.render('upload-student-data');
+})
+
+app.get('/display-student-data', function (req, res) {
+  readFirebaseStudents().then(function(data){
+    console.log(data)
+    res.render('display-student-data', 
+    {
+      studentsData: data
+    }
+    );
+  })
+  //res.render('display-student-data');
+  //return;
+
+    
+  
+})
+
 app.post('/', function(req, res){
-  let city = req.body.city
+  let city = req.body.city;
   console.log(city)
   res.render('index')
 })

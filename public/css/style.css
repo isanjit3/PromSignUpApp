@@ -90,6 +90,21 @@ ul{
 	background: red;
 }
 
+.table {
+	background: #fff;
+	border: solid 1px #ccc;
+	border-collapse: collapse;
+	margin: 10px;
+}
+.table th {
+	background-color: #ddd;
+	min-height:40px;
+
+}
+.table tr, .table td {
+	border: solid 1px #ccc;
+	padding: 4px;
+}
 /*Large Screens*/
 @media(min-width: 700px){
 	.wrapper{
