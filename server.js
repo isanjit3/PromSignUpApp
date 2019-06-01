@@ -8,6 +8,7 @@ const firebase   = require('firebase');
 const replace    = require('replace');
 
 //Initialize Firebase
+/*
 var firebaseConfig = {
   apiKey: "AIzaSyD_QmbqHXzHiqm0Gq0zUVDXikVvWHjja5c",
   authDomain: "student-data-1100a.firebaseapp.com",
@@ -18,20 +19,31 @@ var firebaseConfig = {
   messagingSenderId: "877464925347",
   appId: "1:877464925347:web:38cab379e9670791"
 };
+*/
+
+var firebaseConfig = {
+  apiKey: "AIzaSyCCgoy1_bJzrruepLYIWBbrIUIGxM-p2CQ",
+  authDomain: "signup-form-e4c78.firebaseapp.com",
+  databaseURL: "https://signup-form-e4c78.firebaseio.com",
+  projectId: "signup-form-e4c78",
+  storageBucket: "signup-form-e4c78.appspot.com",
+  messagingSenderId: "1000336889334",
+  appId: "1:1000336889334:web:f5099e3a8ecc1584"
+};
 firebase.initializeApp(firebaseConfig);
 
 //write data to Firebase
-function writeFirebase(jsonData) {
+function writeFirebase(jsonData, collection) {
   var database = firebase.database();
-  var ref = firebase.database().ref('Student-Data');
-  
+  var ref = firebase.database().ref(collection);
+
   jsonData.forEach(item => {
     ref.child(item.ID).set(item);
   });
 }
 
 function readFirebaseStudents() {
-  return firebase.database().ref('PromSignUps').once('value').then(function(snapshot) {
+  return firebase.database().ref('students').once('value').then(function(snapshot) {
     var jsonData = [];
     snapshot.forEach(function(child) {
 
@@ -59,8 +71,18 @@ app.get('/', function (req, res) {
   res.render('index');
 })
 
-app.get('/upload-student-data', function (req, res) {
-  res.render('upload-student-data');
+app.get('/search-student', function(req, res) {
+  res.render('search-student', { 
+    firebaseConfig: JSON.stringify(firebaseConfig, null, '\t')
+  });
+})
+
+app.get('/ticket-entry', function(req, res) {
+  res.render('ticket-entry');
+})
+
+app.get('/upload', function (req, res) {
+  res.render('upload');
 })
 
 app.get('/display-student-data', function (req, res) {
@@ -72,11 +94,10 @@ app.get('/display-student-data', function (req, res) {
     }
     );
   })
-  //res.render('display-student-data');
-  //return;
+})
 
-    
-  
+app.get('/settings', function(req, res) {
+  res.render('settings');
 })
 
 app.post('/', function(req, res){
@@ -84,6 +105,8 @@ app.post('/', function(req, res){
   console.log(city)
   res.render('index')
 })
+
+
 
 app.post('/upload', function(req, res){
   if (!req.files || Object.keys(req.files).length == 0) {
@@ -95,13 +118,14 @@ app.post('/upload', function(req, res){
 
   // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
   let csvFile = req.files.csvFile;
+  let collectionName = req.body.collectionName;
   let str = csvFile.data.toString('utf8');
   console.log(str)
 
   csvtojson().fromString(str).then(jsonData => {
     //console.log(jsonData);
     jsonString = JSON.stringify(jsonData, null, "\t");
-    writeFirebase(jsonData);
+    writeFirebase(jsonData, collectionName);
   });
 
   res.render('msg', {

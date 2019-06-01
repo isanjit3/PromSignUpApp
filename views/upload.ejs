@@ -14,7 +14,7 @@
 
 <body>
     <div class="container">
-        <h1 class="brand"><span>S<span>R</span>SS</span>CSV Entry</h1>
+        <h1 class="brand"><a href="/"><span>S<span>R</span>SS</span> Prom Sign Up</a></h1>
         <div class="wrapper animated fadeIn">
             <div class="company-info">
                 <h3>SRSS CSV Entry</h3>
@@ -28,12 +28,19 @@
                 <h3>Sign Up</h3>
                 <form ref='uploadForm' id='uploadForm'  action='/upload' 
                     method='post' encType="multipart/form-data">
-                    <p>
-                        <input type="file" accept=".csv" id="csvFile" name="csvFile">
-                    </p>
-                    <p>
-                        <button type="submit" id="submit">Submit</button>
-                    </p>
+                    <div>
+                        <div>Choose the type of file you are uploading:</div>
+                        <input type="radio" name="collectionName" value="students">Students
+                        <input type="radio" name="collectionName" value="obligations">Obligations
+                    </div>
+                    <div class="full">
+                        <p>
+                            <input type="file" accept=".csv" id="csvFile" name="csvFile">
+                        </p>
+                        <p>
+                            <button type="submit" id="submit">Submit</button>
+                        </p>
+                    </div>
                 </form>
             </div>
         </div>
