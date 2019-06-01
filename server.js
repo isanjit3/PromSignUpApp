@@ -73,7 +73,7 @@ app.get('/', function (req, res) {
 
 app.get('/search-student', function(req, res) {
   res.render('search-student', { 
-    firebaseConfig: JSON.stringify(firebaseConfig, null, '\t')
+    fbConfig: firebaseConfig
   });
 })
 

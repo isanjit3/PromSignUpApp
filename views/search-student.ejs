@@ -1,118 +1,150 @@
 <!DOCTYPE html>
 <html>
 
-    <head>
-          <meta name="viewport" content="width=device-width, initial-scale=1">
-          <title>Student Event Sign Up</title>
-     </head>
+<head>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <title>Student Event Sign Up</title>
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
 
-     <!-- The core Firebase JS SDK is always required and must be listed first -->
-     <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
 
-     <script>
-     // Your web app's Firebase configuration
-     var firebaseConfig = {
-        apiKey: "AIzaSyCCgoy1_bJzrruepLYIWBbrIUIGxM-p2CQ",
-        authDomain: "signup-form-e4c78.firebaseapp.com",
-        databaseURL: "https://signup-form-e4c78.firebaseio.com",
-        projectId: "signup-form-e4c78",
-        storageBucket: "signup-form-e4c78.appspot.com",
-        messagingSenderId: "1000336889334",
-        appId: "1:1000336889334:web:f5099e3a8ecc1584"
-     };
-     // Initialize Firebase
-     firebase.initializeApp(firebaseConfig);
-     </script>
+<script>
+   // Your web app's Firebase configuration
+   var firebaseConfig = {
+      apiKey: "<%= fbConfig.apiKey %>",
+      authDomain: "<%= fbConfig.authDomain %>",
+      databaseURL: "<%= fbConfig.databaseURL %>",
+      projectId: "<%= fbConfig.projectId %>",
+      storageBucket: "<%= fbConfig.storageBucket %>",
+      messagingSenderId: "<%= fbConfig.messagingSenderId %>",
+      appId: "<%= fbConfig.appId %>",
+   };
+   // Initialize Firebase
+   firebase.initializeApp(firebaseConfig);
+</script>
 
-    <script src="jquery-3.3.1.min.js"></script>
-    <script type="text/javascript">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script type="text/javascript">
 
-    function searchNames(query, box, callback){ //Query delay causing error
-       var names = [];
-       const ref=firebase.database().ref('students');
-       //ref.orderByChild('last').equalTo(query).on("value", function(snapshot) {
-       ref.orderByChild('LAST').equalTo(query).once("value").then(function(snapshot) {
-          snapshot.forEach(function(child) {
-             var info = [child.child("LAST").val(),child.child("FIRST").val(),child.child("MI").val(),child.key];
-             names.push(info);
-          });
-       }).then(function(){
-          clearOptions();
-          addOptions(names);
+   function searchNames(query, box, callback) { //Query delay causing error
+      var names = [];
+      const ref = firebase.database().ref('students');
+      //ref.orderByChild('last').equalTo(query).on("value", function(snapshot) {
+      ref.orderByChild('LAST').equalTo(query).once("value").then(function (snapshot) {
+         snapshot.forEach(function (child) {
+            var info = [child.child("LAST").val(), child.child("FIRST").val(), child.child("MI").val(), child.key];
+            names.push(info);
+         });
+      }).then(function () {
+         clearOptions();
+         addOptions(names);
 
-          callback(names);
-       }, function(error){
-          console.log("Error");
-       });
+         callback(names);
+      }, function (error) {
+         console.log("Error");
+      });
 
-    }
+   }
 
-    function fillSelect(names){
-       if (names.length===0){
-          console.log("failed");
-          alert("Name does not exist.");
-       }
-    }
+   function fillSelect(names) {
+      if (names.length === 0) {
+         console.log("failed");
+         alert("Name does not exist.");
+      }
+   }
 
-    function addOptions(options){
-       for (var i = 0; i < options.length; i++){
-          var text = options[i][0]+", "+options[i][1];
-          if (options[i][2]){
-             text+= " "+options[i][2];
-          }
-          var opt = new Option(text, options[i][3]);
-          $(opt).html(text);
-          $("#resBox").append(opt);
-       }
-    }
+   function addOptions(options) {
+      for (var i = 0; i < options.length; i++) {
+         var text = options[i][0] + ", " + options[i][1];
+         if (options[i][2]) {
+            text += " " + options[i][2];
+         }
+         var opt = new Option(text, options[i][3]);
+         $(opt).html(text);
+         $("#resBox").append(opt);
+      }
+   }
 
-    function clearOptions(){
-       $('#resBox')
-          .empty()
-          .append('<option style="display:none" disabled selected value>Names</option>');
-    }
+   function clearOptions() {
+      $('#resBox')
+         .empty()
+         .append('<option style="display:none" disabled selected value>Names</option>');
+   }
 
-    $(document).ready(function() {
-       $('#resBox').change(function() {
-          $('input[name="studentID"]').val($("#resBox").val());
-       });
-    });
+   $(document).ready(function () {
+      $('#resBox').change(function () {
+         $('input[name="studentID"]').val($("#resBox").val());
+      });
+   });
 
-    </script>
-  
- <body>
-    <h2>Enter Student ID # or Last Name
-    </h2>
-    <style>
-       h2{
-       font-family: Arial, Helvetica, sans-serif;
-       }
-       form{
-       font-family: Arial, Helvetica, sans-serif;
-       }
-       input{
-       font-family: Arial, Helvetica, sans-serif;
-       }
+</script>
 
-       #resBox {
-                width:172px;
-             }
-    </style>
-    <form action="/ticket-entry">
-       Student ID <br>
-       <input type="number" name="studentID">
-       <br>
-       Last Name<br>
-       <input type="text" name="lastname">
-       <button type="button" onclick="Javascript:searchNames(lastname.value, 'resBox', fillSelect);"> Search </button><br>
-       <p>Names will appear below</p>
-       <select id="resBox" class="names" size="10">
-          <option style="display:none" disabled selected value>Names</option> <!---->
-       </select>
-       <br><br>
-       <input type="submit"  value="Submit" >
-    <br>
-    </form>
-
-    <button onclick="window.location.href = 'Main Page.html';">Back</button> <br>
+<body>
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">SRSS Prom Sign Up</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+              <ul class="navbar-nav">
+                <li class="nav-item active">
+                  <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/display-student-data">Students</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/search-student">Search</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/settings">Settings</a>
+                </li>
+              </ul>
+            </div>
+          </nav>
+   <form action="/ticket-entry">
+      <div class="container mt-4">
+         <div class="row">
+            <div class="col-md-3">
+            </div>
+            <div class="col-md-6">
+               <div class="card">
+                  <div class="card-body">
+                     <div class="card-title">
+                        <h5>Search Student</h5>
+                     </div>
+                     <div class="card-text">
+                        <div class="form-group">
+                           <label>Student ID</label>
+                           <input class="form-control" type="number" name="studentID">
+                        </div>
+                        <div class="form-group">
+                           <label>Last Name</label>
+                           <input class="form-control" type="text" name="lastname">
+                           <br><button type="button"
+                              onclick="Javascript:searchNames(lastname.value, 'resBox', fillSelect);">Search</button>
+                        </div>
+                        <div class="form-group">
+                           <label>Names will appear below</label>
+                           <select id="resBox" class="names form-control" size="10">
+                              <option style="display:none" disabled selected value>Names</option>
+                           </select>
+                        </div>
+                        <div class="form-group text-center">
+                           <button class="btn btn-lg btn-default float-left"
+                              onclick="window.location.href='/'">Back</button>
+                           <input class="btn btn-lg btn-success" type="submit" value="Submit">
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="col-md-3">
+            </div>
+         </div>
+      </div>
+   </form>
 </html>

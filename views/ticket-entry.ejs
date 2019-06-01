@@ -1,390 +1,413 @@
 <!DOCTYPE html>
 <html>
 
-   <head>
-         <meta name="viewport" content="width=device-width, initial-scale=1">
-         <title>Student Event Sign Up</title>
-         <!-- The core Firebase JS SDK is always required and must be listed first -->
-         <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+<head>
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <title>Student Event Sign Up</title>
+   <!-- The core Firebase JS SDK is always required and must be listed first -->
+   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+   <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
 
-        
 
-         <script>
-         // Your web app's Firebase configuration
-         var firebaseConfig = {
-            apiKey: "AIzaSyCCgoy1_bJzrruepLYIWBbrIUIGxM-p2CQ",
-            authDomain: "signup-form-e4c78.firebaseapp.com",
-            databaseURL: "https://signup-form-e4c78.firebaseio.com",
-            projectId: "signup-form-e4c78",
-            storageBucket: "signup-form-e4c78.appspot.com",
-            messagingSenderId: "1000336889334",
-            appId: "1:1000336889334:web:f5099e3a8ecc1584"
-         };
-         // Initialize Firebase
-         firebase.initializeApp(firebaseConfig);
-         </script>
-         <script src="jquery-3.3.1.min.js"></script>
-         <script type="text/javascript">
-        
-      
-      
-            function delineate(str)
-                 {
-                 theleft = str.indexOf("=") + 1;
-                 theright = str.lastIndexOf("&");
-                 return(str.substring(theleft, theright));
-                 }
-            $(document).ready(function()
-           {  
-              const database=firebase.database();
-              var locate = window.location
-                 document.joe.burns.value = locate
-                 
-                 var text = document.joe.burns.value
-                var myvar=delineate(text);
 
-               $("input[id='checkNum']").prop("disabled",true);
-               $("input[id='checkNumG']").prop("disabled",true);
+   <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+         apiKey: "AIzaSyCCgoy1_bJzrruepLYIWBbrIUIGxM-p2CQ",
+         authDomain: "signup-form-e4c78.firebaseapp.com",
+         databaseURL: "https://signup-form-e4c78.firebaseio.com",
+         projectId: "signup-form-e4c78",
+         storageBucket: "signup-form-e4c78.appspot.com",
+         messagingSenderId: "1000336889334",
+         appId: "1:1000336889334:web:f5099e3a8ecc1584"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+   </script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+   <script type="text/javascript">
 
-                database.ref("tickets").orderByChild("sID").equalTo(myvar).once("value",snapshot => {
-                  if (snapshot.exists()){ //ID exists in database
-                     var ref = firebase.database().ref('tickets');
-                     ref.orderByChild('sID').equalTo(myvar).on("value", function(snapshot) {
-                        snapshot.forEach(function(child) { 
-                           const data = child;
-                           $('input[id="ticketNum"]').val(data.key);
-                           $('input[id="studentID"]').val(myvar);
-                           $('input[id="firstName"]').val(data.child("first").val());
-                           $('input[id="lastName"]').val(data.child("last").val());
-                           $('input[id="midInit"]').val(data.child("middle").val());
-                           $('input[id="grade"]').val(data.child("grade").val());
-                           if (data.child("payment")){
-                              if (data.child("payment").val()==="cash"){
-                                 console.log(data.child("payment").val());
-                                 $('input[name=pay][value=cash]').prop('checked', 'checked');
-                              } else if (data.child("payment").val()==="waiver"){
-                                 $('input[name=pay][value=waiver]').prop('checked', 'checked');
-                              } else {
-                                 $('input[name=pay][value=check]').prop('checked', 'checked');
-                                 $('input[id="checkNum"]').val(data.child("payment").val());
-                                 $("input[id='checkNum']").prop("disabled",false);
+
+
+      function delineate(str) {
+         theleft = str.indexOf("=") + 1;
+         theright = str.lastIndexOf("&");
+         return (str.substring(theleft, theright));
+      }
+      $(document).ready(function () {
+         const database = firebase.database();
+         var locate = window.location
+         document.joe.burns.value = locate
+
+         var text = document.joe.burns.value
+         var myvar = delineate(text);
+
+         $("input[id='checkNum']").prop("disabled", true);
+         $("input[id='checkNumG']").prop("disabled", true);
+
+         database.ref("tickets").orderByChild("sID").equalTo(myvar).once("value", snapshot => {
+            if (snapshot.exists()) { //ID exists in database
+               var ref = firebase.database().ref('tickets');
+               ref.orderByChild('sID').equalTo(myvar).on("value", function (snapshot) {
+                  snapshot.forEach(function (child) {
+                     const data = child;
+                     $('input[id="ticketNum"]').val(data.key);
+                     $('input[id="studentID"]').val(myvar);
+                     $('input[id="firstName"]').val(data.child("first").val());
+                     $('input[id="lastName"]').val(data.child("last").val());
+                     $('input[id="midInit"]').val(data.child("middle").val());
+                     $('input[id="grade"]').val(data.child("grade").val());
+                     if (data.child("payment")) {
+                        if (data.child("payment").val() === "cash") {
+                           console.log(data.child("payment").val());
+                           $('input[name=pay][value=cash]').prop('checked', 'checked');
+                        } else if (data.child("payment").val() === "waiver") {
+                           $('input[name=pay][value=waiver]').prop('checked', 'checked');
+                        } else {
+                           $('input[name=pay][value=check]').prop('checked', 'checked');
+                           $('input[id="checkNum"]').val(data.child("payment").val());
+                           $("input[id='checkNum']").prop("disabled", false);
+                        }
+                     }
+
+                     if (data.child("guest") !== null) {
+                        ref.orderByChild('host').equalTo(data.key).on("value", function (snapshot) {
+                           snapshot.forEach(function (child) {
+                              const guestRef = child;
+                              $('input[id="ticketNumG"]').val(guestRef.key);
+                              $('input[id="firstNameG"]').val(guestRef.child("first").val());
+                              $('input[id="lastNameG"]').val(guestRef.child("last").val());
+                              if (guestRef.child("payment")) {
+                                 if (guestRef.child("payment").val() === "cash") {
+                                    console.log(guestRef.child("payment").val());
+                                    $('input[name=payG][value=cash]').prop('checked', 'checked');
+                                 } else if (guestRef.child("payment").val() === "waiver") {
+                                    $('input[name=payG][value=waiver]').prop('checked', 'checked');
+                                 } else {
+                                    $('input[name=payG][value=check]').prop('checked', 'checked');
+                                    $('input[id="checkNumG"]').val(guestRef.child("payment").val());
+                                    $("input[id='checkNumG']").prop("disabled", false);
+                                 }
                               }
-                           }
-
-                           if (data.child("guest") !== null) {
-                              ref.orderByChild('host').equalTo(data.key).on("value", function(snapshot) {
-                                 snapshot.forEach(function(child) { 
-                                    const guestRef = child;
-                                    $('input[id="ticketNumG"]').val(guestRef.key);
-                                    $('input[id="firstNameG"]').val(guestRef.child("first").val());
-                                    $('input[id="lastNameG"]').val(guestRef.child("last").val());
-                                    if (guestRef.child("payment")){
-                                       if (guestRef.child("payment").val()==="cash"){
-                                          console.log(guestRef.child("payment").val());
-                                          $('input[name=payG][value=cash]').prop('checked', 'checked');
-                                       } else if (guestRef.child("payment").val()==="waiver"){
-                                          $('input[name=payG][value=waiver]').prop('checked', 'checked');
-                                       } else {
-                                          $('input[name=payG][value=check]').prop('checked', 'checked');
-                                          $('input[id="checkNumG"]').val(guestRef.child("payment").val());
-                                          $("input[id='checkNumG']").prop("disabled",false);
-                                       }
-                                    }
-                                    $('input[name="guestBox"]').prop('checked', true);
-                                    document.getElementById("guestForm").style.visibility = "visible";
-                                 });
-                              });
-                           }
-                        }); 
-                     });
-                  } else { //ID does not exist in tickets database
-                     const key='students/'+myvar;
-                     database.ref(key).once('value', (snapshot) => {
-                     const data= snapshot.val();
-                     if(!data){
-                        console.log("DNE");
-                        alert("ID does not exist.");
-                        return;
+                              $('input[name="guestBox"]').prop('checked', true);
+                              document.getElementById("guestForm").style.visibility = "visible";
+                           });
+                        });
                      }
-                     if(data.FIRST&&data.MI&&data.LAST&&data.GR){
-                        $('input[id="studentID"]').val(myvar);
-                        $('input[id="firstName"]').val(data.FIRST);
-                        $('input[id="lastName"]').val(data.LAST);
-                        $('input[id="midInit"]').val(data.MI);
-                        $('input[id="grade"]').val(data.GR);
-               
-                     }
-                     else if (data.FIRST&&data.LAST&&data.GR){
-                        $('input[id="studentID"]').val(myvar);
-                        $('input[id="firstName"]').val(data.FIRST);
-                        $('input[id="lastName"]').val(data.LAST);
-                        $('input[id="grade"]').val(data.GR);
-               
-                     }
-
-                     });
-                     const key2='obligations/'+myvar;
-                     database.ref(key2).once('value', (snapshot) => {
-                     const data= snapshot.val();
-                     if(!data){
-                        return;
-                        
-                     }
-                     else{
-                        alert("This student has unpaid obligations.");
-                        document.getElementById("oblig").style.visibility = "visible";
-                     }
-
-                     });
-                     
+                  });
+               });
+            } else { //ID does not exist in tickets database
+               const key = 'students/' + myvar;
+               database.ref(key).once('value', (snapshot) => {
+                  const data = snapshot.val();
+                  if (!data) {
+                     console.log("DNE");
+                     alert("ID does not exist.");
+                     return;
                   }
+                  if (data.FIRST && data.MI && data.LAST && data.GR) {
+                     $('input[id="studentID"]').val(myvar);
+                     $('input[id="firstName"]').val(data.FIRST);
+                     $('input[id="lastName"]').val(data.LAST);
+                     $('input[id="midInit"]').val(data.MI);
+                     $('input[id="grade"]').val(data.GR);
+
+                  }
+                  else if (data.FIRST && data.LAST && data.GR) {
+                     $('input[id="studentID"]').val(myvar);
+                     $('input[id="firstName"]').val(data.FIRST);
+                     $('input[id="lastName"]').val(data.LAST);
+                     $('input[id="grade"]').val(data.GR);
+
+                  }
+
+               });
+               const key2 = 'obligations/' + myvar;
+               database.ref(key2).once('value', (snapshot) => {
+                  const data = snapshot.val();
+                  if (!data) {
+                     return;
+
+                  }
+                  else {
+                     alert("This student has unpaid obligations.");
+                     document.getElementById("oblig").style.visibility = "visible";
+                  }
+
                });
 
-
-               $('#saveButton').click(() => {
-                 
-                 if (checkReqs()){
-                  const name = $('input[id="ticketNum"]').val();
-         
-                  database.ref('tickets/' + name).set({
-
-                     sID:$('input[id="studentID"]').val(),
-                     first:$('input[id="firstName"]').val(),
-                     last:$('input[id="lastName"]').val(),
-                     middle:$('input[id="midInit"]').val(),
-                     grade:$('input[id="grade"]').val(),
-                     payment:getPayment(false),
-                     guest:null
-                  
-                  });
-
-                  //Creates guest entry in database if checked, otherwise if unchecked deletes if guest exists in database
-                  if($("input[name='guestBox']").prop("checked") === true){
-                     console.log("has guest");
-                     const nameG = $('input[id="ticketNumG"]').val()
-                     database.ref('tickets/' + nameG).set({
-
-                        first:$('input[id="firstNameG"]').val(),
-                        last:$('input[id="lastNameG"]').val(),
-                        payment:getPayment(true),
-                        host:name
-
-                        });
-
-                     //Add new child under og for guest
-                     database.ref('tickets/' + name).update({
-
-                        guest:nameG
-
-                     });
-                  } else {
-                     console.log("deleted guest");
-                     //console.log(database.ref('input[id="ticketNumG"]').child("guest").key);
-                     try {
-                        database.ref('tickets/' + (database.ref('input[id="ticketNumG"]').child("guest").key)).remove();
-                     } catch (error){
-                        console.log(error);
-                     }
-                     database.ref('tickets/' + name).update({
-
-                        guest:null
-
-                     });
-                  }
-
-                  $("input[type=text], textarea").val("");
-                  alert("You have completed Prom Signup!");
-                  window.location.replace("Enter ID Page.html");
-                 }
-             });
-
-             $('#deleteButton').click(() => {
-                  const ref = database.ref('tickets');
-                  const name = $('#ticketNum').val();
-                  //const name = $('input[id="ticketNum"]').val();
-                  if (name){
-                     ref.child(name).remove();
-                  }
-                  const guest = $('input[id="ticketNumG"]').val();
-                  if (guest){
-                     ref.child(guest).remove();
-                  }
-
-                  $("input[type=text], textarea").val("");
-                  window.location.replace("Enter ID Page.html");
-             });
-
-             $('input[type="radio"][name="pay"]').click(function() { 
-               $("input[id='checkNum']").prop("disabled",true);
-               if($(this).val()==="check") {
-                  $("input[id='checkNum']").prop("disabled",false);
-               }
-             });
-
-             $('input[type="radio"][name="payG"]').click(function() { 
-               $("input[id='checkNumG']").prop("disabled",true);
-               if($(this).val()==="check") {
-                  $("input[id='checkNumG']").prop("disabled",false);
-               }
-             });
-
+            }
          });
 
-           function visibility(box, item){
-               if (box.checked === true){
-                  document.getElementById(item).style.visibility = "visible";
-               } else {
-                  document.getElementById(item).style.visibility = "hidden";
-               }
-            }
 
-            function getPayment(guest){ //returns check number if check, otherwise id
-               if (!guest){
-                  if ($('input[name=pay][value=check]').is(":checked")){
-                  console.log($('input[id="checkNum"]').val())
-                  return $('input[id="checkNum"]').val();
+         $('#saveButton').click(() => {
+
+            if (checkReqs()) {
+               const name = $('input[id="ticketNum"]').val();
+
+               database.ref('tickets/' + name).set({
+
+                  sID: $('input[id="studentID"]').val(),
+                  first: $('input[id="firstName"]').val(),
+                  last: $('input[id="lastName"]').val(),
+                  middle: $('input[id="midInit"]').val(),
+                  grade: $('input[id="grade"]').val(),
+                  payment: getPayment(false),
+                  guest: null
+
+               });
+
+               //Creates guest entry in database if checked, otherwise if unchecked deletes if guest exists in database
+               if ($("input[name='guestBox']").prop("checked") === true) {
+                  console.log("has guest");
+                  const nameG = $('input[id="ticketNumG"]').val()
+                  database.ref('tickets/' + nameG).set({
+
+                     first: $('input[id="firstNameG"]').val(),
+                     last: $('input[id="lastNameG"]').val(),
+                     payment: getPayment(true),
+                     host: name
+
+                  });
+
+                  //Add new child under og for guest
+                  database.ref('tickets/' + name).update({
+
+                     guest: nameG
+
+                  });
                } else {
-                  return $('input[name="pay"]:checked').val();
-               }
-               } else {
-                  if ($('input[name=payG][value=check]').is(":checked")){
-                     console.log($('input[id="checkNumG"]').val())
-                     return $('input[id="checkNumG"]').val();
-                  } else {
-                     return $('input[name="payG"]:checked').val();
+                  console.log("deleted guest");
+                  //console.log(database.ref('input[id="ticketNumG"]').child("guest").key);
+                  try {
+                     database.ref('tickets/' + (database.ref('input[id="ticketNumG"]').child("guest").key)).remove();
+                  } catch (error) {
+                     console.log(error);
                   }
+                  database.ref('tickets/' + name).update({
+
+                     guest: null
+
+                  });
                }
-               
+
+               $("input[type=text], textarea").val("");
+               alert("You have completed Prom Signup!");
+               window.location.replace("/search-student");
+            }
+         });
+
+         $('#deleteButton').click(() => {
+            const ref = database.ref('tickets');
+            const name = $('#ticketNum').val();
+            //const name = $('input[id="ticketNum"]').val();
+            if (name) {
+               ref.child(name).remove();
+            }
+            const guest = $('input[id="ticketNumG"]').val();
+            if (guest) {
+               ref.child(guest).remove();
             }
 
-            function checkReqs(){
-               var text = "";
-               //if ($('[id=oblig]').is(":visible") && $("input[name='oblig']").prop("checked") === false){
-               //   text+="\n• Student Obligations";
-               //}
-               if (!$('input[id="ticketNum"]').val()){
-                  text+="\n• Ticket Number";
-               }
-               if (!$('input[id="studentID"]').val()){
-                  text+="\n• Student ID";
-               }
-               if (!$('input[id="lastName"]').val()){
-                  text+="\n• Last Name";
-               }
-               if (!$('input[id="firstName"]').val()){
-                  text+="\n• First Name";
-               }
-               if(!$('input[name="pay"]:checked').val()){
-                  text+="\n• Payment Options";
-               } else if ($('input[name="pay"]:checked').val() === "check" && !$('input[id="checkNum"]').val()){
-                  text+="\n• Check Number";
-               }
-               if (text.length > 0){
-                  console.log(text);
-                  alert("Please complete/review these sections before you can continue: "+ text);
-                  return false;
-               }
-               return true;
-            }
-      
-        </script>
-   </head>
+            $("input[type=text], textarea").val("");
+            window.location.replace("Enter ID Page.html");
+         });
 
+         $('input[type="radio"][name="pay"]').click(function () {
+            $("input[id='checkNum']").prop("disabled", true);
+            if ($(this).val() === "check") {
+               $("input[id='checkNum']").prop("disabled", false);
+            }
+         });
+
+         $('input[type="radio"][name="payG"]').click(function () {
+            $("input[id='checkNumG']").prop("disabled", true);
+            if ($(this).val() === "check") {
+               $("input[id='checkNumG']").prop("disabled", false);
+            }
+         });
+
+      });
+
+      function visibility(box, item) {
+         if (box.checked === true) {
+            document.getElementById(item).style.visibility = "visible";
+         } else {
+            document.getElementById(item).style.visibility = "hidden";
+         }
+      }
+
+      function getPayment(guest) { //returns check number if check, otherwise id
+         if (!guest) {
+            if ($('input[name=pay][value=check]').is(":checked")) {
+               console.log($('input[id="checkNum"]').val())
+               return $('input[id="checkNum"]').val();
+            } else {
+               return $('input[name="pay"]:checked').val();
+            }
+         } else {
+            if ($('input[name=payG][value=check]').is(":checked")) {
+               console.log($('input[id="checkNumG"]').val())
+               return $('input[id="checkNumG"]').val();
+            } else {
+               return $('input[name="payG"]:checked').val();
+            }
+         }
+
+      }
+
+      function checkReqs() {
+         var text = "";
+         //if ($('[id=oblig]').is(":visible") && $("input[name='oblig']").prop("checked") === false){
+         //   text+="\n• Student Obligations";
+         //}
+         if (!$('input[id="ticketNum"]').val()) {
+            text += "\n• Ticket Number";
+         }
+         if (!$('input[id="studentID"]').val()) {
+            text += "\n• Student ID";
+         }
+         if (!$('input[id="lastName"]').val()) {
+            text += "\n• Last Name";
+         }
+         if (!$('input[id="firstName"]').val()) {
+            text += "\n• First Name";
+         }
+         if (!$('input[name="pay"]:checked').val()) {
+            text += "\n• Payment Options";
+         } else if ($('input[name="pay"]:checked').val() === "check" && !$('input[id="checkNum"]').val()) {
+            text += "\n• Check Number";
+         }
+         if (text.length > 0) {
+            console.log(text);
+            alert("Please complete/review these sections before you can continue: " + text);
+            return false;
+         }
+         return true;
+      }
+
+   </script>
    <style>
-      * {
-      box-sizing: border-box;
-      }
-      /* Create two equal columns that floats next to each other */
-      .column {
-      float: left;
-      width: 50%;
-      padding: 10px;
-      }
-      /* Clear floats after the columns */
-      .row:after {
-      content: "";
-      display: table;
-      clear: both;
-      }
-      form {
-      padding-top: 50px;
-      padding-left: 50px;
-      line-height: 2;
-      }
       .guest {
-      padding-left: 20px;
-      visibility: hidden;
+         display: none;
       }
+
       .studentoblig {
-      visibility: hidden;
+         display: none;
       }
-
    </style>
+</head>
 
-   <FORM NAME="joe">
+<body>
+   <div class="container p-4">
+      <FORM NAME="joe">
          <INPUT TYPE="hidden" NAME="burns">
-         </FORM>
-         
-        
-         
-   <form name="myform">
-      <div class="row">
-         <div class="column">
-            Ticket Number:  
-            <input type="text" id="ticketNum" size="5"><br>
-            Student ID:  
-            <input type="text" id="studentID"  size="6" ><br>
-            Last Name: 
-            <input type="text" id="lastName" size="15"><br>
-            First Name: 
-            <input type="text" id="firstName" size="15"><br>
-            Middle Initial:  
-            <input type="text" id="midInit" size="1"><br>
-            Grade:  
-            <input type="text" id="grade" size="2"><br><br>
-
-            Guest:  
-            <input type="checkbox" name="guestBox" onclick="JavaScript:visibility(this,'guestForm');"><br>
-            <div class= "guest" id= "guestForm">
-               Ticket Number:
-               <input type="text" id="ticketNumG" size="5"><br>
-               Student ID (optional):
-               <input type="text" id="studentIDG"  size="6" ><br>
-               Last Name: 
-               <input type="text" id="lastNameG" size="15"><br>
-               First Name: 
-               <input type="text" id="firstNameG" size="15"><br>
-               <strong>Payment Method</strong><br>
-               <input type="radio" name="payG" id="payCashG" value="cash">Cash<br>
-               <input type="radio" name="payG" id="payCheckG" value="check">Check  
-                  <input type="text" id="checkNumG" placeholder="Check Number" size="9"><br>
-               <input type="radio" name="payG" id="payWaiverG" value="waiver">Financial Waiver<br><br>
+      </FORM>
+      <form name="myform">
+         <div class="row">
+            <div class="col-2">
             </div>
+            <div class="col-8">
+               <div class="card">
+                  <div class="card-header">
+                     <div class="card-title">
+                        <h5>Ticket Entry Information</h5>
+                     </div>
+                  </div>
+                  <div class="card-body">
+                     <div class="card-text">
+                        <div class="row">
+                           <div class="col-md-6">
+                              <div class="form-group">
+                                 <label>Ticket Number</label>
+                                 <input class="form-control" type="text" id="ticketNum" size="5">
+                              </div>
+                              <div class="form-group">
+                                 <label>Student ID</label>
+                                 <input class="form-control" type="text" id="studentID" size="6">
+                              </div>
+                              <div class="form-group">
+                                 <label>First Name</label>
+                                 <input class="form-control" type="text" id="firstName" size="15">
+                              </div>
+                              <div class="form-group">
+                                 <label>Last Name</label>
+                                 <input class="form-control" type="text" id="lastName" size="15">
+                              </div>
+                              <div class="form-group">
+                                 <label>Middle Initial</label>
+                                 <input class="form-control" type="text" id="midInit" size="1">
+                              </div>
+                              <div class="form-group">
+                                 <label>Grade</label>
+                                 <input class="form-control" type="text" id="grade" size="2">
+                              </div>
+                              <div class="form-group mt-4">
+                                 <label><strong>Guest: </strong><input type="checkbox" name="guestBox"
+                                       onclick="JavaScript:visibility(this,'guestForm');"></label>
+                              </div>
+                              <div class="guest" id="guestForm">
+                                 <strong>Enter Guest Details</strong>
+                                 <div class="form-group mt-4">
+                                    <label>Ticket Number:</label>
+                                    <input class="form-control" type="text" id="ticketNumG" size="5">
+                                 </div>
+                                 <div class="form-group">
+                                    <label>Student ID (optional):</label>
+                                    <input class="form-control" type="text" id="studentIDG" size="6">
+                                 </div>
+                                 <div class="form-group">
+                                    <label>Last Name:</label>
+                                    <input class="form-control" type="text" id="lastNameG" size="15">
+                                 </div>
+                                 <div class="form-group">
+                                    <label>First Name:</label>
+                                    <input class="form-control" type="text" id="firstNameG" size="15">
+                                 </div>
+                                 <div class="form-group">
+                                    <label><strong>Payment Method</strong></label>
+                                    <div>
+                                       <input type="radio" name="payG" id="payCashG" value="cash"> Cash<br>
+                                       <input type="radio" name="payG" id="payCheckG" value="check"> Check
+                                       <input type="text" id="checkNumG" placeholder="Check Number" size="9"><br>
+                                       <input type="radio" name="payG" id="payWaiverG" value="waiver"> Financial
+                                       Waiver<br><br>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="col-md-6">
+                              <div class="form-group">
+                                 <strong>Payment Method</strong><br>
+                                 <input type="radio" name="pay" id="payCash" value="cash"> Cash<br>
+                                 <input type="radio" name="pay" id="payCheck" value="check"> Check
+                                 <input type="text" id="checkNum" placeholder="Check Number" size="9"><br>
+                                 <input type="radio" name="pay" id="payWaiver" value="waiver"> Financial Waiver
+                              </div>
+                              <div class="form-group">
+                                 <div class="studentoblig" id="oblig">
+                                    <strong>Student Obligations</strong><br>
+                                    Obligations taken care of? <input type="checkbox" name="oblig"><br>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="row">
+                           <div class="col-12">
+                              <button class="btn btn-lg btn-danger" id="deleteButton">Delete</button>
+                              <button class="btn btn-lg btn-success" id="saveButton">Save</button>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="col-2">
+            </div>
+         </div>
+      </form>
+   </div>
+</body>
 
-         </div>
-         <div class="column">
-            <strong>Payment Method</strong><br>
-            <!--id=-->
-            <input type="radio" name="pay" id="payCashG" value="cash">Cash<br>
-            <input type="radio" name="pay" id="payCheckG" value="check">Check  
-               <input type="text" id="checkNum" placeholder="Check Number" size="9"><br>
-            <input type="radio" name="pay" id="payWaiverG" value="waiver">Financial Waiver<br><br>
-         </div>
-         <div class="studentoblig" id="oblig">
-         <strong>Student Obligations</strong><br>
-         Obligations taken care of? <input type="checkbox" name="oblig"><br>
-      </div>
-      </div>
-      </div>
-   </form>
-      <div class="row">
-         <div class="column">
-           <!----> <button id="deleteButton">Delete</button>
-         </div>
-         <div class="column">
-            <button id="saveButton">Save</button>
-            <!--<input type="submit" value="Save" id="saveButton">-->
-         </div>
-      </div>
-
-  </html>
+</html>
