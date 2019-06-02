@@ -38,13 +38,10 @@
                 $('input[id="maxCap"]').val('');
           });
           $('#resetButton').click(() => {
-               console.log("Been there");
-               /*database.ref('tickets/').remove();
+               alert("Resetting the database");
+               database.ref('tickets/').remove();
                database.ref('settings/').remove();
                database.ref('students/').remove();
-            
-               console.log("Hello World");*/
-            
                database.ref('obligations/').remove()
                database.ref('settings/currentNum').set("0");
                $('input[id="maxCap"]').val('');
