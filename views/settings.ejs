@@ -1,40 +1,119 @@
+
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+   <head>
+       <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Student Event Sign Up</title>
-    </head>
+       <title>Student Event Sign Up</title>
+       <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
 
-    <style>
+      
 
-    p.sub {
-        padding-left: 20px;
-    }
+       <script>
+       // Your web app's Firebase configuration
+       var firebaseConfig = {
+          apiKey: "AIzaSyCCgoy1_bJzrruepLYIWBbrIUIGxM-p2CQ",
+          authDomain: "signup-form-e4c78.firebaseapp.com",
+          databaseURL: "https://signup-form-e4c78.firebaseio.com",
+          projectId: "signup-form-e4c78",
+          storageBucket: "signup-form-e4c78.appspot.com",
+          messagingSenderId: "1000336889334",
+          appId: "1:1000336889334:web:f5099e3a8ecc1584"
+       };
+       // Initialize Firebase
+       firebase.initializeApp(firebaseConfig);
+       </script>
+       <script src="jquery-3.3.1.min.js"></script>
+       <script type="text/javascript">
+       $(document).ready(function()
+          {
+        const database=firebase.database();
+        $('#saveButton').click(() => {
+           console.log("Writing to firebase")
+               database.ref('settings/').update({
+  
+                   maxCap:$('input[id="maxCap"]').val()
+                  
+                });
+                $('input[id="maxCap"]').val('');
+          });
+          $('#resetButton').click(() => {
+               console.log("Been there");
+               /*database.ref('tickets/').remove();
+               database.ref('settings/').remove();
+               database.ref('students/').remove();
+            
+               console.log("Hello World");*/
+            
+               database.ref('obligations/').remove()
+               database.ref('settings/currentNum').set("0");
+               $('input[id="maxCap"]').val('');
+          
+
+       });
+       $('#resetSettings').click(() => {
+             
+               database.ref('settings/').remove();
+              
+               database.ref('settings/currentNum').set("0");
+
+       });
+
+       });
+      
+
+      </script>
+     
+   </head>
+
+   <style>
 
     form {
-        padding-left: 50px;
-    }
+       padding-left: 10px;
+   }
+   .sr{
+     
+       padding-top: 20px;
+   }
+   .files{
+       padding-top: 20px;
+   }
 
-    </style>
+   </style>
 
-    <h1 style="text-align:center;">Settings</h1>
+   <h1 style="text-align:center;">Settings</h1>
 
-    <form>
-        Manual Ticket Number Entry: 
-        <input type="checkbox" name="manual"><br>
-        <p class="sub">Ticket number starts from: 
-        <input type="text" name="initTicket" size="5"><br></p>
-        Link data to spreadsheet: <br>
-        <p class="sub"><input type="text" name="sheetLink" size="50">
-        <button>View</button><br></p>
-        Maximum Capacity: 
-        <input type="text" name="maxCap" size="10"><br>
-        <p class="sub">Number of Chaparones: 
-        <input type="text name="chapNum" size="10"></p><br>
-        <center><button>Back</button>
-        <input type="submit" value="Save"></center>
-    </form>
+   <form>
     
+      
+       Maximum Capacity:
+       <input type="text" id="maxCap" size="10"></input><br>
+      
+         
+   </form>
+  
+   <div class="files"><button id="import" onclick="window.location.href='/upload'">Import files</button>
+   <button id="saveButton">Save</button>
+   <button id="backButton" onclick= window.history.back();>Back </button>
+</div>
+   <div class= "sr">
+      
+ 
+   <button id="resetButton">Reset database</button>
+   <button id="resetSettings">Reset settings</button>
+
+</div>
+
 
 </html>
+
+
+
+
+
+
+
+
+
+
+
