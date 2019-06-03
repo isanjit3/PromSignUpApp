@@ -13,6 +13,10 @@ a {
 	text-decoration: none !important;
 	color: #000;
 }
+
+h1.brand a {
+	color: #fff;
+}
 .container{
 	max-width: 1170px;
 	margin-left: auto;
