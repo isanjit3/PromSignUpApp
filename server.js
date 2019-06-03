@@ -117,10 +117,10 @@ app.post('/upload', function (req, res) {
   });
 })
 
-app.get('/display-student-data', function (req, res) {
+app.get('/display-ticket-data', function (req, res) {
   readFirebaseTickets().then(function (data) {
     console.log(data)
-    res.render('display-student-data',
+    res.render('display-ticket-data',
       {
         studentsData: data
       }
