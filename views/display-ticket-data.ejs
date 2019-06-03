@@ -1,52 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
 <head>
- <% include partials/head %>
- <script>
- function downloadCSV(csv, filename) {
-   var csvFile;
-   var downloadLink;
+  <% include partials/head %>
+  <script>
+    function downloadCSV(csv, filename) {
+      var csvFile;
+      var downloadLink;
 
-   // CSV file
-   csvFile = new Blob([csv], {type: "text/csv"});
+      // CSV file
+      csvFile = new Blob([csv], { type: "text/csv" });
 
-   // Download link
-   downloadLink = document.createElement("a");
+      // Download link
+      downloadLink = document.createElement("a");
 
-   // File name
-   downloadLink.download = filename;
+      // File name
+      downloadLink.download = filename;
 
-   // Create a link to the file
-   downloadLink.href = window.URL.createObjectURL(csvFile);
+      // Create a link to the file
+      downloadLink.href = window.URL.createObjectURL(csvFile);
 
-   // Hide download link
-   downloadLink.style.display = "none";
+      // Hide download link
+      downloadLink.style.display = "none";
 
-   // Add the link to DOM
-   document.body.appendChild(downloadLink);
+      // Add the link to DOM
+      document.body.appendChild(downloadLink);
 
-   // Click download link
-   downloadLink.click();
-}
-function exportTableToCSV(filename) {
-   var csv = [];
-   var rows = document.querySelectorAll("table tr");
-  
-   for (var i = 0; i < rows.length; i++) {
-       var row = [], cols = rows[i].querySelectorAll("td, th");
-      
-       for (var j = 0; j < cols.length; j++)
-           row.push(cols[j].innerText);
-      
-       csv.push(row.join(","));       
-   }
+      // Click download link
+      downloadLink.click();
+    }
+    function exportTableToCSV(filename) {
+      var csv = [];
+      var rows = document.querySelectorAll("table tr");
 
-   // Download CSV file
-   downloadCSV(csv.join("\n"), filename);
-}
- </script>
+      for (var i = 0; i < rows.length; i++) {
+        var row = [], cols = rows[i].querySelectorAll("td, th");
+
+        for (var j = 0; j < cols.length; j++)
+          row.push(cols[j].innerText);
+
+        csv.push(row.join(","));
+      }
+
+      // Download CSV file
+      downloadCSV(csv.join("\n"), filename);
+    }
+  </script>
 </head>
 
 <body>
@@ -82,7 +82,9 @@ function exportTableToCSV(filename) {
           </tr>
           <% }) %>
         </table>
-        <button onclick="exportTableToCSV('tickets.csv')">Export HTML Table To CSV File</button>
+        <div class="form-group">  
+          <button class="text-center" onclick="exportTableToCSV('tickets.csv')">Export HTML Table To CSV File</button>
+        </div>
       </div>
     </div>
   </div>
