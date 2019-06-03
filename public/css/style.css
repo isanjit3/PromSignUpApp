@@ -52,12 +52,8 @@ ul{
 .contact{
 	background: #f9feff;
 }
-/*FORM STYLES*/
-.contact form{
-	display: grid;
-	grid-template-columns: 1fr 1fr;
-	grid-gap: 20px;
-}
+
+/*
 .contact form label{
 	display: block;
 }
@@ -84,6 +80,7 @@ ul{
 	outline: 0;
 	transition: background-color 0.8s ease-out;
 }
+*/
 .alert{
 	text-align: center;
 	font-size: 18px;
