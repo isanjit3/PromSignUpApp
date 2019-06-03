@@ -1,116 +1,119 @@
-
 <!DOCTYPE html>
 <html>
-   <head>
-       <meta name="viewport" content="width=device-width, initial-scale=1">
 
-       <title>Student Event Sign Up</title>
-       <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+<head>
+   <% include partials/head %>
+   <script>
+      // Your web app's Firebase configuration
+      var firebaseConfig = {
+         apiKey: "AIzaSyCCgoy1_bJzrruepLYIWBbrIUIGxM-p2CQ",
+         authDomain: "signup-form-e4c78.firebaseapp.com",
+         databaseURL: "https://signup-form-e4c78.firebaseio.com",
+         projectId: "signup-form-e4c78",
+         storageBucket: "signup-form-e4c78.appspot.com",
+         messagingSenderId: "1000336889334",
+         appId: "1:1000336889334:web:f5099e3a8ecc1584"
+      };
+      // Initialize Firebase
+      firebase.initializeApp(firebaseConfig);
+   </script>
+   <script src="jquery-3.3.1.min.js"></script>
+   <script type="text/javascript">
+      $(document).ready(function () {
+         const database = firebase.database();
+         $('#saveButton').click(() => {
+            console.log("Writing to firebase")
+            database.ref('settings/').update({
 
-      
+               maxCap: $('input[id="maxCap"]').val()
 
-       <script>
-       // Your web app's Firebase configuration
-       var firebaseConfig = {
-          apiKey: "AIzaSyCCgoy1_bJzrruepLYIWBbrIUIGxM-p2CQ",
-          authDomain: "signup-form-e4c78.firebaseapp.com",
-          databaseURL: "https://signup-form-e4c78.firebaseio.com",
-          projectId: "signup-form-e4c78",
-          storageBucket: "signup-form-e4c78.appspot.com",
-          messagingSenderId: "1000336889334",
-          appId: "1:1000336889334:web:f5099e3a8ecc1584"
-       };
-       // Initialize Firebase
-       firebase.initializeApp(firebaseConfig);
-       </script>
-       <script src="jquery-3.3.1.min.js"></script>
-       <script type="text/javascript">
-       $(document).ready(function()
-          {
-        const database=firebase.database();
-        $('#saveButton').click(() => {
-           console.log("Writing to firebase")
-               database.ref('settings/').update({
-  
-                   maxCap:$('input[id="maxCap"]').val()
-                  
-                });
-                $('input[id="maxCap"]').val('');
-          });
-          $('#resetButton').click(() => {
-               alert("Resetting the database");
-               database.ref('tickets/').remove();
-               database.ref('settings/').remove();
-               database.ref('students/').remove();
-               database.ref('obligations/').remove()
-               database.ref('settings/currentNum').set("0");
-               $('input[id="maxCap"]').val('');
-          
+            });
+            $('input[id="maxCap"]').val('');
+         });
+         $('#resetButton').click(() => {
+            alert("Resetting the database");
+            database.ref('tickets/').remove();
+            database.ref('settings/').remove();
+            database.ref('students/').remove();
+            database.ref('obligations/').remove()
+            database.ref('settings/currentNum').set("0");
+            $('input[id="maxCap"]').val('');
 
-       });
-       $('#resetSettings').click(() => {
-             
-               database.ref('settings/').remove();
-              
-               database.ref('settings/currentNum').set("0");
 
-       });
+         });
+         $('#resetSettings').click(() => {
 
-       });
-      
+            database.ref('settings/').remove();
 
-      </script>
-     
-   </head>
+            database.ref('settings/currentNum').set("0");
 
-   <style>
+         });
 
-    form {
-       padding-left: 10px;
+      });
+
+
+   </script>
+
+</head>
+
+<style>
+   #maxCap {
+      max-width: 200px;
    }
-   .sr{
-     
-       padding-top: 20px;
-   }
-   .files{
-       padding-top: 20px;
+   form {
+      padding-left: 10px;
    }
 
-   </style>
+   .sr {
 
-   <h1 style="text-align:center;">Settings</h1>
+      padding-top: 20px;
+   }
 
+   .files {
+      padding-top: 20px;
+   }
+</style>
+
+
+
+<body>
+   <% include partials/header %>
    <form>
-    
-      
-       Maximum Capacity:
-       <input type="text" id="maxCap" size="10"></input><br>
-      
-         
+      <div class="container mt-4 animated fadeIn">
+         <div class="row">
+            <div class="col-md-3">
+            </div>
+            <div class="col-md-6">
+               <div class="card">
+                  <div class="card-header">
+                     <div class="card-title">
+                        <h5>Settings</h5>
+                     </div>
+                     <div class="card-text">
+                        <div class="form-group">
+                           <label>Maximum Capacity: </label>
+                           <input class="form-control" type="text" id="maxCap" size="10"></input>
+                        </div>
+                        <div class="form-group">
+                           <!--<button class="btn btn-primary" id="import" onclick="window.location.href='/upload'">Import
+                              files</button>-->
+                           <a class="btn btn-primary" id="import" href="/upload">Import Files</a>
+                           <button class="btn btn-warning" id="resetButton">Reset database</button>
+                           <button class="btn btn-warning" id="resetSettings">Reset settings</button>
+                        </div>
+                        <div class="form-group text-center">
+                           <button class="btn btn-lg btn-success" id="saveButton">Save</button>
+                           <button class="float-left btn btn-lg btn-secondary" id="backButton"
+                              onclick=window.history.back();>Back </button>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="col-md-3">
+            </div>
+         </div>
+      </div>
    </form>
-  
-   <div class="files"><button id="import" onclick="window.location.href='/upload'">Import files</button>
-   <button id="saveButton">Save</button>
-   <button id="backButton" onclick= window.history.back();>Back </button>
-</div>
-   <div class= "sr">
-      
- 
-   <button id="resetButton">Reset database</button>
-   <button id="resetSettings">Reset settings</button>
-
-</div>
-
-
+</body>
 </html>
-
-
-
-
-
-
-
-
-
-
-

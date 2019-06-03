@@ -9,6 +9,9 @@ body{
 	padding: 1em;
 	font-size: 16px;
 }
+a {
+	text-decoration: none !important;
+}
 .container{
 	max-width: 1170px;
 	margin-left: auto;
@@ -89,21 +92,21 @@ ul{
 .error{
 	background: red;
 }
-
-.table {
-	background: #fff;
-	border: solid 1px #ccc;
-	border-collapse: collapse;
+.box {
 	margin: 10px;
-}
-.table th {
-	background-color: #ddd;
-	min-height:40px;
-
-}
-.table tr, .table td {
-	border: solid 1px #ccc;
 	padding: 4px;
+	border: solid 1px #aaa;
+	background-color: #ccc;
+	width: 150px;
+	text-align: center;
+	float: left;
+	border-radius: 8px;
+}
+.icon {
+	color: #000;
+}
+.icon-text {
+	margin-top: 7px;
 }
 /*Large Screens*/
 @media(min-width: 700px){
