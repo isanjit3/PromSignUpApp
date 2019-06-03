@@ -73,6 +73,10 @@ app.get('/', function (req, res) {
   res.render('index');
 })
 
+app.get('/index', function (req, res) {
+  res.render('index');
+})
+
 app.get('/search-student', function (req, res) {
   res.render('search-student', {
     fbConfig: firebaseConfig
@@ -126,12 +130,6 @@ app.get('/display-student-data', function (req, res) {
 
 app.get('/settings', function (req, res) {
   res.render('settings');
-})
-
-app.post('/', function (req, res) {
-  let city = req.body.city;
-  console.log(city)
-  res.render('index')
 })
 
 app.listen(3000, function () {
