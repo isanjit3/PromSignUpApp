@@ -1,11 +1,11 @@
-const express = require('express');
-const path = require('path');
-const app = express();
+const express    = require('express');
+const path       = require('path');
+const app        = express();
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
-const csvtojson = require('csvtojson');
-const firebase = require('firebase');
-const replace = require('replace');
+const csvtojson  = require('csvtojson');
+const firebase   = require('firebase');
+const replace    = require('replace');
 
 //Initialize Firebase
 /*
