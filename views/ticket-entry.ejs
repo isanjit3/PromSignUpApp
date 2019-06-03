@@ -45,6 +45,9 @@
 
          $("input[id='checkNum']").prop("disabled", true);
          $("input[id='checkNumG']").prop("disabled", true);
+         document.getElementById("delGuest").style.display = "none";
+         var ogHost; //Holds original ticket number of a pre-existing non-guest
+         var ogGuest; //Holds original ticket number of a pre-exisiting guest
 
          database.ref("tickets").orderByChild("sID").equalTo(myvar).once("value", snapshot => {
             if (snapshot.exists()) { //ID exists in database
@@ -52,48 +55,97 @@
                ref.orderByChild('sID').equalTo(myvar).on("value", function (snapshot) {
                   snapshot.forEach(function (child) {
                      const data = child;
-                     $('input[id="ticketNum"]').val(data.key);
-                     $('input[id="studentID"]').val(myvar);
-                     $('input[id="firstName"]').val(data.child("first").val());
-                     $('input[id="lastName"]').val(data.child("last").val());
-                     $('input[id="midInit"]').val(data.child("middle").val());
-                     $('input[id="grade"]').val(data.child("grade").val());
-                     if (data.child("payment")) {
-                        if (data.child("payment").val() === "cash") {
-                           console.log(data.child("payment").val());
-                           $('input[name=pay][value=cash]').prop('checked', 'checked');
-                        } else if (data.child("payment").val() === "waiver") {
-                           $('input[name=pay][value=waiver]').prop('checked', 'checked');
-                        } else {
-                           $('input[name=pay][value=check]').prop('checked', 'checked');
-                           $('input[id="checkNum"]').val(data.child("payment").val());
-                           $("input[id='checkNum']").prop("disabled", false);
+                     if (!child.hasChild("host")){ //If user searched for a non-guest's ID
+                        //Populate non-guest fields
+                        $('input[id="ticketNum"]').val(data.key);
+                        ogHost = data.key;
+                        console.log(ogHost);
+                        $('input[id="studentID"]').val(myvar);
+                        $('input[id="firstName"]').val(data.child("first").val());
+                        $('input[id="lastName"]').val(data.child("last").val());
+                        $('input[id="midInit"]').val(data.child("middle").val());
+                        $('input[id="grade"]').val(data.child("grade").val());
+                        if (data.child("payment")) {
+                           if (data.child("payment").val() === "cash") {
+                              $('input[name=pay][value=cash]').prop('checked', 'checked');
+                           } else if (data.child("payment").val() === "waiver") {
+                              $('input[name=pay][value=waiver]').prop('checked', 'checked');
+                           } else {
+                              $('input[name=pay][value=check]').prop('checked', 'checked');
+                              $('input[id="checkNum"]').val(data.child("payment").val());
+                              $("input[id='checkNum']").prop("disabled", false);
+                           }
                         }
-                     }
 
-                     if (data.child("guest") !== null) {
-                        ref.orderByChild('host').equalTo(data.key).on("value", function (snapshot) {
-                           snapshot.forEach(function (child) {
-                              const guestRef = child;
-                              $('input[id="ticketNumG"]').val(guestRef.key);
-                              $('input[id="firstNameG"]').val(guestRef.child("first").val());
-                              $('input[id="lastNameG"]').val(guestRef.child("last").val());
-                              if (guestRef.child("payment")) {
-                                 if (guestRef.child("payment").val() === "cash") {
-                                    console.log(guestRef.child("payment").val());
-                                    $('input[name=payG][value=cash]').prop('checked', 'checked');
-                                 } else if (guestRef.child("payment").val() === "waiver") {
-                                    $('input[name=payG][value=waiver]').prop('checked', 'checked');
-                                 } else {
-                                    $('input[name=payG][value=check]').prop('checked', 'checked');
-                                    $('input[id="checkNumG"]').val(guestRef.child("payment").val());
-                                    $("input[id='checkNumG']").prop("disabled", false);
+                        if (data.child("guest") !== null) { //If guest exists, populate guest fields
+                           ref.orderByChild('host').equalTo(data.key).on("value", function (snapshot) {
+                              snapshot.forEach(function (child) {
+                                 const guestRef = child;
+                                 $('input[id="ticketNumG"]').val(guestRef.key);
+                                 ogGuest = guestRef.key;
+                                 $('input[id="studentIDG"]').val(guestRef.child("sID").val());
+                                 $('input[id="firstNameG"]').val(guestRef.child("first").val());
+                                 $('input[id="lastNameG"]').val(guestRef.child("last").val());
+                                 if (guestRef.child("payment")) {
+                                    if (guestRef.child("payment").val() === "cash") {
+                                       $('input[name=payG][value=cash]').prop('checked', 'checked');
+                                    } else if (guestRef.child("payment").val() === "waiver") {
+                                       $('input[name=payG][value=waiver]').prop('checked', 'checked');
+                                    } else {
+                                       $('input[name=payG][value=check]').prop('checked', 'checked');
+                                       $('input[id="checkNumG"]').val(guestRef.child("payment").val());
+                                       $("input[id='checkNumG']").prop("disabled", false);
+                                    }
                                  }
-                              }
-                              $('input[name="guestBox"]').prop('checked', true);
-                              document.getElementById("guestForm").style.visibility = "visible";
+                                 toggle(false);
+                              });
                            });
-                        });
+                        }
+                     } else { //If user searched for a guest's ID
+                        //Populate guest fields
+                        $('input[id="ticketNumG"]').val(data.key);
+                        ogGuest = data.key;
+                        $('input[id="studentIDG"]').val(myvar);
+                        $('input[id="firstNameG"]').val(data.child("first").val());
+                        $('input[id="lastNameG"]').val(data.child("last").val());
+                        if (data.child("payment")){
+                           if (data.child("payment").val()==="cash"){
+                              $('input[name=payG][value=cash]').prop('checked', 'checked');
+                           } else if (data.child("payment").val()==="waiver"){
+                              $('input[name=payG][value=waiver]').prop('checked', 'checked');
+                           } else {
+                              $('input[name=payG][value=check]').prop('checked', 'checked');
+                              $('input[id="checkNumG"]').val(data.child("payment").val());
+                              $("input[id='checkNumG']").prop("disabled",false);
+                           }
+                        }
+                        toggle(false);
+                        if (data.child("host") !== null ) { //true
+                           //If host exists, populate host fields
+                           ref.orderByChild('guest').equalTo(data.key).on("value", function(snapshot) {
+                              snapshot.forEach(function(child) {
+                                 const hostRef = child;
+                                 $('input[id="ticketNum"]').val(hostRef.key);
+                                 ogHost = hostRef.key;
+                                 $('input[id="studentID"]').val(hostRef.child("sID").val());
+                                 $('input[id="firstName"]').val(hostRef.child("first").val());
+                                 $('input[id="lastName"]').val(hostRef.child("last").val());
+                                 $('input[id="midInit"]').val(hostRef.child("middle").val());
+                                 $('input[id="grade"]').val(hostRef.child("grade").val());
+                                 if (hostRef.child("payment")){
+                                    if (hostRef.child("payment").val()==="cash"){
+                                       $('input[name=pay][value=cash]').prop('checked', 'checked');
+                                    } else if (hostRef.child("payment").val()==="waiver"){
+                                       $('input[name=pay][value=waiver]').prop('checked', 'checked');
+                                    } else {
+                                       $('input[name=pay][value=check]').prop('checked', 'checked');
+                                       $('input[id="checkNum"]').val(hostRef.child("payment").val());
+                                       $("input[id='checkNum']").prop("disabled",false);
+                                    }
+                                 }
+                              });
+                           });
+                        }
                      }
                   });
                });
@@ -102,7 +154,6 @@
                database.ref(key).once('value', (snapshot) => {
                   const data = snapshot.val();
                   if (!data) {
-                     console.log("DNE");
                      alert("ID does not exist.");
                      return;
                   }
@@ -132,7 +183,7 @@
                   }
                   else {
                      alert("This student has unpaid obligations.");
-                     document.getElementById("oblig").style.visibility = "visible";
+                     document.getElementById("oblig").style.display = "block";
                   }
 
                });
@@ -140,10 +191,30 @@
             }
          });
 
-
          $('#saveButton').click(() => {
 
+            console.log("checking reqs");
+
             if (checkReqs()) {
+
+               console.log("reqs");
+
+               database.ref('settings').once('value', (snapshot) => {
+
+                  const data = snapshot.val();
+                  const cap = parseInt(data.maxCap, 10);
+                  if (cap){
+                     const count = parseInt(data.currentNum, 10);
+                     const dif = cap - count;
+                     if (dif <= 0){
+                        alert("Maximum capacity reached.");
+                        return;
+                     } else if(count <= 15 && count%5 === 0 || count <= 50 && count%10 === 0){
+                        alert("You are " + (dif) + " students away from maximum capacity.");
+                     }
+                  }
+               });
+               
                const name = $('input[id="ticketNum"]').val();
 
                database.ref('tickets/' + name).set({
@@ -158,8 +229,12 @@
 
                });
 
+               if(!ogHost){
+                  updateNum(1);
+               }
+
                //Creates guest entry in database if checked, otherwise if unchecked deletes if guest exists in database
-               if ($("input[name='guestBox']").prop("checked") === true) {
+               if($('#guestForm').is(':hidden')===false){
                   console.log("has guest");
                   const nameG = $('input[id="ticketNumG"]').val()
                   database.ref('tickets/' + nameG).set({
@@ -171,19 +246,29 @@
 
                   });
 
+                  console.log($('input[id="studentIDG"]').val());
+                  if ($('input[id="studentIDG"]').val()){
+                     database.ref('tickets/' + nameG).update({
+                        sID:$('input[id="studentIDG"]').val()
+                     });
+                  }
+
                   //Add new child under og for guest
                   database.ref('tickets/' + name).update({
 
                      guest: nameG
 
                   });
+
+                  if(!ogGuest){
+                     updateNum(1);
+                  }
+
                } else {
-                  console.log("deleted guest");
-                  //console.log(database.ref('input[id="ticketNumG"]').child("guest").key);
                   try {
-                     database.ref('tickets/' + (database.ref('input[id="ticketNumG"]').child("guest").key)).remove();
+                     deleteRef(ogGuest);
                   } catch (error) {
-                     console.log(error);
+                     console.log("Cannot delete guest because guest does not exist.");
                   }
                   database.ref('tickets/' + name).update({
 
@@ -199,7 +284,7 @@
          });
 
          $('#deleteButton').click(() => {
-            const ref = database.ref('tickets');
+            /*const ref = database.ref('tickets');
             const name = $('#ticketNum').val();
             //const name = $('input[id="ticketNum"]').val();
             if (name) {
@@ -208,10 +293,53 @@
             const guest = $('input[id="ticketNumG"]').val();
             if (guest) {
                ref.child(guest).remove();
+            }*/
+            const nums = [];
+            if (ogHost){
+               nums.push(ogHost);
             }
+            if (ogGuest){
+               nums.push(ogGuest);
+            }
+            nums.forEach(function(num){
+               deleteRef(num);
+            });
 
             $("input[type=text], textarea").val("");
-            window.location.replace("Enter ID Page.html");
+            window.location.replace("/search-student");
+         });
+
+         $('#cancelButton').click(() => {
+            window.location.replace("/search-student");
+         });
+
+         $('#searchGuest').click(() => {
+            const guestID = $('input[id="studentIDG"]').val();
+            if(guestID.length>0){
+               const guestKey='students/' + guestID;
+               database.ref(guestKey).once('value', (snapshot) => {
+                  const data= snapshot.val();
+                  if(!data){
+                     alert("ID does not exist.");
+                     return;
+                  }
+                  if(data.FIRST&&data.LAST){
+                     $('input[id="firstNameG"]').val(data.FIRST);
+                     $('input[id="lastNameG"]').val(data.LAST);
+                  }
+               });
+
+               const guestKey2='obligations/'+guestID;
+               database.ref(guestKey2).once('value', (snapshot) => {
+                  const data= snapshot.val();
+                  if(!data){
+                     return;
+                  } else{
+                     alert("This guest has unpaid obligations.");
+                     document.getElementById("obligG").style.display = "block";
+                  }
+               });
+            }
          });
 
          $('input[type="radio"][name="pay"]').click(function () {
@@ -228,27 +356,60 @@
             }
          });
 
+         function updateNum(num){ //Updates the current number of students in the database
+            database.ref('settings').once('value', (snapshot) => {
+
+               const data = snapshot.val();
+               const count = parseInt(data.currentNum, 10);
+               database.ref('settings').update({
+               
+                  currentNum: count+num
+
+               });
+
+            });
+         }
+
+         function deleteRef(num){ //Removes node of ticket number from database
+            database.ref('tickets/' + num).remove();
+            updateNum(-1);
+         }
+
       });
 
-      function visibility(box, item) {
-         if (box.checked === true) {
-            document.getElementById(item).style.visibility = "visible";
-         } else {
-            document.getElementById(item).style.visibility = "hidden";
+
+      function toggle(vis){ //Toggles display of guest form and buttons
+         if (vis === false){ //add button pressed
+            document.getElementById("guestForm").style.display = "block";
+            document.getElementById("addGuest").style.display = "none";
+            document.getElementById("delGuest").style.display = "inline-block";
+         } else { // delete button pressed
+            document.getElementById("guestForm").style.display = "none";
+            document.getElementById("addGuest").style.display = "inline-block";
+            document.getElementById("delGuest").style.display = "none";
+            clearGuest();
          }
+      }
+
+      function clearGuest(){ //Clears guest fields
+         $('input[id="ticketNumG"]').val('');
+         $('input[id="studentIDG"]').val('');
+         $('input[id="lastNameG"]').val('');
+         $('input[id="firstNameG"]').val('');
+         $('input[name="payG"]').prop('checked', false);
+         $('input[id="checkNumG"]').val('');
+         $('input[name="obligG"]').prop('checked', false);
       }
 
       function getPayment(guest) { //returns check number if check, otherwise id
          if (!guest) {
             if ($('input[name=pay][value=check]').is(":checked")) {
-               console.log($('input[id="checkNum"]').val())
                return $('input[id="checkNum"]').val();
             } else {
                return $('input[name="pay"]:checked').val();
             }
          } else {
             if ($('input[name=payG][value=check]').is(":checked")) {
-               console.log($('input[id="checkNumG"]').val())
                return $('input[id="checkNumG"]').val();
             } else {
                return $('input[name="payG"]:checked').val();
@@ -257,30 +418,55 @@
 
       }
 
-      function checkReqs() {
+      function checkReqs(){ //Returns false and sends alert if any required fields are incomplete
          var text = "";
-         //if ($('[id=oblig]').is(":visible") && $("input[name='oblig']").prop("checked") === false){
-         //   text+="\n• Student Obligations";
-         //}
-         if (!$('input[id="ticketNum"]').val()) {
-            text += "\n• Ticket Number";
+         var textG = "";
+         if (!$('input[id="ticketNum"]').val()){
+            text+="\n  • Ticket Number";
          }
-         if (!$('input[id="studentID"]').val()) {
-            text += "\n• Student ID";
+         if (!$('input[id="studentID"]').val()){
+            text+="\n  • Student ID";
          }
-         if (!$('input[id="lastName"]').val()) {
-            text += "\n• Last Name";
+         if (!$('input[id="lastName"]').val()){
+            text+="\n  • Last Name";
          }
-         if (!$('input[id="firstName"]').val()) {
-            text += "\n• First Name";
+         if (!$('input[id="firstName"]').val()){
+            text+="\n  • First Name";
          }
-         if (!$('input[name="pay"]:checked').val()) {
-            text += "\n• Payment Options";
-         } else if ($('input[name="pay"]:checked').val() === "check" && !$('input[id="checkNum"]').val()) {
-            text += "\n• Check Number";
+         if(!$('input[name="pay"]:checked').val()){
+            text+="\n  • Payment Method";
+         } else if ($('input[name="pay"]:checked').val() === "check" && !$('input[id="checkNum"]').val()){
+            text+="\n  • Check Number";
          }
-         if (text.length > 0) {
-            console.log(text);
+         if ($('[id=oblig]').is(":hidden") === false && $("input[name='oblig']").prop("checked") === false){
+            text+="\n  • Student Obligations";
+         }
+         if($('#guestForm').is(':hidden')===false){
+            if (!$('input[id="ticketNumG"]').val()){
+               textG+="\n  • Ticket Number";
+            } else if ($('input[id="ticketNum"]').val() === $('input[id="ticketNumG"]').val()){
+               textG+="\n  • Matching ticket numbers"
+            }
+            if (!$('input[id="lastNameG"]').val()){
+               textG+="\n  • Last Name";
+            }
+            if (!$('input[id="firstNameG"]').val()){
+               textG+="\n  • First Name";
+            }
+            if(!$('input[name="payG"]:checked').val()){
+               textG+="\n  • Payment Method";
+            } else if ($('input[name="payG"]:checked').val() === "check" && !$('input[id="checkNumG"]').val()){
+               textG+="\n  • Check Number";
+            }
+            if ($('[id=obligG]').is(":hidden") === false && $("input[name='obligG']").prop("checked") === false){
+               textG+="\n  • Guest Obligations";
+            }
+            if(textG.length > 0){
+               textG = "\nGuest (Please complete the following fields or delete the guest):" + textG;
+            }
+         }
+         text += textG;
+         if (text.length > 0){
             alert("Please complete/review these sections before you can continue: " + text);
             return false;
          }
@@ -288,6 +474,7 @@
       }
 
    </script>
+
    <style>
       .guest {
          display: none;
@@ -295,6 +482,14 @@
 
       .studentoblig {
          display: none;
+      }
+      
+      .studentobligG {
+         display:none;
+     }
+
+      #delGuest {
+         display:none;
       }
    </style>
 </head>
@@ -365,9 +560,25 @@
                                  <label>Grade</label>
                                  <input class="form-control" type="text" id="grade" size="2">
                               </div>
+                              <div class="form-group">
+                                 <strong>Payment Method</strong><br>
+                                 <input type="radio" name="pay" id="payCash" value="cash"> Cash<br>
+                                 <input type="radio" name="pay" id="payCheck" value="check"> Check
+                                 <input type="text" id="checkNum" placeholder="Check Number"><br>
+                                 <input type="radio" name="pay" id="payWaiver" value="waiver"> Financial Waiver
+                              </div>
+                              <div class="form-group">
+                                 <div class="studentoblig" id="oblig">
+                                    <strong>Student Obligations</strong><br>
+                                    Are Student's obligations taken care of? <input type="checkbox" name="oblig"><br>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="col-md-6">
                               <div class="form-group mt-4">
-                                 <label><strong>Guest: </strong><input type="checkbox" name="guestBox"
-                                       onclick="JavaScript:visibility(this,'guestForm');"></label>
+                                 <label><strong>Guest: </strong></label>
+                                    <button type="button" id = "addGuest" onclick="JavaScript:toggle(false);">Add Guest</button>
+                                    <button type="button" id = "delGuest" onclick="JavaScript:toggle(true);">Delete Guest</button>
                               </div>
                               <div class="guest" id="guestForm">
                                  <strong>Enter Guest Details</strong>
@@ -377,6 +588,7 @@
                                  </div>
                                  <div class="form-group">
                                     <label>Student ID (optional):</label>
+                                    <button type="button" id="searchGuest">Go</button>
                                     <input class="form-control" type="text" id="studentIDG" size="6">
                                  </div>
                                  <div class="form-group">
@@ -392,33 +604,25 @@
                                     <div>
                                        <input type="radio" name="payG" id="payCashG" value="cash"> Cash<br>
                                        <input type="radio" name="payG" id="payCheckG" value="check"> Check
-                                       <input type="text" id="checkNumG" placeholder="Check Number" size="9"><br>
+                                       <input type="text" id="checkNumG" placeholder="Check Number"><br>
                                        <input type="radio" name="payG" id="payWaiverG" value="waiver"> Financial
                                        Waiver<br><br>
                                     </div>
                                  </div>
-                              </div>
-                           </div>
-                           <div class="col-md-6">
-                              <div class="form-group">
-                                 <strong>Payment Method</strong><br>
-                                 <input type="radio" name="pay" id="payCash" value="cash"> Cash<br>
-                                 <input type="radio" name="pay" id="payCheck" value="check"> Check
-                                 <input type="text" id="checkNum" placeholder="Check Number" size="9"><br>
-                                 <input type="radio" name="pay" id="payWaiver" value="waiver"> Financial Waiver
-                              </div>
-                              <div class="form-group">
-                                 <div class="studentoblig" id="oblig">
-                                    <strong>Student Obligations</strong><br>
-                                    Obligations taken care of? <input type="checkbox" name="oblig"><br>
+                                 <div class="form-group">
+                                    <div class="studentobligG" id="obligG">
+                                       <strong>Guest Obligations</strong><br>
+                                       Are Guest's obligations taken care of? <input type="checkbox" name="obligG"><br>
+                                    </div>
                                  </div>
                               </div>
                            </div>
                         </div>
                         <div class="row">
                            <div class="col-12">
-                              <button class="btn btn-lg btn-danger" id="deleteButton">Delete</button>
-                              <button class="btn btn-lg btn-success" id="saveButton">Save</button>
+                              <button class="btn btn-lg btn-danger" type="button" id="deleteButton">Delete</button>
+                              <button class="btn btn-lg btn-default float-left" type="button" id="cancelButton">Cancel</button>
+                              <button class="btn btn-lg btn-success" type="button" id="saveButton">Save</button>
                            </div>
                         </div>
                      </div>
