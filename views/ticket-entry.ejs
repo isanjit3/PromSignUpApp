@@ -193,11 +193,7 @@
 
          $('#saveButton').click(() => {
 
-            console.log("checking reqs");
-
             if (checkReqs()) {
-
-               console.log("reqs");
 
                database.ref('settings').once('value', (snapshot) => {
 
@@ -235,7 +231,6 @@
 
                //Creates guest entry in database if checked, otherwise if unchecked deletes if guest exists in database
                if($('#guestForm').is(':hidden')===false){
-                  console.log("has guest");
                   const nameG = $('input[id="ticketNumG"]').val()
                   database.ref('tickets/' + nameG).set({
 
