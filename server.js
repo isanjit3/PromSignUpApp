@@ -42,18 +42,20 @@ function writeFirebase(jsonData, collection) {
   });
 }
 
-function readFirebaseStudents() {
-  return firebase.database().ref('students').once('value').then(function(snapshot) {
+function readFirebaseTickets() {
+  return firebase.database().ref('tickets').once('value').then(function(snapshot) {
     var jsonData = [];
     snapshot.forEach(function(child) {
 
-        var info = {
-        "LAST" :  child.child("LAST").val(),
-        "FIRST" : child.child("FIRST").val(),
-        "MI": child.child("MI").val(),
-        "ID": child.key,
-        "GR" : child.child("GR").val()
-        }
+      var info = {
+        "first" : child.child("first").val(),
+        "middle" : child.child("middle").val(),
+        "last": child.child("last").val(),
+        "sID": child.child("sID").val(),
+        "ticket": child.key,
+        "grade": child.child("grade").val(),
+        "guest": child.child("guest").val()
+      }
         jsonData.push(info);
         
     });
@@ -86,7 +88,7 @@ app.get('/upload', function (req, res) {
 })
 
 app.get('/display-student-data', function (req, res) {
-  readFirebaseStudents().then(function(data){
+  readFirebaseTickets().then(function(data){
     console.log(data)
     res.render('display-student-data', 
     {

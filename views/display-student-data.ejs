@@ -17,20 +17,24 @@
       <div class="card-body">
         <table class="table table-striped">
           <tr>
+            <th>Ticket</th>
             <th>Student ID</th>
             <th>First Name</th>
             <th>Middle Initial</th>
             <th>Last Name</th>
             <th>Grade</th>
+            <th>Guest</th>
           </tr>
           <% console.log(studentsData) %>
           <% studentsData.forEach(dt=>{ %>
           <tr>
-            <td><%= dt.ID %></td>
-            <td><%= dt.FIRST %></td>
-            <td><%= dt.MI %></td>
-            <td><%= dt.LAST %></td>
-            <td><%= dt.GR %></td>
+            <td><%= dt.ticket %></td>
+            <td><%= dt.sID %></td>
+            <td><%= dt.first %></td>
+            <td><%= dt.middle %></td>
+            <td><%= dt.last %></td>
+            <td><%= dt.grade %></td>
+            <td><%= dt.guest %></td>
           </tr>
           <% }) %>
         </table>
