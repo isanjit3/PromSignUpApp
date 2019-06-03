@@ -72,6 +72,7 @@
    }
 
    $(document).ready(function () {
+      $('input[name="studentID"]').focus();
       $('#resBox').change(function () {
          $('input[name="studentID"]').val($("#resBox").val());
       });
@@ -116,7 +117,8 @@
                         </div>
                         <div class="form-group text-center">
                            <button class="btn btn-lg btn-default float-left"
-                              onclick="window.location.href='/'">Back</button>
+                           type="button"
+                              onclick="window.location.href='/index'">Back</button>
                            <input class="btn btn-lg btn-success" type="submit" value="Submit">
                         </div>
                      </div>

@@ -50,42 +50,46 @@ function exportTableToCSV(filename) {
 </head>
 
 <body>
-  <% include partials/header %>
-  <div class="container">
-    <div class="card">
-      <div class="card-header">
-        <div class="card-title">
-          <h5>Tickets</h5>
-        </div>
-      </div>
-      <div class="card-body">
-        <table class="table table-striped">
-          <tr>
-            <th>Ticket</th>
-            <th>Student ID</th>
-            <th>First Name</th>
-            <th>Middle Initial</th>
-            <th>Last Name</th>
-            <th>Grade</th>
-            <th>Guest</th>
-          </tr>
-          <% console.log(studentsData) %>
-          <% studentsData.forEach(dt=>{ %>
-          <tr>
-            <td><%= dt.ticket %></td>
-            <td><%= dt.sID %></td>
-            <td><%= dt.first %></td>
-            <td><%= dt.middle %></td>
-            <td><%= dt.last %></td>
-            <td><%= dt.grade %></td>
-            <td><%= dt.guest %></td>
-          </tr>
-          <% }) %>
-        </table>
-        <button onclick="exportTableToCSV('tickets.csv')">Export HTML Table To CSV File</button>
-      </div>
-    </div>
-  </div>
+ <% include partials/header %>
+ <div class="container">
+   <div class="card">
+     <div class="card-header">
+       <div class="card-title">
+         <h5>Students Data</h5>
+       </div>
+     </div>
+    
+     <div class="card-body">
+      <table class="table table-striped">
+         <tr>
+           <th>Ticket</th>
+           <th>Student ID</th>
+           <th>First Name</th>
+           <th>Middle Initial</th>
+           <th>Last Name</th>
+           <th>Grade</th>
+           <th>Guest</th>
+         </tr>
+         <% console.log(studentsData) %>
+         <% studentsData.forEach(dt=>{ %>
+         <tr>
+           <td><%= dt.ticket %></td>
+           <td><%= dt.sID %></td>
+           <td><%= dt.first %></td>
+           <td><%= dt.middle %></td>
+           <td><%= dt.last %></td>
+           <td><%= dt.grade %></td>
+           <td><%= dt.guest %></td>
+         </tr>
+         <% }) %>
+       </table>
+
+       <button onclick="exportTableToCSV('tickets.csv')">Export HTML Table To CSV File</button>
+     </div>
+   </div>
+ </div>
+ <style>
+  </style>
 </body>
 
 </html>
