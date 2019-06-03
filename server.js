@@ -1,11 +1,11 @@
-const express    = require('express');
-const path       = require('path');
-const app        = express();
+const express = require('express');
+const path = require('path');
+const app = express();
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
-const csvtojson  = require('csvtojson');
-const firebase   = require('firebase');
-const replace    = require('replace');
+const csvtojson = require('csvtojson');
+const firebase = require('firebase');
+const replace = require('replace');
 
 //Initialize Firebase
 /*
@@ -43,24 +43,24 @@ function writeFirebase(jsonData, collection) {
 }
 
 function readFirebaseTickets() {
-  return firebase.database().ref('tickets').once('value').then(function(snapshot) {
+  return firebase.database().ref('tickets').once('value').then(function (snapshot) {
     var jsonData = [];
-    snapshot.forEach(function(child) {
+    snapshot.forEach(function (child) {
 
       var info = {
-        "first" : child.child("first").val(),
-        "middle" : child.child("middle").val(),
+        "first": child.child("first").val(),
+        "middle": child.child("middle").val(),
         "last": child.child("last").val(),
         "sID": child.child("sID").val(),
         "ticket": child.key,
         "grade": child.child("grade").val(),
         "guest": child.child("guest").val()
       }
-        jsonData.push(info);
-        
+      jsonData.push(info);
+
     });
     return jsonData;
-  }); 
+  });
 }
 
 app.set('view engine', 'ejs');
@@ -73,13 +73,13 @@ app.get('/', function (req, res) {
   res.render('index');
 })
 
-app.get('/search-student', function(req, res) {
-  res.render('search-student', { 
+app.get('/search-student', function (req, res) {
+  res.render('search-student', {
     fbConfig: firebaseConfig
   });
 })
 
-app.get('/ticket-entry', function(req, res) {
+app.get('/ticket-entry', function (req, res) {
   res.render('ticket-entry');
 })
 
@@ -87,30 +87,7 @@ app.get('/upload', function (req, res) {
   res.render('upload');
 })
 
-app.get('/display-student-data', function (req, res) {
-  readFirebaseTickets().then(function(data){
-    console.log(data)
-    res.render('display-student-data', 
-    {
-      studentsData: data
-    }
-    );
-  })
-})
-
-app.get('/settings', function(req, res) {
-  res.render('settings');
-})
-
-app.post('/', function(req, res){
-  let city = req.body.city;
-  console.log(city)
-  res.render('index')
-})
-
-
-
-app.post('/upload', function(req, res){
+app.post('/upload', function (req, res) {
   if (!req.files || Object.keys(req.files).length == 0) {
     return res.render('msg', {
       msg: 'Please choose a file to upload',
@@ -136,7 +113,27 @@ app.post('/upload', function(req, res){
   });
 })
 
- 
+app.get('/display-student-data', function (req, res) {
+  readFirebaseTickets().then(function (data) {
+    console.log(data)
+    res.render('display-student-data',
+      {
+        studentsData: data
+      }
+    );
+  })
+})
+
+app.get('/settings', function (req, res) {
+  res.render('settings');
+})
+
+app.post('/', function (req, res) {
+  let city = req.body.city;
+  console.log(city)
+  res.render('index')
+})
+
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!')
 })
