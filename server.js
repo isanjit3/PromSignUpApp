@@ -95,7 +95,8 @@ app.post('/upload', function (req, res) {
   if (!req.files || Object.keys(req.files).length == 0) {
     return res.render('msg', {
       msg: 'Please choose a file to upload',
-      styleClass: 'alert error'
+      styleClass: 'alert-danger',
+      status: 'error'
     });
   }
 
@@ -113,7 +114,8 @@ app.post('/upload', function (req, res) {
 
   res.render('msg', {
     msg: 'Your file has been uploaded.',
-    styleClass: 'alert success'
+    styleClass: 'alert-success',
+    status: 'success'
   });
 })
 

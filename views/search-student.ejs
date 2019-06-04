@@ -94,7 +94,7 @@
                         <h5>Search Student</h5>
                      </div>
                      <div class="card-text">
-                        
+
                      </div>
                   </div>
                   <div class="card-body">
@@ -105,9 +105,15 @@
                         </div>
                         <div class="form-group">
                            <label>Last Name</label>
-                           <input class="form-control" type="text" name="lastname">
-                           <br><button type="button"
-                              onclick="Javascript:searchNames(lastname.value, 'resBox', fillSelect);">Search</button>
+                           <div class="input-group mb-3">
+                              <input type="text" class="form-control" name="lastname" aria-label="Recipient's username"
+                                 aria-describedby="basic-addon2">
+                              <div class="input-group-append">
+                                 <button class="btn btn-secondary" type="button"
+                                    onclick="Javascript:searchNames(lastname.value, 'resBox', fillSelect);"><i
+                                       class="fa fa-search fa-lg"></i></button>
+                              </div>
+                           </div>
                         </div>
                         <div class="form-group">
                            <label>Names will appear below</label>
@@ -116,8 +122,7 @@
                            </select>
                         </div>
                         <div class="form-group text-center">
-                           <button class="btn btn-lg btn-default float-left"
-                           type="button"
+                           <button class="btn btn-lg btn-secondary float-left" type="button"
                               onclick="window.location.href='/index'">Back</button>
                            <input class="btn btn-lg btn-success" type="submit" value="Submit">
                         </div>

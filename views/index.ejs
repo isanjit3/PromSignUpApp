@@ -3,73 +3,65 @@
 
 <head>
   <% include partials/head %>
+  <style>
+    .container {
+      margin-top: 100px;
+    }
+  </style>
 </head>
 
 <body>
-  <% include partials/header %>
-  <div class="container">
+  <div class="container  animated fadeIn">
     <h1 class="brand"><a href="/"><span>S<span>R</span>SS</span> Prom Sign Up</a></h1>
-    <div class="wrapper animated fadeIn">
+    <div class="wrapper">
       <div class="company-info">
-        <h3>SRSS CSV Entry</h3>
-        <ul>
-          <li><i class="fa fa-road"></i> 17501 W Willard Rd, Poolesville, MD 20837</li>
-          <li><i class="fa fa-phone"></i> (240) 740-2400</li>
-          <li><i class="fa fa-envelope"></i> srss.smcs2021@gmail.com</li>
-        </ul>
+        <div id="logo-wrapper">
+          <img src="/images/PoolesvilleLogo.png" alt="Logo" id="logo">
+        </div>
       </div>
       <div class="contact">
-        <h3>Sign Up</h3>
-        <div class="box">
-          <a href="/search-student">
-            <div class="icon">
-              <i class="fa fa-ticket-alt fa-5x"></i>
-            </div>
-            <div class="icon-text">
-              New/Edit Ticket
-            </div>
-          </a>
+        <div class="box-wrapper">
+          <div class="box">
+            <a href="/search-student">
+              <div class="icon">
+                <i class="fa fa-ticket-alt fa-5x"></i>
+              </div>
+              <div class="icon-text">
+                New/Edit Ticket
+              </div>
+            </a>
+          </div>
+          <div class="box">
+            <a href="/display-ticket-data">
+              <div class="icon">
+                <i class="fa fa-users fa-5x"></i>
+              </div>
+              <div class="icon-text">
+                Display Students
+              </div>
+            </a>
+          </div>
+          <div class="box">
+            <a href="/upload">
+              <div class="icon">
+                <i class="fa fa-cloud-upload-alt fa-5x"></i>
+              </div>
+              <div class="icon-text">
+                Upload Files
+              </div>
+            </a>
+          </div>
+          <div class="box">
+            <a href="/settings">
+              <div class="icon">
+                <i class="fa fa-cog fa-5x"></i>
+              </div>
+              <div class="icon-text">
+                Settings
+              </div>
+            </a>
+          </div>
         </div>
-        <div class="box">
-          <a href="/display-ticket-data">
-            <div class="icon">
-              <i class="fa fa-users fa-5x"></i>
-            </div>
-            <div class="icon-text">
-              Display Students
-            </div>
-          </a>
-        </div>
-        <div class="box">
-          <a href="/upload">
-            <div class="icon">
-              <i class="fa fa-cloud-upload-alt fa-5x"></i>
-            </div>
-            <div class="icon-text">
-              Upload Files
-            </div>
-          </a>
-        </div>
-        <div class="box">
-          <a href="/settings">
-            <div class="icon">
-              <i class="fa fa-cog fa-5x"></i>
-            </div>
-            <div class="icon-text">
-              Settings
-            </div>
-          </a>
-        </div>
-
-
-
-
-
-
-
-
-
-
       </div>
     </div>
   </div>
