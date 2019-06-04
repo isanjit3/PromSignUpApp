@@ -67,6 +67,7 @@
         width: 70%;
         border-left: none;
         height: 300px;
+        display: none;
     }
 
 </style>
@@ -75,15 +76,18 @@
     <% include partials/header %>
     <div class="container">
         <div class="row">
-            <div class="col-md-3"></div>
+            <div class="col-md-3">
+            </div>
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
                         <div class="card-title">
                             <h3>Help</h3>
+                            <a href="/" class="float-right btn btn-lg btn-secondary" id="backButton">Back </a>
+                            <!--Make button inline with title-->
                         </div>
+                    </div>
                         <div class="card-body">
-                            <a href="/" class="form-control float-left btn btn-lg btn-secondary" id="backButton">Back </a>
                             <div class="menu">
                                 <div class="tab">
                                     <button class="tablinks" onclick="openTab(event, 'help')">Welcome</button>
@@ -102,27 +106,27 @@
 
                                 <div id="upload" class="tabcontent">
                                     <h3>Upload Data</h3>
-                                    <h4>Student Data</h4>
+                                    <h5>Student Data</h5>
                                     <p>To upload the student data file, select the "Students" option. 
                                         Then, click "Choose file" to select which file (.csv) to upload.</p>
-                                    <h4>Obligations Data</h4>
+                                    <h5>Obligations Data</h5>
                                     <p>To upload the obligations data file, select the "Obligations" option. 
                                         Then, click "Choose file" to select which file (.csv) to upload.</p>
                                 </div>
                                 
                                 <div id="settings" class="tabcontent">
                                     <h3>Settings</h3>
-                                    <h4>Maximum Capacity</h4>
+                                    <h5>Maximum Capacity</h5>
                                     <p>The maximum capacity is the maximum number of students allowed 
                                         for this event. Notifications will be sent when the current number of 
                                         students who have signed up is approaching the maximum. To change the 
                                         maximum capacity, type in the number into the "Maximum Capacity" box 
                                         and click the "Save" button. By default, there is no maximum capacity.</p>
-                                    <h4>Resetting Settings</h4>
+                                    <h5>Resetting Settings</h5>
                                     <p>Clicking the "Reset Settings" button will reset all settings to their default
                                         values.
                                     </p>
-                                    <h4>Resetting the Database</h4>
+                                    <h5>Resetting the Database</h5>
                                     <p>Clicking the "Reset Database" button will remove all students who have signed up, 
                                         all uploaded student data, and all uploaded obligations data from the database. 
                                         All settings will be reset to default. CAUTION: This action is irreversible.</p>
@@ -132,15 +136,15 @@
                                     <h3>New/Edit Entry</h3>
                                     <p>To create a new or edit a previously submitted ticket entry, enter student ID, 
                                         search by last name, or scan student ID.</p>
-                                    <h4>Enter Student ID</h4>
+                                    <h5>Enter Student ID</h5>
                                     <p>Enter the student's ID into the corresponding field. Then click the submit button 
                                         at the bottom of the page.</p>
-                                    <h4>Search by Last Name</h4>
+                                    <h5>Search by Last Name</h5>
                                     <p>Enter the student's last name as it would appear on their school information (i.e. 
                                         correct capitalization, symbols such as hyphens, etc.) Click the search button. If 
                                         the name exists in the student data, the matching names will appear in the box below. 
                                         Select the correct name and click the submit button at the bottom of the page.</p>
-                                    <h4>Scan Student ID Card</h4>
+                                    <h5>Scan Student ID Card</h5>
                                     <p>This function uses an external barcode scanner. Ensure that the student ID field is 
                                         selected/on focus. Then, use the barcode scanner to scan the student's ID. </p>
                                 </div>
@@ -157,7 +161,7 @@
                                 </div>
                             </div>                      
                         </div>
-                    </div>
+                    <!--</div>-->
                 </div>
             </div>
             <div class="md-col-3"></div>
