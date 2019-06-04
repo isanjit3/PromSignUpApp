@@ -362,14 +362,14 @@
             }
          });
 
-         $('input[type="radio"][name="pay"]').click(function () {
+         $('input[type="radio"][name="pay"]').click(function () { //Enables/disables check number for student if check selected
             $("input[id='checkNum']").prop("disabled", true);
             if ($(this).val() === "check") {
                $("input[id='checkNum']").prop("disabled", false);
             }
          });
 
-         $('input[type="radio"][name="payG"]').click(function () {
+         $('input[type="radio"][name="payG"]').click(function () { //Enables/disables check number for guest if check selected
             $("input[id='checkNumG']").prop("disabled", true);
             if ($(this).val() === "check") {
                $("input[id='checkNumG']").prop("disabled", false);
@@ -391,7 +391,6 @@
          }
 
          function deleteRef(num){ //Removes node of ticket number from database
-            //const database = firebase.database();
             database.ref('tickets/' + num).remove();
             updateNum(-1);
          }
