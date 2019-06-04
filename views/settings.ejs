@@ -3,6 +3,8 @@
 
 <head>
    <% include partials/head %>
+   <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
+
    <script>
       // Your web app's Firebase configuration
       var firebaseConfig = {
@@ -17,10 +19,9 @@
       // Initialize Firebase
       firebase.initializeApp(firebaseConfig);
    </script>
-   <script src="jquery-3.3.1.min.js"></script>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
    <script type="text/javascript">
       $(document).ready(function () {
-         const database = firebase.database();
          $('#saveButton').click(() => {
             console.log("Writing to firebase")
             database.ref('settings/').update({
@@ -30,6 +31,8 @@
             });
             $('input[id="maxCap"]').val('');
          });
+         const database = firebase.database();
+        
          $('#resetButton').click(() => {
             alert("Resetting the database");
             database.ref('tickets/').remove();
