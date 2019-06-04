@@ -297,6 +297,8 @@
                }
 
                $("input[type=text], textarea").val("");
+               $("input[type=number], textarea").val("");
+               $("input[type=radio]").prop(":checked", false);
                alert("You have completed Prom Signup!");
                window.location.replace("/search-student");
             }
@@ -315,6 +317,8 @@
             });
 
             $("input[type=text], textarea").val("");
+            $("input[type=number], textarea").val("");
+            $("input[type=radio]").prop(":checked", false);
             window.location.replace("/search-student");
          });
 
@@ -560,11 +564,11 @@
                            <div class="col-md-6">
                               <div class="form-group">
                                  <label>Ticket Number</label>
-                                 <input class="form-control" type="text" id="ticketNum" size="5">
+                                 <input class="form-control" type="number" id="ticketNum" size="5">
                               </div>
                               <div class="form-group">
                                  <label>Student ID</label>
-                                 <input class="form-control" type="text" id="studentID" size="6">
+                                 <input class="form-control" type="number" id="studentID" size="6">
                               </div>
                               <div class="form-group">
                                  <label>First Name</label>
@@ -580,13 +584,13 @@
                               </div>
                               <div class="form-group">
                                  <label>Grade</label>
-                                 <input class="form-control" type="text" id="grade" size="2">
+                                 <input class="form-control" type="number" id="grade" size="2">
                               </div>
                               <div class="form-group">
                                  <strong>Payment Method</strong><br>
                                  <input type="radio" name="pay" id="payCash" value="cash"> Cash<br>
                                  <input type="radio" name="pay" id="payCheck" value="check"> Check
-                                 <input type="text" id="checkNum" placeholder="Check Number"><br>
+                                 <input type="number" id="checkNum" placeholder="Check Number"><br>
                                  <input type="radio" name="pay" id="payWaiver" value="waiver"> Financial Waiver
                               </div>
                               <div class="form-group">
@@ -606,12 +610,18 @@
                                  <strong>Enter Guest Details</strong>
                                  <div class="form-group mt-4">
                                     <label>Ticket Number:</label>
-                                    <input class="form-control" type="text" id="ticketNumG" size="5">
+                                    <input class="form-control" type="number" id="ticketNumG" size="5">
                                  </div>
                                  <div class="form-group">
-                                    <label>Student ID (optional):</label>
-                                    <button type="button" id="searchGuest">Go</button>
-                                    <input class="form-control" type="text" id="studentIDG" size="6">
+                                    <label>Student ID (optional)</label>
+                                    <div class="input-group mb-3">
+                                       <input type="number" class="form-control" id="studentIDG" aria-label="Recipient's username"
+                                          aria-describedby="basic-addon2">
+                                       <div class="input-group-append">
+                                          <button class="btn btn-secondary" type="button" id="searchGuest">
+                                             <i class="fa fa-search fa-lg"></i></button>
+                                       </div>
+                                    </div>
                                  </div>
                                  <div class="form-group">
                                     <label>Last Name:</label>
@@ -626,7 +636,7 @@
                                     <div>
                                        <input type="radio" name="payG" id="payCashG" value="cash"> Cash<br>
                                        <input type="radio" name="payG" id="payCheckG" value="check"> Check
-                                       <input type="text" id="checkNumG" placeholder="Check Number"><br>
+                                       <input type="number" id="checkNumG" placeholder="Check Number"><br>
                                        <input type="radio" name="payG" id="payWaiverG" value="waiver"> Financial
                                        Waiver<br><br>
                                     </div>
