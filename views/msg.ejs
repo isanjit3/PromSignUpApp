@@ -6,17 +6,35 @@
 </head>
 
 <body>
+    <% include partials/header %>
+    <div class="container animated fadeIn">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">
+                            <h3>Upload Files</h3>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="alert <%= styleClass %>" role="alert"><%= msg %></div>
+                        <div class="text-center">
+                            <a class="float-left btn btn-lg btn-secondary" href="/upload">Back</a>
+                            <% if(status == 'success') { %>
+                                <a class="btn btn-lg btn-success" href="/index">Home</a>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+    <!--
     <div class="container">
         <h1 class="brand"><span>S<span>R</span>SS</span>CSV Entry</h1>
         <div class="wrapper animated fadeIn">
-            <div class="company-info">
-                <h3>SRSS CSV Entry</h3>
-                <ul>
-                    <li><i class="fa fa-road"></i> 17501 W Willard Rd, Poolesville, MD 20837</li>
-                    <li><i class="fa fa-phone"></i> (240) 740-2400</li>
-                    <li><i class="fa fa-envelope"></i> srss.smcs2021@gmail.com</li>
-                </ul>
-            </div>
             <div class="contact">
                 <div class="<%= styleClass %>"><%= msg %></div>
                 <div class="text-center">
@@ -24,7 +42,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>-->
 </body>
 
 </html>
