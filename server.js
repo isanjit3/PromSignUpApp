@@ -134,6 +134,10 @@ app.get('/settings', function (req, res) {
   res.render('settings');
 })
 
+app.get('/help', function (req, res) {
+  res.render('help');
+})
+
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!')
 })
