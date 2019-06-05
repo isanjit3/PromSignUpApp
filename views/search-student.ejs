@@ -27,10 +27,10 @@
 <script type="text/javascript">
 
    function searchNames(query, box, callback, name) { //Query delay causing error
-      var names = [];
       clearOptions();
       const ref = firebase.database().ref('students');
-      //ref.orderByChild('last').equalTo(query).on("value", function(snapshot) {
+      if($('input[name="nameType"]:checked').val() === "last"){
+      var names = [];
       ref.orderByChild('LAST').startAt(query).endAt(query + '\uf8ff').once("value").then(function (snapshot) {
          names = [];
          snapshot.forEach(function (child) {
@@ -45,6 +45,7 @@
       }, function (error) {
          console.log("Error");
       });
+      } else {
       var firstNames = [];
       ref.orderByChild('FIRST').startAt(query).endAt(query + '\uf8ff').once("value").then(function (snapshot) {
          firstNames = [];
@@ -60,6 +61,7 @@
       }, function (error) {
          console.log("Error");
       });
+      }
    }
 
    function fillSelect(names) {
@@ -129,10 +131,19 @@
          }
          document.getElementById('ticket-entry-form').submit();
       });
+
    });
 
-
 </script>
+
+<style>
+
+   .btn-group{
+      padding-left: 10px;
+      padding-bottom: 10px;
+   }
+
+</style>
 
 <body>
    <% include partials/header %>
@@ -157,7 +168,15 @@
                            <input class="form-control" id="studentID" type="number" name="studentID">
                         </div>
                         <div class="form-group">
-                           <label> Name</label>
+                           <label>Name Search:</label>
+                           <div class="btn-group btn-group-toggle" data-toggle="buttons">
+                              <label class="btn btn-primary btn-sm active">
+                                 <input type="radio" name="nameType" id="last" value="last" autocomplete="off" checked> Last Name
+                              </label>
+                              <label class="btn btn-primary btn-sm">
+                                 <input type="radio" name="nameType" id="first" value="first" autocomplete="off"> First Name
+                              </label>
+                           </div>
                            <div class="input-group mb-3">
                               <!--<input type="text" class="form-control" id="lastname" name="lastname">-->
                               <input type="text" class="form-control" name="names" id="fn">
@@ -196,6 +215,15 @@
          </div>
       </div>
    </form>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" 
+   integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" 
+      crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" 
+   integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" 
+      crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" 
+   integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" 
+      crossorigin="anonymous"></script>
 </body>
 
 </html>
