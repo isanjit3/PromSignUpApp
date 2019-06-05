@@ -32,27 +32,29 @@
             $('input[id="maxCap"]').val('');
          });
          const database = firebase.database();
-
+        
          $('#resetButton').click(() => {
-            alert("Resetting the database");
-            database.ref('tickets/').remove();
+           $('#warnModal').modal('show');
+            database.ref('signup-form-e4c78/').remove();
+            console.log("Yaya");
+            /*database.ref('tickets/').remove();
             database.ref('settings/').remove();
             database.ref('students/').remove();
             database.ref('obligations/').remove()
             database.ref('settings/currentNum').set("0");
-            $('input[id="maxCap"]').val('');
+            $('input[id="maxCap"]').val('');*/
 
 
          });
          $('#resetSettings').click(() => {
-
+           
             database.ref('settings/').remove();
 
             database.ref('settings/currentNum').set("0");
 
          });
 
-      });
+     });
 
 
    </script>
@@ -63,7 +65,6 @@
    #maxCap {
       max-width: 200px;
    }
-
    form {
       padding-left: 10px;
    }
@@ -83,7 +84,7 @@
 <body>
    <% include partials/header %>
    <form>
-      <div class="container mt-4 animated fadeIn">
+      <div class="container mt-4 ">
          <div class="row">
             <div class="col-md-3">
             </div>
@@ -93,8 +94,6 @@
                      <div class="card-title">
                         <h5>Settings</h5>
                      </div>
-                  </div>
-                  <div class="card-body">
                      <div class="card-text">
                         <div class="form-group">
                            <label>Maximum Ticket Capacity: </label>
@@ -103,13 +102,12 @@
                         <div class="form-group ">
                            <!--<button class="btn btn-primary" id="import" onclick="window.location.href='/upload'">Import
                               files</button>-->
-                           <button class="btn btn-warning" id="resetButton">Reset database</button>
-                           <button class=" btn btn-warning" id="resetSettings">Reset settings</button>
+                           <button class="btn btn-warning" type="button" id="resetButton">Reset database</button>
+                           <button class=" btn btn-warning" type="button" id="resetSettings">Reset settings</button>
                         </div>
                         <div class="form-group text-center">
                            <button class="btn btn-lg btn-success" id="saveButton">Save</button>
-                           <a href="/" class="float-left btn-lg btn-secondary" id="backButton"><i
-                                 class="fa fa-chevron-left"></i> Back </a>
+                           <a href="/" class="float-left btn-lg btn-secondary" id="backButton"><i class="fa fa-chevron-left"></i> Back </a>
                         </div>
                      </div>
                   </div>
@@ -119,7 +117,40 @@
             </div>
          </div>
       </div>
+      
    </form>
-</body>
+   !-- Trigger the modal with a button -->
+<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
 
+<!-- Modal -->
+<div id="myModal" class="modal fade"  role="dialog">
+  <div class="modal-dialog modal-dialog-centered">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Modal Header</h4>
+      </div>
+      <div class="modal-body">
+        <p>Some text in the modal.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" 
+   integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" 
+      crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" 
+   integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" 
+      crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" 
+   integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" 
+      crossorigin="anonymous"></script>
+</body>
 </html>
