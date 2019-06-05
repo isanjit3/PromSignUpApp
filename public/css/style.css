@@ -56,7 +56,6 @@ ul{
 }
 #logo-wrapper {
 	text-align: center;
-	margin-top: 40px;
 	margin-bottom: 20px;
 }
 #logo {
@@ -86,6 +85,16 @@ ul{
 }
 .icon-text {
 	margin-top: 7px;
+}
+.card {
+	border: rgb(217, 182, 58);
+}
+.card-header {
+	background-color: rgb(254, 212, 54);
+}
+#firstButton {
+	background-color: rgb(254, 212, 54);
+	border: rgb(217, 182, 58);
 }
 /*Large Screens*/
 @media(min-width: 700px){
