@@ -26,11 +26,11 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript">
 
-   function searchNames(query, box, callback) { //Query delay causing error
+   function searchNames(query, box, callback,name) { //Query delay causing error
       var names = [];
       const ref = firebase.database().ref('students');
       //ref.orderByChild('last').equalTo(query).on("value", function(snapshot) {
-      ref.orderByChild('LAST').equalTo(query).once("value").then(function (snapshot) {
+      ref.orderByChild(name).equalTo(query).once("value").then(function (snapshot) {
          snapshot.forEach(function (child) {
             var info = [child.child("LAST").val(), child.child("FIRST").val(), child.child("MI").val(), child.key];
             names.push(info);
@@ -50,6 +50,12 @@
          console.log("failed");
          alert("Name does not exist.");
       }
+   }
+   function getName(myName,param,box){
+      var nameval= myName.substring(0,1).toUpperCase()+myName.substring(1,myName.length);
+      console.log(nameval);
+      searchNames(nameval, box, fillSelect, param)
+
    }
 
    function addOptions(options) {
@@ -75,14 +81,16 @@
       $('#resBox').change(function () {
          $('input[name="studentID"]').val($("#resBox").val());
       });
-   });
+     
+                                                                                    });
+  
 
 </script>
 
 <body>
    <% include partials/header %>
    <form action="/ticket-entry">
-      <div class="container mt-4 animated fadeIn">
+      <div class="container mt-4">
          <div class="row">
             <div class="col-md-3">
             </div>
@@ -90,7 +98,7 @@
                <div class="card">
                   <div class="card-header">
                      <div class="card-title">
-                        <h5>Search Student by ID or Last Name</h5>
+                        <h5>Search Student by ID or Student Name</h5>
                      </div>
                      <div class="card-text">
                      </div>
@@ -102,17 +110,34 @@
                            <input class="form-control" type="number" name="studentID">
                         </div>
                         <div class="form-group">
-                           <label>Last Name</label>
+                           <label> Name</label>
                            <div class="input-group mb-3">
-                              <input type="text" class="form-control" name="lastname" aria-label="Recipient's username"
+                              </form>
+                              
+                              <input type="text" class="form-control" name="names" id="fn" value="Search by first name" aria-label="Recipient's username"
                                  aria-describedby="basic-addon2">
+                                 <script>
+                                 $("#fn").keyup(function(event) { 
+                                 if (event.keyCode ===27) { 
+                                    $("#firstButton").click(); 
+                                                           } 
+                                                             }); 
+                                    </script>
                               <div class="input-group-append">
-                                 <button class="btn btn-secondary" type="button"
-                                    onclick="Javascript:searchNames(lastname.value, 'resBox', fillSelect);"><i
+                                 <button class="btn btn-secondary" type="button" id="firstButton"
+                                 
+
+                                 
+                                    onclick="Javascript:getName(names.value,'FIRST','resBox');"><i
                                        class="fa fa-search fa-lg"></i></button>
+                                       <button class="btn btn-secondary" type="button" id="lastButton"
+                                 
+                                       onclick="Javascript:getName(names.value,'LAST','resBox');"><i
+                                          class="fa fa-search fa-lg"></i></button>
                               </div>
                            </div>
                         </div>
+                     
                         <div class="form-group">
                            <label>Names will appear below</label>
                            <select id="resBox" class="names form-control" size="10">
@@ -132,6 +157,6 @@
             </div>
          </div>
       </div>
-   </form>
+  
 
 </html>
