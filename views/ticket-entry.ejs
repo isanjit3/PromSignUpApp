@@ -287,7 +287,6 @@
                $("input[type=text], textarea").val("");
                $("input[type=number], textarea").val("");
                $("input[type=radio]").prop(":checked", false);
-               alert("You have completed Prom Signup!");
                window.location.replace("/search-student");
             }
          });
@@ -296,9 +295,11 @@
             const nums = [];
             if (ogHost){
                nums.push(ogHost);
+               updateNum(-1);
             }
-            if (ogGuest){
+            if (ogGuest && $('#guestForm').is(':hidden')===false){
                nums.push(ogGuest);
+               updateNum(-1);
             }
             nums.forEach(function(num){
                deleteRef(num);
@@ -385,14 +386,14 @@
 
          function deleteRef(num){ //Removes node of ticket number from database
             database.ref('tickets/' + num).remove();
-            updateNum(-1);
          }
 
          function delGuestRef(num){ //Nullifies guest node of student's ticket number in database
 
          database.ref('tickets/' + ogHost).update({
 
-            guest:null
+            guest:null,
+            guestBool:"N"
 
          });
 
@@ -412,6 +413,9 @@
          }
 
          function clearGuest(){ //Clears guest fields
+            if(ogGuest){
+               updateNum(-1);
+            }
             delGuestRef(ogGuest);
             deleteRef(ogGuest);
             $('input[id="ticketNumG"]').val('');
@@ -451,7 +455,7 @@
 
       }
 
-      function searchNames(query, box) {
+      function searchNames(query, box) { //Searches database for last name matches to query string
          if(query.length>0){
             var names = [];
             const ref = firebase.database().ref('students');
@@ -473,7 +477,7 @@
          }
       }
 
-         function fillSelect(names){
+         function fillSelect(names){ //Prints alert and returns false if name is not found in database
             if (names.length === 0) {
                alert("Name does not exist.");
                return false;
@@ -481,7 +485,7 @@
             return true;
          }
 
-         function addOptions(options) {
+         function addOptions(options) { //Adds array of options to the select box
             for (var i = 0; i < options.length; i++) {
                var text = options[i][0] + ", " + options[i][1] + " [" + options[i][2] + "]";
                var opt = new Option(text, options[i][2]+','+options[i][1]);
@@ -490,7 +494,7 @@
             }
          }
 
-         function clearOptions() {
+         function clearOptions() { //Clears all options from the select box
             $('#resBox')
                .empty()
                .append('<option style="display:none" disabled selected value>Names</option>');
