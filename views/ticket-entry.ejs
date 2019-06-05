@@ -7,8 +7,6 @@
    <!-- The core Firebase JS SDK is always required and must be listed first -->
    <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
 
-
-
    <script>
       // Your web app's Firebase configuration
       var firebaseConfig = {
@@ -26,8 +24,6 @@
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
    <script type="text/javascript">
 
-
-
       function delineate(str) {
          theleft = str.indexOf("=") + 1;
          theright = str.lastIndexOf("&");
@@ -40,6 +36,7 @@
 
          var text = document.joe.burns.value
          var myvar = delineate(text);
+         myvar = myvar.substring(0,myvar.indexOf("&"));
 
          $("input[id='checkNum']").prop("disabled", true);
          $("input[id='checkNumG']").prop("disabled", true);
