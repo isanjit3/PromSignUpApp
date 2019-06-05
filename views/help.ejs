@@ -64,11 +64,12 @@
         padding: 20px;
         width: 70%;
         border-left: none;
-        height: 300px;
+        height: 1000px;
         display: none;
+        overflow: auto;
     }
     .help-wrapper {
-        min-height: 600px;
+        min-height: 1000px;
     }
 
 </style>
@@ -100,7 +101,7 @@
 
                                 <div id="help" class="tabcontent">
                                     <h3>Welcome</h3>
-                                    <p>Welcome to the Student Sign Up Application! 
+                                    <p>Welcome to the Student Event Sign Up Application! 
                                         Click on the tabs to the left for help and information.</p>
                                 </div>
 
@@ -129,34 +130,70 @@
                                     <h5>Resetting the Database</h5>
                                     <p>Clicking the "Reset Database" button will remove all students who have signed up, 
                                         all uploaded student data, and all uploaded obligations data from the database. 
-                                        All settings will be reset to default. CAUTION: This action is irreversible.</p>
+                                        All settings will be reset to default. <b>CAUTION</b>: This action is irreversible.</p>
                                 </div>
 
                                 <div id="search" class="tabcontent">
                                     <h3>New/Edit Entry</h3>
                                     <p>To create a new or edit a previously submitted ticket entry, enter student ID, 
-                                        search by last name, or scan student ID.</p>
+                                        search by last name, or scan student ID. Clicking submit will lead to the ticket 
+                                        form with the available fields completed. Guests who are PHS students who have 
+                                        previously submitted their ID can also be searched, and will be led to their 
+                                        registered host's page.</p>
                                     <h5>Enter Student ID</h5>
                                     <p>Enter the student's ID into the corresponding field. Then click the submit button 
                                         at the bottom of the page.</p>
-                                    <h5>Search by Last Name</h5>
-                                    <p>Enter the student's last name as it would appear on their school information (i.e. 
+                                    <h5>Search by Name</h5>
+                                    <p>Enter the student's last name as it would appear on their school records (i.e. 
                                         correct capitalization, symbols such as hyphens, etc.) Click the search button. If 
                                         the name exists in the student data, the matching names will appear in the box below. 
                                         Select the correct name and click the submit button at the bottom of the page.</p>
                                     <h5>Scan Student ID Card</h5>
                                     <p>This function uses an external barcode scanner. Ensure that the student ID field is 
-                                        selected/on focus. Then, use the barcode scanner to scan the student's ID. </p>
+                                        selected/on focus. (The student ID field is selected automatically once the page loads.) 
+                                        Then, use the barcode scanner to scan the student's ID. </p>
                                 </div>
 
                                 <div id="entry" class="tabcontent">
                                     <h3>Ticket Entry Form</h3>
-                                    <p>From submitting an ID from the "New/Edit Entry" page, the student ID, </p>
+                                    <p>Upon loading, the student ID, last name, first name, middle initial, and grade fields will 
+                                        be populated given a student ID from the previous Search Student page. Complete the other fields to save. 
+                                        If the student has already purchased a ticket, all fields will be populated with their corresponding 
+                                        information. <b>CAUTION</b>: Setting a student's ticket number to another student's ticket number will replace 
+                                        the original student.</p>
+                                    <h5>Adding or Deleting a Guest</h5>
+                                    <p>To add a guest, select the "Add Guest" button. A new form will appear to input the guests information. If a guest 
+                                        has been added, all fields except for student ID are required. The student ID field is intended to be used for PHS 
+                                        students only. To delete a guest, select the "Delete Guest" button. <b>CAUTION</b>: This action is irreversible and 
+                                        will remove the guest from the database even if changes are not saved.
+                                    </p>
+                                    <h5>Auto-Completing the Guest Fields</h5>
+                                    <p>To automatically complete the guest's information from the guest's student ID, type a valid ID into the field. 
+                                        Click the search button and the guest's first and last name fields will populate. <br>To automatically complete 
+                                        the guest's information from the guest's last name, type their last name as it would appear on school records 
+                                        (i.e. correct capitalization, symbols such as hyphens, etc.) Click the search button and a pop-up will appear. 
+                                        Pick the student's name and click the "Select" button. The guest's student ID and first name fields will populate.
+                                    </p>
+                                    <h5>Student Obligations</h5>
+                                    <p>An alert will be sent if the student or guest (if they are from PHS and a valid ID is provided) has obligations that have not yet been 
+                                        paid. A student cannot sign up/save their form if they have obligations. If a student has taken care of their 
+                                        obligations, select the checkbox to override the obligations.
+                                    </p>
+                                    <h5>Saving, Deleting, and Canceling</h5>
+                                    <p>Click the "Save" button to create the new/edit the ticket entry. If the form is incomplete, the form cannot be saved.
+                                        An alert will be sent listing the errors in the form. Once the errors are resolved, the form can be saved. <br>To delete 
+                                        an entry, click the "Delete" button. This will delete both the student and their guest if they exist. <br>Clicking the 
+                                        "Cancel" button will return to the Search Student screen without saving changes, <b>EXCEPT</b> for deleted guests, which will 
+                                        remain deleted.
+                                    </p>
+
                                 </div>
 
                                 <div id="export" class="tabcontent">
-                                    <h3>Exporting Data</h3>
-                                    <p>The data will export to a Google Sheets file.</p>
+                                    <h3>Display Tickets</h3>
+                                    <p>This page displays all ticket data in a table sorted by ticket number.</p>
+                                    <h5>Exporting Ticket Data</h5>
+                                    <p>Click on the "Export Data" button to download all ticket data (as a .csv file). </p>
                                     
                                 </div>
                             </div>                      
