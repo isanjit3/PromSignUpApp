@@ -27,10 +27,13 @@
 <script type="text/javascript">
 
    function searchNames(query, box, callback) { //Query delay causing error
+      if (!query) {
+         return;
+      }
       var names = [];
       const ref = firebase.database().ref('students');
       //ref.orderByChild('last').equalTo(query).on("value", function(snapshot) {
-      ref.orderByChild('LAST').equalTo(query).once("value").then(function (snapshot) {
+      ref.orderByChild('LAST').startAt(query).endAt(query + '\uf8ff').once("value").then(function (snapshot) {
          snapshot.forEach(function (child) {
             var info = [child.child("LAST").val(), child.child("FIRST").val(), child.child("MI").val(), child.key];
             names.push(info);
@@ -71,17 +74,45 @@
    }
 
    $(document).ready(function () {
+      //debugger;
       $('input[name="studentID"]').focus();
       $('#resBox').change(function () {
          $('input[name="studentID"]').val($("#resBox").val());
       });
+      $('#lastname').on("keypress", function (e) {
+         if (e.keyCode == 13) {
+            // Cancel the default action on keypress event
+            e.preventDefault();
+            searchNames(this.value, 'resBox', fillSelect);
+         }
+      });
+      $('#studentID').on('keypress', function (e) {
+         if (e.keyCode == 13) {
+            if (!this.value) {
+               alert('Please enter a Student ID.');
+               return;
+            }
+            document.getElementById('ticket-entry-form').submit();
+            // Cancel the default action on keypress event
+            e.preventDefault();
+         }
+      });
+      $('#form-submit').on('click', function (e) {
+         e.preventDefault();
+         if (!$('#studentID').val()) {
+            alert('Please enter a Student ID.');
+            return;
+         }
+         document.getElementById('ticket-entry-form').submit();
+      });
    });
+
 
 </script>
 
 <body>
    <% include partials/header %>
-   <form action="/ticket-entry">
+   <form action="/ticket-entry" id="ticket-entry-form">
       <div class="container mt-4 animated fadeIn">
          <div class="row">
             <div class="col-md-3">
@@ -99,13 +130,13 @@
                      <div class="card-text">
                         <div class="form-group">
                            <label>Student ID</label>
-                           <input class="form-control" type="number" name="studentID">
+                           <input class="form-control" id="studentID" type="number" name="studentID">
                         </div>
                         <div class="form-group">
                            <label>Last Name</label>
                            <div class="input-group mb-3">
-                              <input type="text" class="form-control" name="lastname" aria-label="Recipient's username"
-                                 aria-describedby="basic-addon2">
+                              <input type="text" class="form-control" id="lastname" name="lastname"
+                                 aria-label="Recipient's username" aria-describedby="basic-addon2">
                               <div class="input-group-append">
                                  <button class="btn btn-secondary" type="button"
                                     onclick="Javascript:searchNames(lastname.value, 'resBox', fillSelect);"><i
@@ -121,8 +152,8 @@
                         </div>
                         <div class="form-group text-center">
                            <button class="btn btn-lg btn-secondary float-left" type="button"
-                              onclick="window.location.href='/index'">Back</button>
-                           <input class="btn btn-lg btn-success" type="submit" value="Submit">
+                              onclick="window.location.href='/index'"><i class="fa fa-chevron-left"></i> Back</button>
+                           <input class="btn btn-lg btn-success" id="form-submit" type="button" value="Submit">
                         </div>
                      </div>
                   </div>
