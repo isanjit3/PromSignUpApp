@@ -26,20 +26,37 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script type="text/javascript">
 
-   function searchNames(query, box, callback) { //Query delay causing error
+   function searchNames(query, box, callback, name) { //Query delay causing error
       var names = [];
+      clearOptions();
       const ref = firebase.database().ref('students');
       //ref.orderByChild('last').equalTo(query).on("value", function(snapshot) {
-      ref.orderByChild('LAST').equalTo(query).once("value").then(function (snapshot) {
+      ref.orderByChild('LAST').startAt(query).endAt(query + '\uf8ff').once("value").then(function (snapshot) {
+         names = [];
          snapshot.forEach(function (child) {
             var info = [child.child("LAST").val(), child.child("FIRST").val(), child.child("MI").val(), child.key];
             names.push(info);
          });
       }).then(function () {
-         clearOptions();
+         //debugger;
          addOptions(names);
 
          callback(names);
+      }, function (error) {
+         console.log("Error");
+      });
+      var firstNames = [];
+      ref.orderByChild('FIRST').startAt(query).endAt(query + '\uf8ff').once("value").then(function (snapshot) {
+         firstNames = [];
+         snapshot.forEach(function (child) {
+            var info = [child.child("LAST").val(), child.child("FIRST").val(), child.child("MI").val(), child.key];
+            firstNames.push(info);
+         });
+      }).then(function () {
+         //debugger;
+         addOptions(firstNames);
+
+         callback(firstNames);
       }, function (error) {
          console.log("Error");
       });
@@ -48,8 +65,18 @@
    function fillSelect(names) {
       if (names.length === 0) {
          console.log("failed");
-         alert("Name does not exist.");
+         //alert("Name does not exist.");
       }
+   }
+   function getName(myName, param, box) {
+      clearOptions();
+      if (!myName) {
+         return;
+      }
+      var nameval = myName.substring(0, 1).toUpperCase() + myName.substring(1, myName.length);
+      console.log(nameval);
+      searchNames(nameval, box, fillSelect, param)
+
    }
 
    function addOptions(options) {
@@ -71,17 +98,45 @@
    }
 
    $(document).ready(function () {
+      //debugger;
       $('input[name="studentID"]').focus();
       $('#resBox').change(function () {
          $('input[name="studentID"]').val($("#resBox").val());
       });
+      $('#lastname').on("keypress", function (e) {
+         if (e.keyCode == 13) {
+            // Cancel the default action on keypress event
+            e.preventDefault();
+            searchNames(this.value, 'resBox', fillSelect);
+         }
+      });
+      $('#studentID').on('keypress', function (e) {
+         if (e.keyCode == 13) {
+            if (!this.value) {
+               alert('Please enter a Student ID.');
+               return;
+            }
+            document.getElementById('ticket-entry-form').submit();
+            // Cancel the default action on keypress event
+            e.preventDefault();
+         }
+      });
+      $('#form-submit').on('click', function (e) {
+         e.preventDefault();
+         if (!$('#studentID').val()) {
+            alert('Please enter a Student ID.');
+            return;
+         }
+         document.getElementById('ticket-entry-form').submit();
+      });
    });
+
 
 </script>
 
 <body>
    <% include partials/header %>
-   <form action="/ticket-entry">
+   <form action="/ticket-entry" id="ticket-entry-form">
       <div class="container mt-4 animated fadeIn">
          <div class="row">
             <div class="col-md-3">
@@ -90,7 +145,7 @@
                <div class="card">
                   <div class="card-header">
                      <div class="card-title">
-                        <h5>Search Student by ID or Last Name</h5>
+                        <h5>Search Student</h5>
                      </div>
                      <div class="card-text">
                      </div>
@@ -99,20 +154,28 @@
                      <div class="card-text">
                         <div class="form-group">
                            <label>Student ID</label>
-                           <input class="form-control" type="number" name="studentID">
+                           <input class="form-control" id="studentID" type="number" name="studentID">
                         </div>
                         <div class="form-group">
-                           <label>Last Name</label>
+                           <label> Name</label>
                            <div class="input-group mb-3">
-                              <input type="text" class="form-control" name="lastname" aria-label="Recipient's username"
-                                 aria-describedby="basic-addon2">
+                              <!--<input type="text" class="form-control" id="lastname" name="lastname">-->
+                              <input type="text" class="form-control" name="names" id="fn">
+                              <script>
+                                 $("#fn").keyup(function (event) {
+                                    if (event.keyCode === 27) {
+                                       $("#firstButton").click();
+                                    }
+                                 }); 
+                              </script>
                               <div class="input-group-append">
-                                 <button class="btn btn-secondary" type="button"
-                                    onclick="Javascript:searchNames(lastname.value, 'resBox', fillSelect);"><i
+                                 <button class="btn btn-secondary" type="button" id="firstButton"
+                                    onclick="Javascript:getName(names.value,'FIRST','resBox');"><i
                                        class="fa fa-search fa-lg"></i></button>
                               </div>
                            </div>
                         </div>
+
                         <div class="form-group">
                            <label>Names will appear below</label>
                            <select id="resBox" class="names form-control" size="10">
@@ -121,8 +184,8 @@
                         </div>
                         <div class="form-group text-center">
                            <button class="btn btn-lg btn-secondary float-left" type="button"
-                              onclick="window.location.href='/index'">Back</button>
-                           <input class="btn btn-lg btn-success" type="submit" value="Submit">
+                              onclick="window.location.href='/index'"><i class="fa fa-chevron-left"></i> Back</button>
+                           <input class="btn btn-lg btn-success" id="form-submit" type="button" value="Submit">
                         </div>
                      </div>
                   </div>
@@ -133,5 +196,6 @@
          </div>
       </div>
    </form>
+</body>
 
 </html>

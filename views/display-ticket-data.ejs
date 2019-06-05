@@ -55,19 +55,23 @@
     <div class="card">
       <div class="card-header">
         <div class="card-title">
+            <div class="float-right">
+                <button class="btn btn-md btn-primary text-center" onclick="exportTableToCSV('tickets.csv')"><i
+                    class="fa fa-cloud-download-alt"></i> Export Data</button>
+              </div>
           <h5>Tickets</h5>
         </div>
       </div>
       <div class="card-body">
         <table class="table table-striped">
           <tr>
-            <th>Ticket</th>
+            <th>Ticket #</th>
             <th>Student ID</th>
             <th>First Name</th>
             <th>Middle Initial</th>
             <th>Last Name</th>
             <th>Grade</th>
-            <th>Guest</th>
+            <th>Guest Ticket #</th>
           </tr>
           <% console.log(studentsData) %>
           <% studentsData.forEach(dt=>{ %>
@@ -82,9 +86,6 @@
           </tr>
           <% }) %>
         </table>
-        <div class="form-group">  
-          <button class="text-center" onclick="exportTableToCSV('tickets.csv')">Export Data</button>
-        </div>
       </div>
     </div>
   </div>
