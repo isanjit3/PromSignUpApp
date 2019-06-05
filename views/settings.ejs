@@ -33,28 +33,65 @@
         });
         const database = firebase.database();
       
-        $('#resetButton').click(() => {
-          $('#warnModal').modal('show');
-           database.ref('signup-form-e4c78/').remove();
-           console.log("Yaya");
-           /*database.ref('tickets/').remove();
+        /*$('#resetButton').click(() => {
+           alert("Resetting the database");
+           database.ref('tickets/').remove();
            database.ref('settings/').remove();
            database.ref('students/').remove();
            database.ref('obligations/').remove()
            database.ref('settings/currentNum').set("0");
-           $('input[id="maxCap"]').val('');*/
+           $('input[id="maxCap"]').val('');
 
 
-        });
-        $('#resetSettings').click(() => {
-         
+        });*/
+       
+        $('#reset').click(() => {
+           if((document.getElementById('all').checked)){
+           database.ref('tickets/').remove();
            database.ref('settings/').remove();
-
+           database.ref('students/').remove();
+           database.ref('obligations/').remove()
            database.ref('settings/currentNum').set("0");
+           $('input[id="maxCap"]').val('');
+           }
+           else if((document.getElementById('studentsOnly').checked)){
+         
+           database.ref('students/').remove();
+       
+           $('input[id="maxCap"]').val('');
+           }
+        else if((document.getElementById('obligationsOnly').checked)){
+         
+          database.ref('obligations/').remove();
+      
+          $('input[id="maxCap"]').val('');
+          }
+        else if((document.getElementById('ticketsOnly').checked)){
+         
+          database.ref('tickets/').remove();
+      
+          $('input[id="maxCap"]').val('');
+          }
+          else if((document.getElementById('settingsOnly').checked)){
+         
+          database.ref('settings/').remove();
+      
+          $('input[id="maxCap"]').val('');
+          }
+        else{
+           alert("Please select an option");
+        }
+       
+        
+         
+          
 
-        });
 
-    });
+ 
+                               });
+
+
+     });
 
 
   </script>
@@ -77,6 +114,31 @@
   .files {
      padding-top: 20px;
   }
+ 
+
+/* Modal Content */
+.modal-content {
+ background-color: #fefefe;
+ margin: auto;
+ padding: 20px;
+ border: 1px solid #888;
+ width: 30%;
+}
+
+/* The Close Button */
+.close {
+ color: #aaaaaa;
+ float: right;
+ font-size: 28px;
+ font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+ color: #000;
+ text-decoration: none;
+ cursor: pointer;
+}
 </style>
 
 
@@ -84,7 +146,7 @@
 <body>
   <% include partials/header %>
   <form>
-     <div class="container mt-4 ">
+     <div class="container mt-4 animated fadeIn">
         <div class="row">
            <div class="col-md-3">
            </div>
@@ -102,55 +164,104 @@
                        <div class="form-group ">
                           <!--<button class="btn btn-primary" id="import" onclick="window.location.href='/upload'">Import
                              files</button>-->
-                          <button class="btn btn-warning" type="button" id="resetButton">Reset database</button>
-                          <button class=" btn btn-warning" type="button" id="resetSettings">Reset settings</button>
+                         
+                           <!-- Trigger/Open The Modal -->
+
+
+  <button class="btn btn-warning" type="button"  id="resetButton">Reset database</button>
+  <!-- The Modal -->
+  <div id="myModal" class="modal">
+ 
+    <!-- Modal content -->
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <label>Please select an option</label>
+      <div>
+      <input type = "radio"
+                name = "resetIt"
+                id = "all"
+                value = "Reset all collections"
+               />
+           <label> Reset all collections</label>
+           </div>
+           <div>
+        <input type = "radio"
+                name = "resetIt"
+                id = "settingsOnly"
+                value = "Reset settings collection"
+                />
+                <label>Reset settings collection</label>
+                </div>
+           <div>
+         <input type = "radio"
+                name = "resetIt"
+                id = "studentsOnly"
+                value = "Reset students collection"
+              />
+                <label> Reset students collection</label>
+                </div>
+                <div>
+        <input type = "radio"
+                name = "resetIt"
+                id = "obligationsOnly"
+                value = "Reset obligations collection"
+                />
+                <label> Reset obligations collection</label>
+                </div>
+                <div>
+         <input type = "radio"
+                name = "resetIt"
+                id = "ticketsOnly"
+                value = "Reset obligations collection"
+                />
+                <label> Reset tickets collection</label>
+                </div>
+      <button class= "btn btn-warning" type="button" id="reset"> Reset </button>
+    </div>
+ 
+  </div>
+ 
+  <script>
+  // Get the modal
+  var modal = document.getElementById("myModal");
+ 
+  // Get the button that opens the modal
+  var btn = document.getElementById("resetButton");
+ 
+  // Get the <span> element that closes the modal
+  var span = document.getElementsByClassName("close")[0];
+ 
+  // When the user clicks the button, open the modal
+  btn.onclick = function() {
+    modal.style.display = "block";
+  }
+ 
+  // When the user clicks on <span> (x), close the modal
+  span.onclick = function() {
+    modal.style.display = "none";
+  }
+ 
+  // When the user clicks anywhere outside of the modal, close it
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = "none";
+    }
+  }
+  </script>
                        </div>
                        <div class="form-group text-center">
                           <button class="btn btn-lg btn-success" id="saveButton">Save</button>
-                          <a href="/" class="float-left btn-lg btn-secondary" id="backButton"><i class="fa fa-chevron-left"></i> Back </a>
+                          <a href="/" class="float-left btn-lg btn-secondary" id="backButton">Back </a>
                        </div>
                     </div>
                  </div>
-              </div>
+             
            </div>
            <div class="col-md-3">
            </div>
         </div>
      </div>
-    
   </form>
-  !-- Trigger the modal with a button -->
-<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
 
-<!-- Modal -->
-<div id="myModal" class="modal fade"  role="dialog">
- <div class="modal-dialog modal-dialog-centered">
-
-   <!-- Modal content-->
-   <div class="modal-content">
-     <div class="modal-header">
-       <button type="button" class="close" data-dismiss="modal">&times;</button>
-       <h4 class="modal-title">Modal Header</h4>
-     </div>
-     <div class="modal-body">
-       <p>Some text in the modal.</p>
-     </div>
-     <div class="modal-footer">
-       <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-     </div>
-   </div>
-
- </div>
-</div>
-
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-  integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-     crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-  integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-     crossorigin="anonymous"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
-  integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-     crossorigin="anonymous"></script>
 </body>
 </html>
