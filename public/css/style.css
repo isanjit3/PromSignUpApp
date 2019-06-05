@@ -16,6 +16,7 @@ a {
 
 h1.brand a {
 	color: #fff;
+	font-size: 45px;
 }
 .container{
 	max-width: 1170px;
@@ -29,6 +30,7 @@ ul{
 }
 .brand{
 	text-align: center;
+	font-weight: bold;
 }
 .brand span{
 	color: white;
@@ -69,12 +71,15 @@ ul{
 .box {
 	margin: 10px;
 	padding: 4px;
-	border: solid 1px rgb(217, 182, 58	);
+	border: solid 1px rgb(217, 182, 58);
 	background-color: rgb(254, 212, 54);
 	width: 150px;
 	text-align: center;
 	float: left;
 	border-radius: 8px;
+}
+.help-icon a {
+	color: rgb(254, 212, 54);
 }
 .icon {
 	color: #000;
