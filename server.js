@@ -38,6 +38,7 @@ function writeFirebase(jsonData, collection) {
   var ref = firebase.database().ref(collection);
 
   jsonData.forEach(item => {
+    item.FULLNAME = item.FIRST + ' ' + item.LAST;
     ref.child(item.ID).set(item);
   });
 }
@@ -108,7 +109,6 @@ app.post('/upload', function (req, res) {
 
   csvtojson().fromString(str).then(jsonData => {
     //console.log(jsonData);
-    jsonString = JSON.stringify(jsonData, null, "\t");
     writeFirebase(jsonData, collectionName);
   });
 
