@@ -55,6 +55,7 @@ function readFirebaseTickets() {
         "sID": child.child("sID").val(),
         "ticket": child.key,
         "grade": child.child("grade").val(),
+        "guestBool": child.child("guestBool").val(),
         "guest": child.child("guest").val()
       }
       jsonData.push(info);
