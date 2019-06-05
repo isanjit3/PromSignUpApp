@@ -2,11 +2,9 @@
 <html>
 
 <head>
+   <% include partials/head %>
    <meta name="viewport" content="width=device-width, initial-scale=1">
-   <title>Student Event Sign Up</title>
    <!-- The core Firebase JS SDK is always required and must be listed first -->
-   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
    <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
 
 
@@ -226,7 +224,9 @@
                   middle: $('input[id="midInit"]').val(),
                   grade: $('input[id="grade"]').val(),
                   payment: getPayment(false),
-                  guest: null
+                  guest: null,
+                  guestBool: "N",
+                  obligations: "good"
 
                });
 
@@ -246,7 +246,9 @@
                      first: reqs[2],
                      last: reqs[1],
                      payment: reqs[3],
-                     host: name
+                     host: name,
+                     guestBool: "N",
+                     obligations: "good"
 
                   });
 
@@ -256,26 +258,11 @@
                      });
                   }
 
-                  /*const nameG = $('input[id="ticketNumG"]').val();
-                  database.ref('tickets/' + nameG).set({
-
-                     first: $('input[id="firstNameG"]').val(),
-                     last: $('input[id="lastNameG"]').val(),
-                     payment: getPayment(true),
-                     host: name
-
-                  });
-
-                  if ($('input[id="studentIDG"]').val()){
-                     database.ref('tickets/' + nameG).update({
-                        sID:$('input[id="studentIDG"]').val()
-                     });
-                  }*/
-
                   //Add new child under og for guest
                   database.ref('tickets/' + name).update({
 
-                     guest: nameG
+                     guest: nameG,
+                     guestBool: "Y"
 
                   });
 
@@ -291,7 +278,8 @@
                   }
                   database.ref('tickets/' + name).update({
 
-                     guest: null
+                     guest: null,
+                     guestBool: "N"
 
                   });
                }
@@ -364,6 +352,7 @@
 
                }
             }
+
          });
 
          $('input[type="radio"][name="pay"]').click(function () { //Enables/disables check number for student if check selected
@@ -434,6 +423,15 @@
             $('input[name="obligG"]').prop('checked', false);
          }
 
+         $('#selectNameBtn').click(() => {
+            var selected = $("#resBox").val(); //ID,FirstName
+            var guestID = selected.substring(0, selected.indexOf(","));
+            var guestName = selected.substring(selected.indexOf(",")+1);
+            $('#namesModal').modal('hide');
+            $('input[id="studentIDG"]').val(guestID);
+            $('input[id="firstNameG"]').val(guestName);
+         });
+
       });
 
       function getPayment(guest) { //returns check number if check, otherwise id
@@ -452,6 +450,59 @@
          }
 
       }
+
+      function searchNames(query, box) {
+         if(query.length>0){
+            var names = [];
+            const ref = firebase.database().ref('students');
+            var newQuery = query.charAt(0).toUpperCase() + query.slice(1);
+            ref.orderByChild('LAST').equalTo(newQuery).once("value").then(function (snapshot) {
+               snapshot.forEach(function (child) {
+                  var info = [child.child("LAST").val(), child.child("FIRST").val(), child.key];
+                  names.push(info);
+               });
+            }).then(function () {
+               clearOptions();
+               addOptions(names);
+               if(fillSelect(names)){
+                  console.log("show");
+                  $('#namesModal').modal('show');
+               }
+            }, function (error) {
+               console.log("Error");
+            });
+         }
+      }
+
+         function fillSelect(names){
+            if (names.length === 0) {
+               alert("Name does not exist.");
+               return false;
+            }
+            return true;
+         }
+
+         function addOptions(options) {
+            for (var i = 0; i < options.length; i++) {
+               var text = options[i][0] + ", " + options[i][1] + " [" + options[i][2] + "]";
+               var opt = new Option(text, options[i][2]+','+options[i][1]);
+               $(opt).html(text);
+               $("#resBox").append(opt);
+            }
+         }
+
+         function clearOptions() {
+            $('#resBox')
+               .empty()
+               .append('<option style="display:none" disabled selected value>Names</option>');
+         }
+
+         function selectName(){
+            $('#resBox').change(function () {
+               $('input[name="studentID"]').val($("#resBox").val());
+            });
+            $('#namesModal').modal('hide');
+         }
 
       function checkReqs(){ //Returns false and sends alert if any required fields are incomplete
          var text = "";
@@ -615,7 +666,7 @@
                                  <div class="form-group">
                                     <label>Student ID (optional)</label>
                                     <div class="input-group mb-3">
-                                       <input type="number" class="form-control" id="studentIDG" aria-label="Recipient's username"
+                                       <input type="number" class="form-control" id="studentIDG" aria-label="Guest's student ID"
                                           aria-describedby="basic-addon2">
                                        <div class="input-group-append">
                                           <button class="btn btn-secondary" type="button" id="searchGuest">
@@ -625,7 +676,15 @@
                                  </div>
                                  <div class="form-group">
                                     <label>Last Name:</label>
-                                    <input class="form-control" type="text" id="lastNameG" size="15">
+                                    <div class="input-group mb-3">
+                                       <input type="text" class="form-control" id="lastNameG" aria-label="Guest's last name"
+                                          aria-describedby="basic-addon2">
+                                       <div class="input-group-append">
+                                          <button class="btn btn-secondary" type="button" id="searchGuestLast"
+                                             onclick="Javascript:searchNames(lastNameG.value, 'resBox');">
+                                             <i class="fa fa-search fa-lg"></i></button>
+                                       </div>
+                                    </div>
                                  </div>
                                  <div class="form-group">
                                     <label>First Name:</label>
@@ -665,7 +724,41 @@
             </div>
          </div>
       </form>
+
+      <div class="modal fade" id="namesModal" tabindex="-1" role="dialog" aria-labelledby="lastNameSearchResultsModal" aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+               <h5 class="modal-title" id="exampleModalLongTitle">Search Results</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+               </button>
+               </div>
+               <div class="modal-body">
+                  <div class="form-group">
+                     <label>Select a name below</label>
+                     <select id="resBox" class="names form-control" size="10">
+                        <option style="display:none" disabled selected value>Names</option>
+                     </select>
+                  </div>
+               </div>
+               <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+               <button type="button" class="btn btn-primary" id="selectNameBtn">Select</button>
+               </div>
+            </div>
+         </div>
+      </div>
    </div>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" 
+   integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" 
+      crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" 
+   integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" 
+      crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" 
+   integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" 
+      crossorigin="anonymous"></script>
 </body>
 
 </html>
