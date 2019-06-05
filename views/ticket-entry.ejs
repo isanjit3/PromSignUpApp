@@ -658,8 +658,8 @@
                            <div class="col-md-6">
                               <div class="form-group mt-4">
                                  <label><strong>Guest: </strong></label>
-                                    <button type="button" id = "addGuest">Add Guest</button>
-                                    <button type="button" id = "delGuest">Delete Guest</button>
+                                    <button class="btn btn-sm btn-primary" type="button" id = "addGuest">Add Guest</button>
+                                    <button class="btn btn-sm btn-danger" type="button" id = "delGuest">Delete Guest</button>
                               </div>
                               <div class="guest" id="guestForm">
                                  <strong>Enter Guest Details</strong>
@@ -670,23 +670,21 @@
                                  <div class="form-group">
                                     <label>Student ID (optional)</label>
                                     <div class="input-group mb-3">
-                                       <input type="number" class="form-control" id="studentIDG" aria-label="Guest's student ID"
-                                          aria-describedby="basic-addon2">
+                                       <input type="number" class="form-control" id="studentIDG">
                                        <div class="input-group-append">
                                           <button class="btn btn-secondary" type="button" id="searchGuest">
-                                             <i class="fa fa-search fa-lg"></i></button>
+                                             <i class="fa fa-search fa-lg" id="guestSearchButton"></i></button>
                                        </div>
                                     </div>
                                  </div>
                                  <div class="form-group">
                                     <label>Last Name:</label>
                                     <div class="input-group mb-3">
-                                       <input type="text" class="form-control" id="lastNameG" aria-label="Guest's last name"
-                                          aria-describedby="basic-addon2">
+                                       <input type="text" class="form-control" id="lastNameG">
                                        <div class="input-group-append">
                                           <button class="btn btn-secondary" type="button" id="searchGuestLast"
                                              onclick="Javascript:searchNames(lastNameG.value, 'resBox');">
-                                             <i class="fa fa-search fa-lg"></i></button>
+                                             <i class="fa fa-search fa-lg" id="guestSearchButton"></i></button>
                                        </div>
                                     </div>
                                  </div>
@@ -716,7 +714,7 @@
                         <div class="row">
                            <div class="col-12">
                               <button class="btn btn-lg btn-danger" type="button" id="deleteButton">Delete</button>
-                              <button class="btn btn-lg btn-default float-left" type="button" id="cancelButton">Cancel</button>
+                              <button class="btn btn-lg btn-secondary mr-1 float-left" type="button" id="cancelButton">Cancel</button>
                               <button class="btn btn-lg btn-success" type="button" id="saveButton">Save</button>
                            </div>
                         </div>
