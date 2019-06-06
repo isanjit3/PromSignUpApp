@@ -29,14 +29,19 @@
    function searchNames(query, box, callback, name) { //Query delay causing error
       clearOptions();
       const ref = firebase.database().ref('students');
+      // If last-name button is selected
       if($('input[name="nameType"]:checked').val() === "last"){
+         // Array to store results
       var names = [];
+      // Firebase search by last name with partial match allowance
       ref.orderByChild('LAST').startAt(query).endAt(query + '\uf8ff').once("value").then(function (snapshot) {
          names = [];
+         // Populates array with results
          snapshot.forEach(function (child) {
             var info = [child.child("LAST").val(), child.child("FIRST").val(), child.child("MI").val(), child.key];
             names.push(info);
          });
+         // Async function
       }).then(function () {
          //debugger;
          addOptions(names);
@@ -45,7 +50,9 @@
       }, function (error) {
          console.log("Error");
       });
-      } else {
+      }
+      // Else search by first-name
+       else {
       var firstNames = [];
       ref.orderByChild('FIRST').startAt(query).endAt(query + '\uf8ff').once("value").then(function (snapshot) {
          firstNames = [];
@@ -63,24 +70,26 @@
       });
       }
    }
-
+   // Handles null entries
    function fillSelect(names) {
       if (names.length === 0) {
          console.log("failed");
-         //alert("Name does not exist.");
+         alert("Name does not exist.");
       }
    }
+   // Function to process inputted name
    function getName(myName, param, box) {
       clearOptions();
       if (!myName) {
          return;
       }
+      //Changes the first letter of all-lowercase entries to uppercase
       var nameval = myName.substring(0, 1).toUpperCase() + myName.substring(1, myName.length);
       console.log(nameval);
       searchNames(nameval, box, fillSelect, param)
 
    }
-
+      // Adds results from name search arrays and appends to dropdown
    function addOptions(options) {
       for (var i = 0; i < options.length; i++) {
          var text = options[i][0] + ", " + options[i][1];
@@ -100,8 +109,9 @@
    }
 
    $(document).ready(function () {
-      //debugger;
-      $('input[name="studentID"]').focus();
+      //Cursor defaults to ID box
+       $('input[name="studentID"]').focus();
+       // Student ID input field is set to the value of chosen studnet
       $('#resBox').change(function () {
          $('input[name="studentID"]').val($("#resBox").val());
       });
@@ -114,6 +124,7 @@
       });
       
       $('#studentID').on('keypress', function (e) {
+         // prints an alert when student ID is null
          if (e.keyCode == 13) {
             if (!this.value) {
                alert('Please enter a Student ID.');
@@ -131,6 +142,7 @@
             alert('Please enter a Student ID.');
             return;
          }
+         // form submission
          document.getElementById('ticket-entry-form').submit();
       });
    });
@@ -181,13 +193,7 @@
                            <div class="input-group mb-3">
                               <!--<input type="text" class="form-control" id="lastname" name="lastname">-->
                               <input type="text" class="form-control" name="names" id="fn">
-                              <script>
-                                 $("#fn").keyup(function (event) {
-                                    if (event.keyCode === 27) {
-                                       $("#firstButton").click();
-                                    }
-                                 }); 
-                              </script>
+                              
                               <div class="input-group-append">
                                  <button class="btn btn-secondary" type="button" id="firstButton"
                                     onclick="Javascript:getName(names.value,'FIRST','resBox');"><i
@@ -195,7 +201,7 @@
                               </div>
                            </div>
                         </div>
-
+                         <!--<Dropdown menu to be populated with name search results>-->
                         <div class="form-group">
                            <label>Names will appear below</label>
                            <select id="resBox" class="names form-control" size="10">
@@ -216,6 +222,7 @@
          </div>
       </div>
    </form>
+   <!--<Sources-->
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" 
    integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" 
       crossorigin="anonymous"></script>
