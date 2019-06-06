@@ -7,6 +7,8 @@
    <!-- The core Firebase JS SDK is always required and must be listed first -->
    <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
 
+
+
    <script>
       // Your web app's Firebase configuration
       var firebaseConfig = {
@@ -24,12 +26,13 @@
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
    <script type="text/javascript">
 
+
+
       function delineate(str) {
          theleft = str.indexOf("=") + 1;
          theright = str.lastIndexOf("&");
          return (str.substring(theleft, theright));
       }
-
       $(document).ready(function () {
          const database = firebase.database();
          var locate = window.location
@@ -37,7 +40,6 @@
 
          var text = document.joe.burns.value
          var myvar = delineate(text);
-         myvar = myvar.substring(0,myvar.indexOf("&"));
 
          $("input[id='checkNum']").prop("disabled", true);
          $("input[id='checkNumG']").prop("disabled", true);
@@ -680,7 +682,7 @@
                                        <input type="number" class="form-control" id="studentIDG">
                                        <div class="input-group-append">
                                           <button class="btn btn-secondary" type="button" id="searchGuest">
-                                             <i class="fa fa-search fa-lg" id="guestSearchButton"></i></button>
+                                             <i class="fa fa-search fa-lg"></i></button>
                                        </div>
                                     </div>
                                  </div>
