@@ -291,28 +291,13 @@
                $("input[type=text], textarea").val("");
                $("input[type=number], textarea").val("");
                $("input[type=radio]").prop(":checked", false);
+               alert("Completed sign up!");
                window.location.replace("/search-student");
             }
          });
 
          $('#deleteButton').click(() => {
-            const nums = [];
-            if (ogHost){
-               nums.push(ogHost);
-               updateNum(-1);
-            }
-            if (ogGuest && $('#guestForm').is(':hidden')===false){
-               nums.push(ogGuest);
-               updateNum(-1);
-            }
-            nums.forEach(function(num){
-               deleteRef(num);
-            });
-
-            $("input[type=text], textarea").val("");
-            $("input[type=number], textarea").val("");
-            $("input[type=radio]").prop(":checked", false);
-            window.location.replace("/search-student");
+            $('#deleteModal').modal('show');
          });
 
          $('#cancelButton').click(() => {
@@ -331,9 +316,31 @@
             }
          });
 
-         $('#deleteConfirm').click(() => {
+         $('#deleteGConfirm').click(() => {
             $('#deleteGModal').modal('hide');
+            document.getElementById("guestForm").style.display = "none";
             toggle(true);
+         });
+
+         $('#deleteConfirm').click(() => {
+            $('#deleteModal').modal('hide');
+            const nums = [];
+            if (ogHost){
+               nums.push(ogHost);
+               updateNum(-1);
+            }
+            if (ogGuest && $('#guestForm').is(':hidden')===false){
+               nums.push(ogGuest);
+               updateNum(-1);
+            }
+            nums.forEach(function(num){
+               deleteRef(num);
+            });
+
+            $("input[type=text], textarea").val("");
+            $("input[type=number], textarea").val("");
+            $("input[type=radio]").prop(":checked", false);
+            window.location.replace("/search-student");
          });
 
          $('#searchGuest').click(() => {
@@ -764,6 +771,26 @@
          </div>
       </div>
 
+      <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmation" aria-hidden="true">
+         <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+               <div class="modal-header">
+               <h5 class="modal-title" id="exampleModalLongTitle">Delete Entry?</h5>
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+               </button>
+               </div>
+               <div class="modal-body">
+                  <label>This action is irreversible.</label>
+               </div>
+               <div class="modal-footer">
+               <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+               <button type="button" class="btn btn-danger" id="deleteConfirm">Yes</button>
+               </div>
+            </div>
+         </div>
+      </div>
+
       <div class="modal fade" id="deleteGModal" tabindex="-1" role="dialog" aria-labelledby="deleteGuestConfirmation" aria-hidden="true">
          <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -778,7 +805,7 @@
                </div>
                <div class="modal-footer">
                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-               <button type="button" class="btn btn-danger" id="deleteConfirm">Yes</button>
+               <button type="button" class="btn btn-danger" id="deleteGConfirm">Yes</button>
                </div>
             </div>
          </div>
