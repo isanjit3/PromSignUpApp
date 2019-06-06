@@ -448,12 +448,16 @@
          }
 
          $('#selectNameBtn').click(() => {
+          
             var selected = $("#resBox").val(); //ID,FirstName
+           
             var guestID = selected.substring(0, selected.indexOf(","));
-            var guestName = selected.substring(selected.indexOf(",")+1);
+            var gFirst = selected.substring(selected.indexOf(",")+1, selected.lastIndexOf(","));
+            var gLast= selected.substring(selected.lastIndexOf(",")+1);
             $('#namesModal').modal('hide');
             $('input[id="studentIDG"]').val(guestID);
-            $('input[id="firstNameG"]').val(guestName);
+            $('input[id="firstNameG"]').val(gFirst);
+            $('input[id="lastNameG"]').val(gLast);
          });
 
       });
@@ -480,7 +484,9 @@
             var names = [];
             const ref = firebase.database().ref('students');
             var newQuery = query.charAt(0).toUpperCase() + query.slice(1);
-            ref.orderByChild('LAST').equalTo(newQuery).once("value").then(function (snapshot) {
+            console.log(newQuery);
+            ref.orderByChild('LAST').startAt(newQuery).endAt(newQuery + '\uf8ff').once("value").then(function (snapshot) {
+               
                snapshot.forEach(function (child) {
                   var info = [child.child("LAST").val(), child.child("FIRST").val(), child.key];
                   names.push(info);
@@ -508,7 +514,7 @@
          function addOptions(options) { //Adds array of options to the select box
             for (var i = 0; i < options.length; i++) {
                var text = options[i][0] + ", " + options[i][1] + " [" + options[i][2] + "]";
-               var opt = new Option(text, options[i][2]+','+options[i][1]);
+               var opt = new Option(text, options[i][2]+','+options[i][1]+','+options[i][0]);
                $(opt).html(text);
                $("#resBox").append(opt);
             }

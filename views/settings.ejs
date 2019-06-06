@@ -22,6 +22,7 @@
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
    <script type="text/javascript">
       $(document).ready(function () {
+         // Updates max capacity with value of maxCap when saveButton is clicked
          $('#saveButton').click(() => {
             console.log("Writing to firebase")
             database.ref('settings/').update({
@@ -44,8 +45,9 @@
  
  
          });*/
-
+          // When reset button within modal is clicked
          $('#reset').click(() => {
+            // Deletes the database collections indicated by checked radio button
             if ((document.getElementById('all').checked)) {
                database.ref('tickets/').remove();
                database.ref('settings/').remove();
@@ -53,34 +55,41 @@
                database.ref('obligations/').remove()
                database.ref('settings/currentNum').set("0");
                $('input[id="maxCap"]').val('');
+               alert("Successfully reset database");
             }
             else if ((document.getElementById('studentsOnly').checked)) {
 
                database.ref('students/').remove();
 
                $('input[id="maxCap"]').val('');
+               alert("Successfully reset database");
             }
             else if ((document.getElementById('obligationsOnly').checked)) {
 
                database.ref('obligations/').remove();
 
                $('input[id="maxCap"]').val('');
+               alert("Successfully reset database");
             }
             else if ((document.getElementById('ticketsOnly').checked)) {
 
                database.ref('tickets/').remove();
 
                $('input[id="maxCap"]').val('');
+               alert("Successfully reset database");
             }
             else if ((document.getElementById('settingsOnly').checked)) {
 
                database.ref('settings/').remove();
 
                $('input[id="maxCap"]').val('');
+               alert("Successfully reset database");
             }
+            // If no option is selected, an alert is printed
             else {
                alert("Please select an option");
             }
+            
 
 
 
@@ -166,8 +175,8 @@
                         </div>
                         <div class="form-group ">
 
-
-
+                             
+                            <!---Modal triggered by click of resetButton-->
                            <button class="btn btn-warning" type="button" id="resetButton">Reset database</button>
                            <!-- The Modal -->
                            <div id="myModal" class="modal">
@@ -177,6 +186,7 @@
                                  <span class="close">&times;</span>
                                  <label>Please select an option</label>
                                  <div>
+                                    <!--radio buttons to indicate which collection(s) to delete-->
                                     <input type="radio" name="resetIt" id="all" value="Reset all collections" />
                                     <label> Reset all collections</label>
                                  </div>
