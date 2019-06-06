@@ -1,3 +1,4 @@
+//Add different dependencies and modules
 const express    = require('express');
 const path       = require('path');
 const app        = express();
@@ -8,19 +9,6 @@ const firebase   = require('firebase');
 const replace    = require('replace');
 
 //Initialize Firebase
-/*
-var firebaseConfig = {
-  apiKey: "AIzaSyD_QmbqHXzHiqm0Gq0zUVDXikVvWHjja5c",
-  authDomain: "student-data-1100a.firebaseapp.com",
-  databaseURL: "https://student-data-1100a.firebaseio.com",
-                
-  projectId: "student-data-1100a",
-  storageBucket: "student-data-1100a.appspot.com",
-  messagingSenderId: "877464925347",
-  appId: "1:877464925347:web:38cab379e9670791"
-};
-*/
-
 var firebaseConfig = {
   apiKey: "AIzaSyCCgoy1_bJzrruepLYIWBbrIUIGxM-p2CQ",
   authDomain: "signup-form-e4c78.firebaseapp.com",
@@ -32,7 +20,7 @@ var firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 
-//write data to Firebase
+//Write data to Firebase
 function writeFirebase(jsonData, collection) {
   var database = firebase.database();
   var ref = firebase.database().ref(collection);
@@ -43,6 +31,7 @@ function writeFirebase(jsonData, collection) {
   });
 }
 
+//Read data from Firebase
 function readFirebaseTickets() {
   return firebase.database().ref('tickets').once('value').then(function (snapshot) {
     var jsonData = [];
@@ -71,28 +60,34 @@ app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(fileUpload());
 
+//Render main page
 app.get('/', function (req, res) {
   res.render('index');
 })
 
+//Render main page
 app.get('/index', function (req, res) {
   res.render('index');
 })
 
+//Render the search student page
 app.get('/search-student', function (req, res) {
   res.render('search-student', {
     fbConfig: firebaseConfig
   });
 })
 
+//Render the ticket entry page
 app.get('/ticket-entry', function (req, res) {
   res.render('ticket-entry');
 })
 
+//Render the upload files page
 app.get('/upload', function (req, res) {
   res.render('upload');
 })
 
+//Render uploads page with status messages
 app.post('/upload', function (req, res) {
   if (!req.files || Object.keys(req.files).length == 0) {
     return res.render('msg', {
@@ -120,6 +115,7 @@ app.post('/upload', function (req, res) {
   });
 })
 
+//Render the display tickets page
 app.get('/display-ticket-data', function (req, res) {
   readFirebaseTickets().then(function (data) {
     console.log(data)
@@ -131,14 +127,17 @@ app.get('/display-ticket-data', function (req, res) {
   })
 })
 
+//Render the settings page
 app.get('/settings', function (req, res) {
   res.render('settings');
 })
 
+//Render the help page
 app.get('/help', function (req, res) {
   res.render('help');
 })
 
+//Listen for web application on Localhost:3000
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!')
 })
