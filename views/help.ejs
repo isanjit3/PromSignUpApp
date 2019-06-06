@@ -6,7 +6,7 @@
 </head>
 
 <script>
-    function openTab(evt, tabName) {
+    function openTab(evt, tabName) { //Allows different tabs to open
         var tabcontent = document.getElementsByClassName("tabcontent");
         for (var i = 0; i < tabcontent.length; i++) {
             tabcontent[i].style.display = "none";
@@ -31,7 +31,7 @@
         float: left;
         background-color: #f1f1f1;
         width: 30%;
-        height: 300px;
+        height: 1000px;
     }
   
     /* Style the buttons that are used to open the tab content */
@@ -123,14 +123,12 @@
                                         students who have signed up is approaching the maximum. To change the 
                                         maximum capacity, type in the number into the "Maximum Capacity" box 
                                         and click the "Save" button. By default, there is no maximum capacity.</p>
-                                    <h5>Resetting Settings</h5>
-                                    <p>Clicking the "Reset Settings" button will reset all settings to their default
-                                        values.
-                                    </p>
-                                    <h5>Resetting the Database</h5>
-                                    <p>Clicking the "Reset Database" button will remove all students who have signed up, 
-                                        all uploaded student data, and all uploaded obligations data from the database. 
-                                        All settings will be reset to default. <b>CAUTION</b>: This action is irreversible.</p>
+                                    <h5>Resetting Database Collections</h5>
+                                    <p>Clicking the "Reset Database" will produce a pop-up with several options of which 
+                                        collections, or sets of related data, to delete/reset. Select one of the buttons 
+                                        then press the "Reset" button to reset that collection of the database, or all 
+                                        collections of the database. <b>CAUTION</b>: The action of reseting the entire or 
+                                        part of the database is irreversible.</p>
                                 </div>
 
                                 <div id="search" class="tabcontent">
@@ -143,10 +141,12 @@
                                     <h5>Enter Student ID</h5>
                                     <p>Enter the student's ID into the corresponding field. Then click the submit button 
                                         at the bottom of the page.</p>
-                                    <h5>Search by Name</h5>
-                                    <p>Enter the student's last name as it would appear on their school records (i.e. 
-                                        correct capitalization, symbols such as hyphens, etc.) Click the search button. If 
-                                        the name exists in the student data, the matching names will appear in the box below. 
+                                    <h5>Search by First or Last Name</h5>
+                                    <p>Select which name that you will be searching for using the "Last Name" or "First Name" buttons. 
+                                        Enter the student's corresponding name. <br>The application allows for some case unsensitivity by 
+                                        allowing the first letter of a search to be uncapitalized. Otherwise, type it as it would appear 
+                                        on the student's school records (i.e. correct capitalization, symbols such as hyphens, etc.). The 
+                                        search will also allow for searches of the beginning parts of the student's name. <br> Click the search button. If the name exists in the student data, the matching names will appear in the box below. 
                                         Select the correct name and click the submit button at the bottom of the page.</p>
                                     <h5>Scan Student ID Card</h5>
                                     <p>This function uses an external barcode scanner. Ensure that the student ID field is 
@@ -194,8 +194,8 @@
                                     <p>This page displays all ticket data in a table sorted by ticket number.</p>
                                     <h5>Exporting Ticket Data</h5>
                                     <p>Click on the "Export Data" button to download all ticket data (as a .csv file). </p>
-                                    
                                 </div>
+
                             </div>                      
                         </div>
                     <!--</div>-->

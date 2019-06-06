@@ -28,7 +28,7 @@
 
 
 
-      function delineate(str) {
+      function delineate(str) { //Format submission
          theleft = str.indexOf("=") + 1;
          theright = str.lastIndexOf("&");
          return (str.substring(theleft, theright));
@@ -41,16 +41,16 @@
          var text = document.joe.burns.value
          var myvar = delineate(text);
          
-         myvar=myvar.substring(0,myvar.indexOf("&"));
+         myvar=myvar.substring(0,myvar.indexOf("&")); //ID from /search-student
       
-
+         //Initialize views
          $("input[id='checkNum']").prop("disabled", true);
          $("input[id='checkNumG']").prop("disabled", true);
          document.getElementById("delGuest").style.display = "none";
          var ogHost; //Holds original ticket number of a pre-existing non-guest
          var ogGuest; //Holds original ticket number of a pre-exisiting guest
 
-         database.ref("tickets").orderByChild("sID").equalTo(myvar).once("value", snapshot => {
+         database.ref("tickets").orderByChild("sID").equalTo(myvar).once("value", snapshot => { //Search ID in database
             if (snapshot.exists()) { //ID exists in database
                var ref = firebase.database().ref('tickets');
                ref.orderByChild('sID').equalTo(myvar).on("value", function (snapshot) {
@@ -174,13 +174,12 @@
                   }
 
                });
-               if(myvar.length>0){
+               if(myvar.length>0){ //Looks for student in obligations data
                   const key2 = 'obligations/' + myvar;
                   database.ref(key2).once('value', (snapshot) => {
                      const data = snapshot.val();
                      if (!data) {
                         return;
-
                      }
                      else {
                         alert("This student has unpaid obligations.");
@@ -196,9 +195,9 @@
 
             const reqs = checkReqs(); //If not false, [ticketNumG, lastNameG, firstNameG, payG, studentIDG]
 
-            if (reqs) {
+            if (reqs) { //If all requirements are fulfilled
 
-               database.ref('settings').once('value', (snapshot) => {
+               database.ref('settings').once('value', (snapshot) => { //Implement maximum capacity
 
                   const data = snapshot.val();
                   const cap = parseInt(data.maxCap, 10);
@@ -218,7 +217,7 @@
 
                deleteRef(ogHost);
 
-               database.ref('tickets/' + name).set({
+               database.ref('tickets/' + name).set({ //Write student fields to database
 
                   sID: $('input[id="studentID"]').val(),
                   first: $('input[id="firstName"]').val(),
@@ -232,7 +231,7 @@
 
                });
 
-               console.log(ogHost);
+               //Increase current number
                if(!ogHost){
                   updateNum(1);
                }
@@ -244,7 +243,7 @@
 
                   //reqs = [ticketNumG, lastNameG, firstNameG, payG, studentIDG]
                   const nameG = reqs[0];
-                  database.ref('tickets/' + nameG).set({
+                  database.ref('tickets/' + nameG).set({ //Write guest fields to database
 
                      first: reqs[2],
                      last: reqs[1],
@@ -269,7 +268,7 @@
 
                   });
 
-                  if(!ogGuest){
+                  if(!ogGuest){ //Increase current number
                      updateNum(1);
                   }
 
@@ -287,9 +286,11 @@
                   });
                }
 
+               //Clear form
                $("input[type=text], textarea").val("");
                $("input[type=number], textarea").val("");
                $("input[type=radio]").prop(":checked", false);
+
                alert("Completed sign up!");
                window.location.replace("/search-student");
             }
@@ -323,7 +324,7 @@
 
          $('#deleteConfirm').click(() => {
             $('#deleteModal').modal('hide');
-            const nums = [];
+            const nums = []; //Deletes host and guest (if exists) from database
             if (ogHost){
                nums.push(ogHost);
                updateNum(-1);
