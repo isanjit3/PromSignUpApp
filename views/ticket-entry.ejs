@@ -196,22 +196,7 @@
             const reqs = checkReqs(); //If not false, [ticketNumG, lastNameG, firstNameG, payG, studentIDG]
 
             if (reqs) { //If all requirements are fulfilled
-
-               database.ref('settings').once('value', (snapshot) => { //Implement maximum capacity
-
-                  const data = snapshot.val();
-                  const cap = parseInt(data.maxCap, 10);
-                  if (cap){
-                     const count = parseInt(data.currentNum, 10);
-                     const dif = cap - count;
-                     if (dif <= 0){
-                        alert("Maximum capacity reached.");
-                        return;
-                     } else if(count <= 15 && count%5 === 0 || count <= 50 && count%10 === 0){
-                        alert("You are " + (dif) + " students away from maximum capacity.");
-                     }
-                  }
-               });
+         
                
                const name = $('input[id="ticketNum"]').val();
 
@@ -231,10 +216,24 @@
 
                });
 
-               //Increase current number
-               if(!ogHost){
-                  updateNum(1);
-               }
+              
+               database.ref('settings').once('value', (snapshot) => { //Implement maximum capacity
+
+                      const data = snapshot.val();
+                      const cap = parseInt(data.maxCap, 10);
+                      if (cap){
+                         const count = parseInt(data.currentNum, 10);
+                         const dif = cap - count;
+                         if (dif <= 0){
+                             alert("Maximum capacity reached.");
+                             return;
+                                       }
+                         else if(count <= 15 && count%5 === 0 || count <= 50 && count%10 === 0){
+                              alert("You are " + (dif) + " students away from maximum capacity.");
+                                                                                               }
+                                } 
+                                                                                                  });
+
 
                //Creates guest entry in database if checked, otherwise if unchecked deletes if guest exists in database
                if($('#guestForm').is(':hidden')===false){
@@ -268,9 +267,7 @@
 
                   });
 
-                  if(!ogGuest){ //Increase current number
-                     updateNum(1);
-                  }
+                  
 
                } else {
                   try {
@@ -290,8 +287,17 @@
                $("input[type=text], textarea").val("");
                $("input[type=number], textarea").val("");
                $("input[type=radio]").prop(":checked", false);
-
+               
                alert("Completed sign up!");
+               var ref = firebase.database().ref("tickets");
+               ref.once("value")
+               .then(function(snapshot) {
+                     var a = snapshot.numChildren();
+                     
+                     firebase.database().ref('settings/currentNum').set(a);
+
+   
+                                        });
                window.location.replace("/search-student");
             }
          });
@@ -320,6 +326,15 @@
             $('#deleteGModal').modal('hide');
             document.getElementById("guestForm").style.display = "none";
             toggle(true);
+            var ref = firebase.database().ref("tickets");
+               ref.once("value")
+               .then(function(snapshot) {
+                     var a = snapshot.numChildren();
+                     
+                     firebase.database().ref('settings/currentNum').set(a);
+
+   
+                                        });
          });
 
          $('#deleteConfirm').click(() => {
@@ -327,11 +342,11 @@
             const nums = []; //Deletes host and guest (if exists) from database
             if (ogHost){
                nums.push(ogHost);
-               updateNum(-1);
+               
             }
             if (ogGuest && $('#guestForm').is(':hidden')===false){
                nums.push(ogGuest);
-               updateNum(-1);
+              
             }
             nums.forEach(function(num){
                deleteRef(num);
@@ -340,6 +355,15 @@
             $("input[type=text], textarea").val("");
             $("input[type=number], textarea").val("");
             $("input[type=radio]").prop(":checked", false);
+            var ref = firebase.database().ref("tickets");
+               ref.once("value")
+               .then(function(snapshot) {
+                     var a = snapshot.numChildren();
+                     
+                     firebase.database().ref('settings/currentNum').set(a);
+
+   
+                                        });
             window.location.replace("/search-student");
          });
 
@@ -433,9 +457,7 @@
          }
 
          function clearGuest(){ //Clears guest fields
-            if(ogGuest){
-               updateNum(-1);
-            }
+          
             delGuestRef(ogGuest);
             deleteRef(ogGuest);
             $('input[id="ticketNumG"]').val('');

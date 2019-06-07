@@ -22,35 +22,28 @@
    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
    <script type="text/javascript">
       $(document).ready(function () {
+         const database = firebase.database();
          // Updates max capacity with value of maxCap when saveButton is clicked
          $('#saveButton').click(() => {
-            console.log("Writing to firebase")
+           
             database.ref('settings/').update({
 
                maxCap: $('input[id="maxCap"]').val()
 
             });
+            alert("Max value set!")
             $('input[id="maxCap"]').val('');
          });
-         const database = firebase.database();
+         
 
-         /*$('#resetButton').click(() => {
-            alert("Resetting the database");
-            database.ref('tickets/').remove();
-            database.ref('settings/').remove();
-            database.ref('students/').remove();
-            database.ref('obligations/').remove()
-            database.ref('settings/currentNum').set("0");
-            $('input[id="maxCap"]').val('');
- 
- 
-         });*/
           // When reset button within modal is clicked
          $('#reset').click(() => {
             // Deletes the database collections indicated by checked radio button
             if ((document.getElementById('all').checked)) {
                database.ref('tickets/').remove();
                database.ref('settings/').remove();
+               database.ref('settings/currentNum').set("0");
+               database.ref('settings/maxCap').set("0");
                database.ref('students/').remove();
                database.ref('obligations/').remove()
                database.ref('settings/currentNum').set("0");
@@ -79,8 +72,8 @@
                alert("Successfully reset database");
             }
             else if ((document.getElementById('settingsOnly').checked)) {
-
-               database.ref('settings/').remove();
+               database.ref('settings/currentNum').set("0");
+               database.ref('settings/maxCap').set("0");
 
                $('input[id="maxCap"]').val('');
                alert("Successfully reset database");
@@ -89,7 +82,6 @@
             else {
                alert("Please select an option");
             }
-            
 
 
 
