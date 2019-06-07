@@ -7,6 +7,7 @@ const fileUpload = require('express-fileupload');
 const csvtojson  = require('csvtojson');
 const firebase   = require('firebase');
 const replace    = require('replace');
+const nodemailer = require('nodemailer');
 
 //Initialize Firebase
 var firebaseConfig = {
