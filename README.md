@@ -15,7 +15,7 @@ __System Requirements__
 - [x] Application will be accessible from multiple devices running simultaneously
 
 ___
-##Installing and Running the Application
+__Installing and Running the Application__
 
 __1. Verify that you have node installed__
 
