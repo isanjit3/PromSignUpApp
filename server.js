@@ -140,5 +140,5 @@ app.get('/help', function (req, res) {
 
 //Listen for web application on Localhost:3000
 app.listen(3000, function () {
-  console.log('Example app listening on port 3000!')
+  console.log('SRSS Prom Sign Up App listening on port 3000!')
 })
