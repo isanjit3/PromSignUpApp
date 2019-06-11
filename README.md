@@ -34,7 +34,7 @@ Open terminal in development environment (Visual Studio Code, Atom, etc.)
 
 Clone repo:
 ```
-git clone https://github.com/isanjit3/SRSS-PromSignUpApp.git
+$ git clone https://github.com/isanjit3/SRSS-PromSignUpApp.git
 ```
 
 __3. Setting the Server__
