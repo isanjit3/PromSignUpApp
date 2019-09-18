@@ -137,7 +137,6 @@ app.get('/help', function (req, res) {
   res.render('help');
 })
 
+const port=process.env.PORT||3000;
 //Listen for web application on Localhost:3000
-app.listen(8000, function () {
-  console.log('Example app listening on port 3000!')
-})
+app.listen(port);
