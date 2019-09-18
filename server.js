@@ -118,7 +118,7 @@ app.post('/upload', function (req, res) {
 //Render the display tickets page
 app.get('/display-ticket-data', function (req, res) {
   readFirebaseTickets().then(function (data) {
-    console.log(data)
+    //console.log(data)
     res.render('display-ticket-data',
       {
         studentsData: data
@@ -138,6 +138,6 @@ app.get('/help', function (req, res) {
 })
 
 //Listen for web application on Localhost:3000
-app.listen(3000, function () {
+app.listen(8000, function () {
   console.log('Example app listening on port 3000!')
 })
