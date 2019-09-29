@@ -1,0 +1,418 @@
+{
+"objects":[
+    {
+        "ID": 126605,
+        "FIRST": "Udayamruth",
+        "MI": "R",
+        "LAST": "Nare",
+        "GR": 10
+    },
+    {
+        "ID": 128560,
+        "FIRST": "Rithvik",
+        "MI": "",
+        "LAST": "Bhogavilli",
+        "GR": 10
+    },
+    {
+        "ID": 129643,
+        "FIRST": "Michael",
+        "MI": "F",
+        "LAST": "Edwards",
+        "GR": 10
+    },
+    {
+        "ID": 144251,
+        "FIRST": "Kandasamy",
+        "MI": "K",
+        "LAST": "Chokkalingam",
+        "GR": 10
+    },
+    {
+        "ID": 161687,
+        "FIRST": "Elizabeth",
+        "MI": "S",
+        "LAST": "Attumalil",
+        "GR": 10
+    },
+    {
+        "ID": 166215,
+        "FIRST": "Arya",
+        "MI": "A",
+        "LAST": "Ghorpade",
+        "GR": 10
+    },
+    {
+        "ID": 182750,
+        "FIRST": "Parth",
+        "MI": "",
+        "LAST": "Agarwal",
+        "GR": 10
+    },
+    {
+        "ID": 183880,
+        "FIRST": "Catherine",
+        "MI": "E",
+        "LAST": "Galant",
+        "GR": 10
+    },
+    {
+        "ID": 211153,
+        "FIRST": "Temitope",
+        "MI": "O",
+        "LAST": "Olarinde",
+        "GR": 10
+    },
+    {
+        "ID": 222616,
+        "FIRST": "Shreya",
+        "MI": "",
+        "LAST": "Sharma",
+        "GR": 10
+    },
+    {
+        "ID": 227589,
+        "FIRST": "Ryan",
+        "MI": "",
+        "LAST": "Li",
+        "GR": 10
+    },
+    {
+        "ID": 359177,
+        "FIRST": "Nathan",
+        "MI": "",
+        "LAST": "Tang",
+        "GR": 10
+    },
+    {
+        "ID": 361205,
+        "FIRST": "Brian",
+        "MI": "R",
+        "LAST": "Aniya",
+        "GR": 10
+    },
+    {
+        "ID": 362636,
+        "FIRST": "Max",
+        "MI": "K",
+        "LAST": "Chiu",
+        "GR": 10
+    },
+    {
+        "ID": 370829,
+        "FIRST": "Ronoy",
+        "MI": "",
+        "LAST": "Sarkar",
+        "GR": 10
+    },
+    {
+        "ID": 373124,
+        "FIRST": "Serena",
+        "MI": "Y",
+        "LAST": "Choy",
+        "GR": 10
+    },
+    {
+        "ID": 402654,
+        "FIRST": "Pavan",
+        "MI": "J",
+        "LAST": "Satsangi",
+        "GR": 10
+    },
+    {
+        "ID": 402978,
+        "FIRST": "Jason",
+        "MI": "",
+        "LAST": "Liu",
+        "GR": 10
+    },
+    {
+        "ID": 403078,
+        "FIRST": "Gabriel",
+        "MI": "A",
+        "LAST": "Sternberg",
+        "GR": 10
+    },
+    {
+        "ID": 403584,
+        "FIRST": "Sabrina",
+        "MI": "I",
+        "LAST": "Su",
+        "GR": 10
+    },
+    {
+        "ID": 404230,
+        "FIRST": "Jeremy",
+        "MI": "X",
+        "LAST": "Sha",
+        "GR": 10
+    },
+    {
+        "ID": 404507,
+        "FIRST": "Alexander",
+        "MI": "Y",
+        "LAST": "Yang",
+        "GR": 10
+    },
+    {
+        "ID": 405101,
+        "FIRST": "Shreya",
+        "MI": "S",
+        "LAST": "Gunda",
+        "GR": 10
+    },
+    {
+        "ID": 405108,
+        "FIRST": "Alina",
+        "MI": "",
+        "LAST": "Hiba",
+        "GR": 10
+    },
+    {
+        "ID": 405267,
+        "FIRST": "Jenna",
+        "MI": "N",
+        "LAST": "Repep",
+        "GR": 10
+    },
+    {
+        "ID": 405475,
+        "FIRST": "Arjun",
+        "MI": "",
+        "LAST": "Rakheja",
+        "GR": 10
+    },
+    {
+        "ID": 405484,
+        "FIRST": "Anjali",
+        "MI": "G",
+        "LAST": "Tangirala",
+        "GR": 10
+    },
+    {
+        "ID": 405556,
+        "FIRST": "Nabhoneel",
+        "MI": "",
+        "LAST": "Sil Upadhyay",
+        "GR": 10
+    },
+    {
+        "ID": 405715,
+        "FIRST": "Gene",
+        "MI": "G",
+        "LAST": "Yu",
+        "GR": 10
+    },
+    {
+        "ID": 406220,
+        "FIRST": "Jacqueline",
+        "MI": "J",
+        "LAST": "Li",
+        "GR": 10
+    },
+    {
+        "ID": 406315,
+        "FIRST": "Sragvi",
+        "MI": "",
+        "LAST": "Pattanaik",
+        "GR": 10
+    },
+    {
+        "ID": 406386,
+        "FIRST": "Furqaan",
+        "MI": "",
+        "LAST": "Nadeem",
+        "GR": 10
+    },
+    {
+        "ID": 406579,
+        "FIRST": "Christine",
+        "MI": "W",
+        "LAST": "Tang",
+        "GR": 10
+    },
+    {
+        "ID": 406584,
+        "FIRST": "Roma",
+        "MI": "",
+        "LAST": "Dhingra",
+        "GR": 10
+    },
+    {
+        "ID": 406877,
+        "FIRST": "Dineth",
+        "MI": "G",
+        "LAST": "Meegoda",
+        "GR": 10
+    },
+    {
+        "ID": 406884,
+        "FIRST": "Pragya",
+        "MI": "",
+        "LAST": "Jha",
+        "GR": 10
+    },
+    {
+        "ID": 407192,
+        "FIRST": "Akshaj",
+        "MI": "",
+        "LAST": "Gaur",
+        "GR": 10
+    },
+    {
+        "ID": 407365,
+        "FIRST": "Abrar",
+        "MI": "A",
+        "LAST": "Sheikh",
+        "GR": 10
+    },
+    {
+        "ID": 407682,
+        "FIRST": "Anna",
+        "MI": "I",
+        "LAST": "Anand",
+        "GR": 10
+    },
+    {
+        "ID": 407704,
+        "FIRST": "Albert",
+        "MI": "D",
+        "LAST": "Chen",
+        "GR": 10
+    },
+    {
+        "ID": 407895,
+        "FIRST": "Smrithi",
+        "MI": "S",
+        "LAST": "Chakravarthy",
+        "GR": 10
+    },
+    {
+        "ID": 407906,
+        "FIRST": "Alexander",
+        "MI": "F",
+        "LAST": "Chen",
+        "GR": 10
+    },
+    {
+        "ID": 408038,
+        "FIRST": "Nithya",
+        "MI": "S",
+        "LAST": "Doodi",
+        "GR": 10
+    },
+    {
+        "ID": 408294,
+        "FIRST": "Shankar",
+        "MI": "",
+        "LAST": "Haridas",
+        "GR": 10
+    },
+    {
+        "ID": 408925,
+        "FIRST": "Shreyas",
+        "MI": "R",
+        "LAST": "Soma",
+        "GR": 10
+    },
+    {
+        "ID": 408938,
+        "FIRST": "Jane",
+        "MI": "",
+        "LAST": "Liu",
+        "GR": 10
+    },
+    {
+        "ID": 408956,
+        "FIRST": "Pranav",
+        "MI": "S",
+        "LAST": "Tippa",
+        "GR": 10
+    },
+    {
+        "ID": 410447,
+        "FIRST": "Grey",
+        "MI": "R",
+        "LAST": "Kienzle",
+        "GR": 10
+    },
+    {
+        "ID": 410757,
+        "FIRST": "Tanuj",
+        "MI": "A",
+        "LAST": "Shah",
+        "GR": 10
+    },
+    {
+        "ID": 410760,
+        "FIRST": "Christopher",
+        "MI": "E",
+        "LAST": "Stallard",
+        "GR": 10
+    },
+    {
+        "ID": 411494,
+        "FIRST": "Robert",
+        "MI": "S",
+        "LAST": "Bao",
+        "GR": 10
+    },
+    {
+        "ID": 417064,
+        "FIRST": "Kathleen",
+        "MI": "E",
+        "LAST": "Kee",
+        "GR": 10
+    },
+    {
+        "ID": 417301,
+        "FIRST": "Julia",
+        "MI": "",
+        "LAST": "Liu",
+        "GR": 10
+    },
+    {
+        "ID": 421383,
+        "FIRST": "Apurva",
+        "MI": "S",
+        "LAST": "Choudhary",
+        "GR": 10
+    },
+    {
+        "ID": 429666,
+        "FIRST": "Lucas",
+        "MI": "V",
+        "LAST": "Gonzalez-Rey",
+        "GR": 10
+    },
+    {
+        "ID": 429703,
+        "FIRST": "Srisrujan",
+        "MI": "",
+        "LAST": "Penikelapati",
+        "GR": 10
+    },
+    {
+        "ID": 429864,
+        "FIRST": "Sanjit",
+        "MI": "",
+        "LAST": "Thangarasu",
+        "GR": 10
+    },
+    {
+        "ID": 430443,
+        "FIRST": "Aidan",
+        "MI": "R",
+        "LAST": "Goettsch",
+        "GR": 10
+    },
+    {
+        "ID": 430732,
+        "FIRST": "Sonia",
+        "MI": "V",
+        "LAST": "Stan",
+        "GR": 10
+    }
+]}
+
+
