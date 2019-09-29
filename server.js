@@ -8,6 +8,8 @@ const csvtojson  = require('csvtojson');
 const firebase   = require('firebase');
 const replace    = require('replace');
 const nodemailer = require('nodemailer');
+const jwt        = require('jsonwebtoken');
+var secret = "G43xDkbyqGymYbkyCrtt3Y3qEQmaMb4fJ2VeYjJEBkMKXYSK3b"
 
 //Initialize Firebase
 var firebaseConfig = {
@@ -55,15 +57,59 @@ function readFirebaseTickets() {
   });
 }
 
+function verifyJWT(req) {
+  var token = req.headers['x-access-token'];
+  if (!token) return res.status(401).send({ auth: false, message: 'No token provided.' });
+  
+  jwt.verify(token, config.secret, function(err, decoded) {
+    if (err) return res.status(500).send({ auth: false, message: 'Failed to authenticate token.' });
+    
+    res.status(200).send(decoded);
+  });
+}
+
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, '/views'));
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(fileUpload());
 
+
 //Render main page
 app.get('/', function (req, res) {
-  res.render('index');
+  res.render('login');
+})
+
+//Render login page
+app.get('/login', function (req, res) {
+  res.render('login');
+})
+
+app.post('/login', function(req, res ) {
+  let username = req.body.username; 
+  let password = req.body.password;
+
+  const userRef = firebase.database().ref('users');
+  userRef.orderByChild("username").equalTo(username).once('value'). then( function(result) {
+    console.log(result);
+    result.forEach(function (child) {
+      var uname = child.child('username').val();
+      var pwd = child.child('password').val();
+      if (pwd == password){
+        console.log("Login Successful");
+        var token = jwt.sign({ id: username }, secret, {
+          expiresIn: 86400 // expires in 24 hours
+        });
+        res.status(200).send({ auth: true, token: token });
+      } else {
+        console.log("Login Failed");
+        res.status(401).send({ error: "Invalid Username or Password" });
+      }
+   });
+  })
+  
+
+
 })
 
 //Render main page
@@ -77,6 +123,7 @@ app.get('/search-student', function (req, res) {
     fbConfig: firebaseConfig
   });
 })
+
 
 //Render the ticket entry page
 app.get('/ticket-entry', function (req, res) {
