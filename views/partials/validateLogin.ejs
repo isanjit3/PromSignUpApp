@@ -1,8 +1,12 @@
 <script>
     $(document).ready(function() {
         debugger
-        if(!(window.sessionStorage.token)) {
-            window.location.replace('/login')
+        var startLocation = '/login'
+        if(!(window.sessionStorage.token)){
+            if(window.location.href !== startLocation) {
+                window.location.replace('/')
+            }
+            
         }
     })
 </script>
