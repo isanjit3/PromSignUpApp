@@ -198,8 +198,9 @@ app.get('/help', function (req, res) {
   res.render('help');
 })
 
-const port=process.env.PORT||3000;
-//Listen for web application on Localhost:3000
-app.listen(3000, function () {
-  console.log('SRSS Prom Sign Up App listening on port 3000!')
-})
+app.set( 'port', ( process.env.PORT || 5000 ));
+
+// Start node server
+app.listen( app.get( 'port' ), function() {
+  console.log( 'Node server is running on port ' + app.get( 'port' ));
+  });
