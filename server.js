@@ -114,6 +114,7 @@ app.post('/login', function(req, res ) {
       result.forEach(function (child) {
         var uname = child.child('username').val();
         var pwd = child.child('password').val();
+        
         if (pwd == password){
           console.log("Login Successful");
           var token = jwt.sign({ id: username }, secret, {
