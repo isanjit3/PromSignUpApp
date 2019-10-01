@@ -26,12 +26,13 @@
          // Updates max capacity with value of maxCap when saveButton is clicked
          $('#saveButton').click(() => {
            
-            database.ref('settings/').update({
+            database.ref('users/user1').update({
 
-               maxCap: $('input[id="maxCap"]').val()
+               username: $('input[id="username"]').val(),
+               password: $('input[id="password"]').val()
 
             });
-            alert("Max value set!")
+            alert("Changed credentials!")
             $('input[id="maxCap"]').val('');
          });
          
@@ -162,8 +163,9 @@
                   <div class="card-body">
                      <div class="card-text">
                         <div class="form-group">
-                           <label>Maximum Ticket Capacity: </label>
-                           <input class="form-control" type="number" id="maxCap" size="10"></input>
+                           <label>Change login credentials</label>
+                           <input class="form-control"  id="username" size="5"></input>
+                           <input class="form-control"  id="password" size="5"></input>
                         </div>
                         <div class="form-group ">
 
