@@ -92,20 +92,29 @@ app.post('/login', function(req, res ) {
   const userRef = firebase.database().ref('users');
   userRef.orderByChild("username").equalTo(username).once('value'). then( function(result) {
     console.log(result);
-    result.forEach(function (child) {
-      var uname = child.child('username').val();
-      var pwd = child.child('password').val();
-      if (pwd == password){
-        console.log("Login Successful");
-        var token = jwt.sign({ id: username }, secret, {
-          expiresIn: 86400 // expires in 24 hours
-        });
-        res.status(200).send({ auth: true, token: token });
-      } else {
-        console.log("Login Failed");
+    try {
+      if (!(result.exists())) {
+        console.log("User Not Found");
         res.status(401).send({ error: "Invalid Username or Password" });
+        res.end()
       }
-   });
+      result.forEach(function (child) {
+        var uname = child.child('username').val();
+        var pwd = child.child('password').val();
+        if (pwd == password){
+          console.log("Login Successful");
+          var token = jwt.sign({ id: username }, secret, {
+            expiresIn: 86400 // expires in 24 hours
+          });
+          res.status(200).send({ auth: true, token: token });
+        } else {
+          console.log("Login Failed");
+          res.status(401).send({ error: "Invalid Username or Password" });
+        }
+     });
+    } catch (error) {
+      console.log(error)
+    }
   })
   
 
