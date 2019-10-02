@@ -157,7 +157,7 @@
                      alert("ID does not exist.");
                      return;
                   }
-                  if (data.FIRST && data.LAST ) {
+                  if (data.FIRST && data.LAST&& data.GR ) {
                      $('input[id="studentID"]').val(myvar);
                      $('input[id="firstName"]').val(data.FIRST);
                      $('input[id="lastName"]').val(data.LAST);
@@ -165,7 +165,7 @@
                      $('input[id="grade"]').val(data.GR);
 
                   }
-                  else if (data.FIRST && data.LAST && data.GR) {
+                  else if (data.FIRST && data.LAST ) {
                      $('input[id="studentID"]').val(myvar);
                      $('input[id="firstName"]').val(data.FIRST);
                      $('input[id="lastName"]').val(data.LAST);

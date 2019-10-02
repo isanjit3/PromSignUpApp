@@ -31,7 +31,6 @@ function writeFirebase(jsonData, collection) {
   jsonData.forEach(item => {
     item.LAST=item.NAME.substring(0,item.NAME.indexOf(','));
     var temp= item.NAME.substring(item.NAME.indexOf(',')+2,item.NAME.length);
-    item.TEMP=temp;
     var last= temp.charAt(temp.length-1);
     if(last==last.toUpperCase()){
 
@@ -42,7 +41,7 @@ function writeFirebase(jsonData, collection) {
     else{
       item.FIRST=temp;
     }
-    item.FULLNAME = item.FIRST + ' ' + item.LAST;
+  
     ref.child(item.ID).set(item);
   });
 }
