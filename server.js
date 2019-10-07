@@ -29,19 +29,7 @@ function writeFirebase(jsonData, collection) {
   var ref = firebase.database().ref(collection);
 
   jsonData.forEach(item => {
-    item.LAST=item.NAME.substring(0,item.NAME.indexOf(','));
-    var temp= item.NAME.substring(item.NAME.indexOf(',')+2,item.NAME.length);
-    var last= temp.charAt(temp.length-1);
-    if(last==last.toUpperCase()){
-
-      item.MI=last; 
-      item.FIRST=temp.substring(0,temp.length-2);
-
-    }
-    else{
-      item.FIRST=temp;
-    }
-  
+    item.FULLNAME = item.FIRST + ' ' + item.LAST;
     ref.child(item.ID).set(item);
   });
 }
@@ -113,7 +101,6 @@ app.post('/login', function(req, res ) {
       result.forEach(function (child) {
         var uname = child.child('username').val();
         var pwd = child.child('password').val();
-        
         if (pwd == password){
           console.log("Login Successful");
           var token = jwt.sign({ id: username }, secret, {
@@ -188,7 +175,7 @@ app.post('/upload', function (req, res) {
 //Render the display tickets page
 app.get('/display-ticket-data', function (req, res) {
   readFirebaseTickets().then(function (data) {
-    //console.log(data)
+    console.log(data)
     res.render('display-ticket-data',
       {
         studentsData: data
@@ -207,9 +194,8 @@ app.get('/help', function (req, res) {
   res.render('help');
 })
 
-app.set( 'port', ( process.env.PORT || 5000 ));
-
-// Start node server
-app.listen( app.get( 'port' ), function() {
-  console.log( 'Node server is running on port ' + app.get( 'port' ));
-  });
+//Listen for web application on Localhost:3000
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Our app is running on port ${ PORT }`);
+});
