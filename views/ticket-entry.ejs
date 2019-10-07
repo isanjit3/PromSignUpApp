@@ -2,7 +2,17 @@
 <html>
 
 <head>
-   <% include partials/head %>
+   <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<title>Poolesville Event Sign Up</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css" />
+<link rel="stylesheet" href="css/style.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
    <meta name="viewport" content="width=device-width, initial-scale=1">
    <!-- The core Firebase JS SDK is always required and must be listed first -->
    <script src="https://www.gstatic.com/firebasejs/4.13.0/firebase.js"></script>
@@ -196,8 +206,74 @@
             const reqs = checkReqs(); //If not false, [ticketNumG, lastNameG, firstNameG, payG, studentIDG]
 
             if (reqs) { //If all requirements are fulfilled
-         
-               
+               checkRepeats($('input[id="ticketNum"]').val(), $('input[id="studentID"]').val(), saveTicket, reqs);
+            }
+         });
+
+         function checkRepeats(myTicket,myID, callback, reqs){
+            var replace = true;
+            const database = firebase.database();
+            const mykey='tickets/' + myTicket;
+            database.ref(mykey).once("value", snapshot => { //Search ID in database
+               if (snapshot.exists()) { //ID exists in database
+                  var ssFirst = snapshot.child('first').val();
+                  var ssLast = snapshot.child('last').val();
+                  if(snapshot.child('sID').val()!=myID){
+                     replace = confirm("The ticket ["+ myTicket + "] is already in use by ["+ ssFirst + " " + ssLast + "]. \nDo you want to overwrite the existing ticket?");
+                     /*alert("The ticket ["+ myTicket + "] is already in use.");
+                     replace = false;*/
+                  }
+               }   
+            }).then(function () {
+               if(replace===false){
+                  callback(false, reqs);
+               } else {
+                  if($('#guestForm').is(':hidden')===false){
+                     checkGuestRepeats($('input[id="ticketNumG"]').val(), $('input[id="studentIDG"]').val(), saveTicket, reqs);
+                  } else {
+                     callback(true, reqs);
+                  }
+               }
+            }, function (error) {
+               console.log("Error");
+            });
+         }
+
+         function checkGuestRepeats(myTicket, myID, callback, reqs){
+            var replace = true;
+            const database = firebase.database();
+            const mykey='tickets/' + myTicket;
+            database.ref(mykey).once("value", snapshot => { //Search ID in database
+               if (snapshot.exists()) { //ID exists in database
+                  var ssFirst = snapshot.child('first').val();
+                  var ssLast = snapshot.child('last').val();
+                  if(snapshot.child('sID').val() === null && myID === ""){ //If matched attendees do not have ID, compare names
+                     var first = $('input[id="firstNameG"]').val();
+                     var last = $('input[id="lastNameG"]').val();
+                     if(ssFirst != first || ssLast != last){
+                        replace = confirm("The ticket ["+ myTicket + "] is already in use by ["+ ssFirst + " " + ssLast + "]. \nDo you want to overwrite the existing ticket?");
+                        /*alert("The ticket ["+ myTicket + "] is already in use.");
+                        replace = false;*/
+                     }
+                  } else if(snapshot.child('sID').val()!=myID){
+                     replace = confirm("The ticket ["+ myTicket + "] is already in use by ["+ ssFirst + " " + ssLast + "]. \nDo you want to overwrite the existing ticket?");
+                     /*alert("The ticket ["+ myTicket + "] is already in use.");
+                     replace = false;*/
+                  }
+               }   
+            }).then(function () {
+               if(replace===false){
+                  callback(false, reqs);
+               } else {
+                  callback(true, reqs);
+               }
+            }, function (error) {
+               console.log("Error");
+            });
+         }
+
+         function saveTicket(run, reqs){
+            if(run){
                const name = $('input[id="ticketNum"]').val();
 
                deleteRef(ogHost);
@@ -215,25 +291,21 @@
                   obligations: "good"
 
                });
-
-              
+            
                database.ref('settings').once('value', (snapshot) => { //Implement maximum capacity
-
-                      const data = snapshot.val();
-                      const cap = parseInt(data.maxCap, 10);
-                      if (cap){
-                         const count = parseInt(data.currentNum, 10);
-                         const dif = cap - count;
-                         if (dif <= 0){
-                             alert("Maximum capacity reached!");
-                             return;
-                                       }
-                         else if(count <= 15 && count%5 === 0 || count <= 50 && count%10 === 0){
-                              alert("You are " + (dif) + " students away from maximum capacity.");
-                                                                                               }
-                                } 
-                                                                                                  });
-
+                  const data = snapshot.val();
+                  const cap = parseInt(data.maxCap, 10);
+                  if (cap){
+                     const count = parseInt(data.currentNum, 10);
+                     const dif = cap - count;
+                     if (dif <= 0){
+                        alert("Maximum capacity reached!");
+                        return;
+                     } else if(count <= 15 && count%5 === 0 || count <= 50 && count%10 === 0){
+                        alert("You are " + (dif) + " students away from maximum capacity.");
+                     }
+                  } 
+               });
 
                //Creates guest entry in database if checked, otherwise if unchecked deletes if guest exists in database
                if($('#guestForm').is(':hidden')===false){
@@ -267,8 +339,6 @@
 
                   });
 
-                  
-
                } else {
                   try {
                      deleteRef(ogGuest);
@@ -288,19 +358,18 @@
                $("input[type=number], textarea").val("");
                $("input[type=radio]").prop(":checked", false);
                
-               
+               alert("Completed sign up!");
                var ref = firebase.database().ref("tickets");
                ref.once("value")
                .then(function(snapshot) {
                      var a = snapshot.numChildren();
                      
                      firebase.database().ref('settings/currentNum').set(a);
+               });
 
-   
-                                        });
                window.location.replace("/search-student");
             }
-         });
+         }
 
          $('#deleteButton').click(() => {
             $('#deleteModal').modal('show');
@@ -315,8 +384,17 @@
          });
 
          $('#delGuest').click(() => {
-            if(ogGuest){
-               $('#deleteGModal').modal('show');
+            var guestNum;
+            if(ogHost){
+               var ref = firebase.database().ref("tickets/"+ogHost+"/guest");
+               ref.once('value', function(snapshot) {
+                  guestNum = snapshot.val();
+               });
+               if(guestNum && ogGuest){
+                  $('#deleteGModal').modal('show');
+               } else {
+                  toggle(true);
+               }
             } else {
                toggle(true);
             }
@@ -324,17 +402,14 @@
 
          $('#deleteGConfirm').click(() => {
             $('#deleteGModal').modal('hide');
+            var ref = firebase.database().ref("tickets");
+            ref.once("value").then(function(snapshot) {
+               var a = snapshot.numChildren();
+               firebase.database().ref('settings/currentNum').set(a);
+            });
+            toggle(true);
             document.getElementById("guestForm").style.display = "none";
             toggle(true);
-            var ref = firebase.database().ref("tickets");
-               ref.once("value")
-               .then(function(snapshot) {
-                     var a = snapshot.numChildren();
-                     
-                     firebase.database().ref('settings/currentNum').set(a);
-
-   
-                                        });
          });
 
          $('#deleteConfirm').click(() => {
@@ -342,11 +417,9 @@
             const nums = []; //Deletes host and guest (if exists) from database
             if (ogHost){
                nums.push(ogHost);
-               
             }
             if (ogGuest && $('#guestForm').is(':hidden')===false){
                nums.push(ogGuest);
-              
             }
             nums.forEach(function(num){
                deleteRef(num);
@@ -358,12 +431,9 @@
             var ref = firebase.database().ref("tickets");
                ref.once("value")
                .then(function(snapshot) {
-                     var a = snapshot.numChildren();
-                     
-                     firebase.database().ref('settings/currentNum').set(a);
-
-   
-                                        });
+                  var a = snapshot.numChildren();
+                  firebase.database().ref('settings/currentNum').set(a);
+               });
             window.location.replace("/search-student");
          });
 
@@ -394,10 +464,8 @@
                         document.getElementById("obligG").style.display = "block";
                      }
                   });
-
                }
             }
-
          });
 
          $('input[type="radio"][name="pay"]').click(function () { //Enables/disables check number for student if check selected
@@ -525,35 +593,35 @@
          }
       }
 
-         function fillSelect(names){ //Prints alert and returns false if name is not found in database
-            if (names.length === 0) {
-               alert("Name does not exist.");
-               return false;
-            }
-            return true;
+      function fillSelect(names){ //Prints alert and returns false if name is not found in database
+         if (names.length === 0) {
+            alert("Name does not exist.");
+            return false;
          }
+         return true;
+      }
 
-         function addOptions(options) { //Adds array of options to the select box
-            for (var i = 0; i < options.length; i++) {
-               var text = options[i][0] + ", " + options[i][1] + " [" + options[i][2] + "]";
-               var opt = new Option(text, options[i][2]+','+options[i][1]+','+options[i][0]);
-               $(opt).html(text);
-               $("#resBox").append(opt);
-            }
+      function addOptions(options) { //Adds array of options to the select box
+         for (var i = 0; i < options.length; i++) {
+            var text = options[i][0] + ", " + options[i][1] + " [" + options[i][2] + "]";
+            var opt = new Option(text, options[i][2]+','+options[i][1]+','+options[i][0]);
+            $(opt).html(text);
+            $("#resBox").append(opt);
          }
+      }
 
-         function clearOptions() { //Clears all options from the select box
-            $('#resBox')
-               .empty()
-               .append('<option style="display:none" disabled selected value>Names</option>');
-         }
+      function clearOptions() { //Clears all options from the select box
+         $('#resBox')
+            .empty()
+            .append('<option style="display:none" disabled selected value>Names</option>');
+      }
 
-         function selectName(){
-            $('#resBox').change(function () {
-               $('input[name="studentID"]').val($("#resBox").val());
-            });
-            $('#namesModal').modal('hide');
-         }
+      function selectName(){
+         $('#resBox').change(function () {
+            $('input[name="studentID"]').val($("#resBox").val());
+         });
+         $('#namesModal').modal('hide');
+      }
 
       function checkReqs(){ //Returns false and sends alert if any required fields are incomplete
          var text = "";
@@ -644,7 +712,35 @@
 </head>
 
 <body>
-   <% include partials/header %>
+   <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="/index">Poolesville Event Sign Up</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="/index">Home <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/search-student">Search</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/display-ticket-data">Tickets</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/upload">Upload</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/settings">Settings</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/help">Help</a>
+          </li>
+      </ul>
+    </div>
+  </nav>
    <div class="container p-4">
       <FORM NAME="joe">
          <INPUT TYPE="hidden" NAME="burns">
@@ -849,7 +945,16 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" 
    integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" 
       crossorigin="anonymous"></script>
-      <% include partials/validateLogin %>
+      <script>
+    $(document).ready(function() {
+        var startLocation = '/login'
+        if(!(window.sessionStorage.token)){
+            if(window.location.href !== startLocation) {
+                window.location.replace('/')
+            }
+        }
+    })
+</script>
 </body>
 
 </html>
