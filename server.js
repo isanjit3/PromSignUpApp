@@ -90,7 +90,7 @@ app.post('/login', function(req, res ) {
   let password = req.body.password;
 
   const userRef = firebase.database().ref('users');
-  userRef.orderByChild("username").equalTo(username).once('value'). then( function(result) {
+  userRef.orderByChild("username").equalTo(username).once('value').then( function(result) {
     console.log(result);
     try {
       if (!(result.exists())) {
