@@ -15,7 +15,7 @@ var secret = "G43xDkbyqGymYbkyCrtt3Y3qEQmaMb4fJ2VeYjJEBkMKXYSK3b"
 
 //Initialize Firebase
 var firebaseConfig = {
-  apiKey: API,
+  apiKey: process.env.API,
   authDomain: "signup-form-e4c78.firebaseapp.com",
   databaseURL: "https://signup-form-e4c78.firebaseio.com",
   projectId: "signup-form-e4c78",
