@@ -1,4 +1,6 @@
 //Add different dependencies and modules
+const dotenv = require('dotenv')
+dotenv.config()
 const express    = require('express');
 const path       = require('path');
 const app        = express();
@@ -13,7 +15,7 @@ var secret = "G43xDkbyqGymYbkyCrtt3Y3qEQmaMb4fJ2VeYjJEBkMKXYSK3b"
 
 //Initialize Firebase
 var firebaseConfig = {
-  apiKey: "AIzaSyCCgoy1_bJzrruepLYIWBbrIUIGxM-p2CQ",
+  apiKey: process.env.API,
   authDomain: "signup-form-e4c78.firebaseapp.com",
   databaseURL: "https://signup-form-e4c78.firebaseio.com",
   projectId: "signup-form-e4c78",
