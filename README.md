@@ -54,6 +54,6 @@ SRSS Prom Sign Up App listening on port 3000!
 
 __4. Accessing the Application__
 
-Now that you have started running the server on port 3000, you can access this port by going to your web browser and searching http://localhost:3000/.
+Now that you have started running the server on port 3000, you can access this port by going to your web browser and typing http://localhost:3000/.
 
 The application should now be functional and running.
